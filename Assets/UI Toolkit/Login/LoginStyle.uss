@@ -31,3 +31,13 @@
     transition-duration: 1s;
     translate: 0 200%;
 }
+
+.Button {
+    -unity-background-image-tint-color: rgb(255, 208, 134);
+    background-color: rgb(132, 132, 132);
+}
+
+.Button:hover {
+    -unity-background-image-tint-color: rgb(203, 130, 0);
+    background-color: rgb(82, 82, 82);
+}
