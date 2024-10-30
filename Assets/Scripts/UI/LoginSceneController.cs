@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-public class LoginSceneController : MonoBehaviour
+public class LoginSceneController : BaseUIController
 {
     VisualElement root;
     VisualElement Popup;
@@ -35,10 +35,10 @@ public class LoginSceneController : MonoBehaviour
     Label PopupTitle;
     TextField id;
     TextField password;
-
-    void Start()
+    protected override void Init()
     {
-        root = GetComponent<UIDocument>().rootVisualElement;
+        base.Init();
+        root = document.rootVisualElement;
         Popup = root.Q<VisualElement>("Container-PopUp");
 
         SignIn = root.Q<Button>("Button-SignIn");
@@ -46,16 +46,16 @@ public class LoginSceneController : MonoBehaviour
         SignUp = root.Q<Button>("Button-SignUp");
         SignUp.RegisterCallback<ClickEvent>((e) => { signIn = false; });
         GameExit = root.Q<Button>("Button-GameExit");
-        GameExit.RegisterCallback<ClickEvent>((e) => { 
+        GameExit.RegisterCallback<ClickEvent>((e) => {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit(); // 어플리케이션 종료
 #endif
         });
 
         PopupSubmit = root.Q<Button>("Button-PopupSubmit");
-        PopupSubmit.RegisterCallback<ClickEvent>((e) => { 
+        PopupSubmit.RegisterCallback<ClickEvent>((e) => {
             // todo
         });
         PopupTitle = root.Q<Label>("Text-PopupTitle");
@@ -64,5 +64,4 @@ public class LoginSceneController : MonoBehaviour
         id = root.Q<TextField>("TextField-ID");
         password = root.Q<TextField>("TextField-Password");
     }
-
 }
