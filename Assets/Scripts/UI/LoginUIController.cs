@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-public class LoginSceneController : BaseUIController
+public class LoginUIController : BaseUIController
 {
     VisualElement root;
     VisualElement Popup;

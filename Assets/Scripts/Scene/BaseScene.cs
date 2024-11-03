@@ -1,7 +1,7 @@
 using UnityEngine;
 using Define;
 
-public abstract class BaseScene : BaseMonobehaviour
+public class BaseScene : BaseMonobehaviour
 {
     public SceneType SceneType { get; set; }
     public BaseUIController[] UIControllers;
@@ -9,7 +9,10 @@ public abstract class BaseScene : BaseMonobehaviour
     {
         Init();
     }
-    protected abstract void Init();
+    protected virtual void Init()
+    {
+        Manager.Scene.CurScene = this;
+    }
     protected virtual void Clear()
     {
     }
