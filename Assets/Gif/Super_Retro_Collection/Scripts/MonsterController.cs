@@ -1,7 +1,6 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class PlayerController : ObjectController
+public class MonsterController : ObjectController
 {
     protected override void Init()
     {
@@ -10,16 +9,9 @@ public class PlayerController : ObjectController
 
     protected override void UpdateController()
     {
-        InputDirection();
         base.UpdateController();
     }
 
-    private void LateUpdate()
-    {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
-    }
-
-    // 키보드 입력 방향 설정
     void InputDirection()
     {
         if (Input.GetKey(KeyCode.UpArrow))

@@ -68,8 +68,10 @@
     <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs_with_behavior\chest_open_on_contact\Scripts\ChestAnimationOnContact.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Crops\Scripts\SpriteSelectFrame.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\CharacterAppearance.cs" />
+    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\MonsterController.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Layer Lab\Scripts\PanelView.cs" />
+    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\ObjectController.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs_with_behavior\block_push_on_contact\Scripts\BlockPushOnContact.cs" />
   </ItemGroup>
   <ItemGroup>
