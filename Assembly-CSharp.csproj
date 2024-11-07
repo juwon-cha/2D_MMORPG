@@ -66,7 +66,9 @@
     <Compile Include="Assets\Gif\Ruccho\FangAutoTile\Sample\OnMapPlayerController.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs_with_behavior\chest_open_on_contact\Scripts\ChestAnimationOnContact.cs" />
+    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Crops\Scripts\SpriteSelectFrame.cs" />
+    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\GameScene.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\CharacterAppearance.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\MonsterController.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\PlayerMovement.cs" />
@@ -76,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Crops\README_HOW_TO_USE_CROPS.txt" />
+    <None Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Player\TestMap.txt" />
     <None Include="Assets\Gif\Ruccho\FangAutoTile\Readme.txt" />
     <None Include="Assets\Gif\Ruccho\FangAutoTile\Readme-ja.txt" />
   </ItemGroup>

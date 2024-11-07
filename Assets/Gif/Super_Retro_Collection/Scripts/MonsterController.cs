@@ -5,6 +5,8 @@ public class MonsterController : ObjectController
     protected override void Init()
     {
         base.Init();
+        State = ObjectState.Idle;
+        MoveDir = MoveDir.Idle;
     }
 
     protected override void UpdateController()
@@ -12,27 +14,27 @@ public class MonsterController : ObjectController
         base.UpdateController();
     }
 
-    void InputDirection()
-    {
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            MoveDir = MoveDir.Up;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            MoveDir = MoveDir.Down;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            MoveDir = MoveDir.Left;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            MoveDir = MoveDir.Right;
-        }
-        else
-        {
-            MoveDir = MoveDir.Idle;
-        }
-    }
+    //void InputDirection()
+    //{
+    //    if (Input.GetKey(KeyCode.UpArrow))
+    //    {
+    //        MoveDir = MoveDir.Up;
+    //    }
+    //    else if (Input.GetKey(KeyCode.DownArrow))
+    //    {
+    //        MoveDir = MoveDir.Down;
+    //    }
+    //    else if (Input.GetKey(KeyCode.LeftArrow))
+    //    {
+    //        MoveDir = MoveDir.Left;
+    //    }
+    //    else if (Input.GetKey(KeyCode.RightArrow))
+    //    {
+    //        MoveDir = MoveDir.Right;
+    //    }
+    //    else
+    //    {
+    //        MoveDir = MoveDir.Idle;
+    //    }
+    //}
 }

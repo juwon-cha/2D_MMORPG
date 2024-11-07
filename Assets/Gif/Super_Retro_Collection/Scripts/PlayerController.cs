@@ -1,8 +1,12 @@
+using NUnit.Framework.Constraints;
+using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerController : ObjectController
 {
+    Coroutine _coSkill;
+
     protected override void Init()
     {
         base.Init();
@@ -10,7 +14,21 @@ public class PlayerController : ObjectController
 
     protected override void UpdateController()
     {
-        InputDirection();
+        switch(State)
+        {
+            case ObjectState.Idle:
+                InputDirection();
+                InputIdleState();
+                break;
+
+            case ObjectState.Moving:
+                InputDirection();
+                break;
+
+            default:
+                break;
+        }
+        
         base.UpdateController();
     }
 
@@ -42,5 +60,29 @@ public class PlayerController : ObjectController
         {
             MoveDir = MoveDir.Idle;
         }
+    }
+
+    void InputIdleState()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            State = ObjectState.Skill;
+            _coSkill = StartCoroutine("CoStartAttack");
+        }
+    }
+
+    IEnumerator CoStartAttack()
+    {
+        // 피격 판정
+        GameObject gameObj = ObjManager.Find(GetFacingCellPostition());
+        if(gameObj != null)
+        {
+            Debug.Log(gameObj.name);
+        }
+
+        // 대기 시간
+        yield return new WaitForSeconds(0.5f);
+        State = ObjectState.Idle;
+        _coSkill = null;
     }
 }
