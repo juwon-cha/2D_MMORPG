@@ -11,6 +11,7 @@ public class ObjectManager : MonoBehaviour
         _objects.Add(obj);
     }
 
+    // 해당 좌표에 게임오브젝트가 있는지 찾고 반환
     public GameObject Find(Vector3Int cellPos)
     {
         foreach (GameObject obj in _objects)

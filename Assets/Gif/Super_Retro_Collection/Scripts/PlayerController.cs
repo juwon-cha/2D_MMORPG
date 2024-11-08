@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class PlayerController : ObjectController
@@ -78,6 +79,13 @@ public class PlayerController : ObjectController
         if(gameObj != null)
         {
             Debug.Log(gameObj.name);
+            Debug.Log(gameObj.transform.position);
+
+            ObjectController objController = gameObj.GetComponent<ObjectController>();
+            if (objController != null)
+            {
+                objController.OnDamaged();
+            }
         }
 
         // 대기 시간

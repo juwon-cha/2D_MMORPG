@@ -320,4 +320,9 @@ public class ObjectController : MonoBehaviour
 
         return curCellPos;
     }
+
+    public virtual void OnDamaged()
+    {
+
+    }
 }
