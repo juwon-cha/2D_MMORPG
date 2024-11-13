@@ -19,7 +19,6 @@ public class PlayerController : ObjectController
         {
             case ObjectState.Idle:
                 InputDirection();
-                InputIdleState();
                 break;
 
             case ObjectState.Moving:
@@ -36,6 +35,23 @@ public class PlayerController : ObjectController
     private void LateUpdate()
     {
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+    }
+
+    protected override void UpdateIdle()
+    {
+        // 이동 상태
+        if(MoveDir != MoveDir.Idle)
+        {
+            State = ObjectState.Moving;
+            return;
+        }
+
+        // 스킬 상태
+        if (Input.GetKey(KeyCode.Space))
+        {
+            State = ObjectState.Skill;
+            _coSkill = StartCoroutine("CoStartAttack");
+        }
     }
 
     // 키보드 입력 방향 설정
@@ -60,15 +76,6 @@ public class PlayerController : ObjectController
         else
         {
             MoveDir = MoveDir.Idle;
-        }
-    }
-
-    void InputIdleState()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            State = ObjectState.Skill;
-            _coSkill = StartCoroutine("CoStartAttack");
         }
     }
 

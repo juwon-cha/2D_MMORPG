@@ -28,8 +28,8 @@ public class ObjectController : MonoBehaviour
     public ObjectManager ObjManager { get; set; }
     public GameScene GameScene {  get; set; }
 
-    ObjectState _state = ObjectState.Idle;
-    public ObjectState State
+    protected ObjectState _state = ObjectState.Idle;
+    public virtual ObjectState State
     {
         get
         {
@@ -47,8 +47,8 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    MoveDir _dir = MoveDir.Down;
-    MoveDir _lastFacingDir = MoveDir.Down;
+    protected MoveDir _dir = MoveDir.Down;
+    protected MoveDir _lastFacingDir = MoveDir.Down;
     public MoveDir MoveDir
     {
         get
@@ -71,10 +71,31 @@ public class ObjectController : MonoBehaviour
             UpdateAnim();
         }
     }
+    
+    void Start()
+    {
+        Init();
+    }
+
+    void Update()
+    {
+        UpdateController();
+    }
+
+    protected virtual void Init()
+    {
+        GameObject obj = GameObject.Find("GameScene");
+        GameScene = obj.GetComponent<GameScene>();
+        ObjManager = obj.GetComponent<ObjectManager>();
+
+        _animator = GetComponent<Animator>();
+        Vector3 position = GameScene.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
+        transform.position = position;
+    }
 
     protected virtual void UpdateAnim()
     {
-        if(State == ObjectState.Idle)
+        if (State == ObjectState.Idle)
         {
             // 마지막으로 바라보는 방향 Idle
             switch (_lastFacingDir)
@@ -103,7 +124,7 @@ public class ObjectController : MonoBehaviour
                     break;
             }
         }
-        else if(State == ObjectState.Moving)
+        else if (State == ObjectState.Moving)
         {
             switch (_dir)
             {
@@ -132,7 +153,7 @@ public class ObjectController : MonoBehaviour
                     break;
             }
         }
-        else if(State == ObjectState.Skill)
+        else if (State == ObjectState.Skill)
         {
             // TODO: skill anim
             // 마지막으로 바라본 방향 기준으로 스킬 시전
@@ -163,31 +184,10 @@ public class ObjectController : MonoBehaviour
                     break;
             }
         }
-        else if(State == ObjectState.Dead)
+        else if (State == ObjectState.Dead)
         {
             // TODO: Death anim
         }
-    }
-
-    void Start()
-    {
-        Init();
-    }
-
-    void Update()
-    {
-        UpdateController();
-    }
-
-    protected virtual void Init()
-    {
-        GameObject obj = GameObject.Find("GameScene");
-        GameScene = obj.GetComponent<GameScene>();
-        ObjManager = obj.GetComponent<ObjectManager>();
-
-        _animator = GetComponent<Animator>();
-        Vector3 position = GameScene.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
-        transform.position = position;
     }
 
     protected virtual void UpdateController()
@@ -195,7 +195,7 @@ public class ObjectController : MonoBehaviour
         switch(State)
         {
             case ObjectState.Idle:
-                UpdateCoordinates();
+                UpdateIdle();
                 break;
 
             case ObjectState.Moving:
@@ -203,9 +203,11 @@ public class ObjectController : MonoBehaviour
                 break;
 
             case ObjectState.Skill:
+                UpdateSkill();
                 break;
 
             case ObjectState.Dead:
+                UpdateDead();
                 break;
 
             default:
@@ -214,45 +216,9 @@ public class ObjectController : MonoBehaviour
     }
 
     // 실제 좌표 이동
-    protected virtual void UpdateCoordinates()
+    protected virtual void UpdateIdle()
     {
-        if (State == ObjectState.Idle && _dir != MoveDir.Idle)
-        {
-            Vector3Int destPos = CellPos;
 
-            switch (_dir)
-            {
-                case MoveDir.Up:
-                    destPos += Vector3Int.up;
-                    break;
-
-                case MoveDir.Down:
-                    destPos += Vector3Int.down;
-                    break;
-
-                case MoveDir.Left:
-                    destPos += Vector3Int.left;
-                    break;
-
-                case MoveDir.Right:
-                    destPos += Vector3Int.right;
-                    break;
-
-                default:
-                    break;
-            }
-
-            State = ObjectState.Moving;
-
-            if (GameScene.CanMove(destPos))
-            {
-                // 객체가 없으면 이동 가능
-                if (ObjManager.Find(destPos) == null)
-                {
-                    CellPos = destPos;
-                }
-            }
-        }
     }
 
     // 자연스러운 이동 처리
@@ -266,19 +232,56 @@ public class ObjectController : MonoBehaviour
         if (dist < _speed * Time.deltaTime)
         {
             transform.position = destPos;
-
-            // 애니메이션 직접 컨트롤
-            _state = ObjectState.Idle;
-            if(_dir == MoveDir.Idle)
-            {
-                UpdateAnim();
-            }
+            UpdateCoordinates();
         }
         else
         {
             // 자연스러운 움직임
             transform.position += moveDir.normalized * _speed * Time.deltaTime;
             State = ObjectState.Moving;
+        }
+    }
+
+    protected virtual void UpdateCoordinates()
+    {
+        if(_dir == MoveDir.Idle)
+        {
+            State = ObjectState.Idle;
+            return;
+        }
+
+        // Idle 상태가 아니면 Moving 상태
+        Vector3Int destPos = CellPos;
+
+        switch (_dir)
+        {
+            case MoveDir.Up:
+                destPos += Vector3Int.up;
+                break;
+
+            case MoveDir.Down:
+                destPos += Vector3Int.down;
+                break;
+
+            case MoveDir.Left:
+                destPos += Vector3Int.left;
+                break;
+
+            case MoveDir.Right:
+                destPos += Vector3Int.right;
+                break;
+
+            default:
+                break;
+        }
+
+        if (GameScene.CanMove(destPos))
+        {
+            // 객체가 없으면 이동 가능
+            if (ObjManager.Find(destPos) == null)
+            {
+                CellPos = destPos;
+            }
         }
     }
 
