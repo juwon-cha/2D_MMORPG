@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8394326876777823953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858107943254606047}
+  - component: {fileID: 4701919851155161214}
+  - component: {fileID: 1564044348475905885}
+  m_Layer: 5
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &858107943254606047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394326876777823953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4701919851155161214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394326876777823953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 976451f8b49b2c249a16697808a82e39, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: fa55b5146fe322449989482dfaabf36e, type: 3}
+  m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+--- !u!114 &1564044348475905885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394326876777823953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e036a009523c0a4c8a9ea7851c69d2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  document: {fileID: 0}
+  ItemBG:
+  - {fileID: -1491337687, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1820575614, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: 1377039159, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: 274328185, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1935926974, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -779059895, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: 1908644643, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1417235806, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1184383330, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  itemCount: 35

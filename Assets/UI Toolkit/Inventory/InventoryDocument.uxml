@@ -1,124 +1,39 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <engine:VisualElement name="BG" style="background-color: rgb(115, 115, 115); width: 480px; height: 640px; position: absolute; top: 186px; left: 772px;">
-        <engine:VisualElement name="Edge" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/19.png?fileID=2800000&amp;guid=39ff7d92fd1c81a4fa8a7df11de9faef&amp;type=3#19&quot;); position: absolute; width: 100%; height: 100%;" />
-        <engine:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 80%; height: 80%; align-self: center; top: 10%;">
-            <engine:GroupBox style="width: 100%; height: 14%; margin-top: 0; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
-                <engine:VisualElement name="Item1" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item1BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item2" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item2BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item3" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item3BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item4" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item4BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item5" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item5BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-            </engine:GroupBox>
-            <engine:GroupBox style="width: 100%; height: 14%; margin-top: 0; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
-                <engine:VisualElement name="Item6" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item6BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item7" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item7BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item8" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item8BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item9" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item9BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item10" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;" />
-            </engine:GroupBox>
-            <engine:GroupBox style="width: 100%; height: 14%; margin-top: 0; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
-                <engine:VisualElement name="Item11" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item11BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item12" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item12BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item13" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item13BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item14" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item14BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item15" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item15BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-            </engine:GroupBox>
-            <engine:GroupBox style="width: 100%; height: 14%; margin-top: 0; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
-                <engine:VisualElement name="Item16" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item16BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item17" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item17BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item18" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item18BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item19" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item19BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item20" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item20BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-            </engine:GroupBox>
-            <engine:GroupBox style="width: 100%; height: 14%; margin-top: 0; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
-                <engine:VisualElement name="Item21" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item21BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item22" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item22BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item23" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item23BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item24" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item24BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item25" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item25BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-            </engine:GroupBox>
-            <engine:GroupBox style="width: 100%; height: 14%; margin-top: 0; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
-                <engine:VisualElement name="Item26" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item26BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item27" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item27BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item28" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item28BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item29" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item29BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item30" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item30BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-            </engine:GroupBox>
-            <engine:GroupBox style="width: 100%; height: 14%; margin-top: 0; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
-                <engine:VisualElement name="Item31" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item31BG" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item32" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item32BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item33" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item33BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item34" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item34BG" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;" />
-                </engine:VisualElement>
-                <engine:VisualElement name="Item35" style="flex-grow: 1; width: 20%; height: 100%; margin-right: 2%;">
-                    <engine:VisualElement name="Item30BG" style="flex-grow: 1;" />
-                </engine:VisualElement>
-            </engine:GroupBox>
-        </engine:GroupBox>
+    <Style src="project://database/Assets/UI%20Toolkit/Inventory/InventoryStyle.uss?fileID=7433441132597879392&amp;guid=918ae4ad629078d4aa551c7951971eae&amp;type=3#InventoryStyle" />
+    <engine:VisualElement name="Inventory-BG" style="background-color: rgb(115, 115, 115); width: 25%; height: 50%; position: absolute; top: 186px; left: 771px; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/21.png?fileID=2800000&amp;guid=14c03c8b110034247927c1169b9cccb1&amp;type=3#21&quot;); -unity-background-image-tint-color: rgb(0, 255, 248);">
+        <engine:VisualElement name="Inventory-Edge" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/19.png?fileID=2800000&amp;guid=39ff7d92fd1c81a4fa8a7df11de9faef&amp;type=3#19&quot;); -unity-background-image-tint-color: rgb(255, 0, 0);">
+            <engine:GroupBox name="GroupBox-Item" style="width: 80%; height: 80%; align-self: center; top: 10%; flex-direction: row; flex-wrap: wrap; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:VisualElement name="Equipment-BG" style="flex-grow: 0; position: absolute; width: 25%; height: 50%; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/21.png?fileID=2800000&amp;guid=14c03c8b110034247927c1169b9cccb1&amp;type=3#21&quot;); top: 180px; left: 112px; -unity-background-image-tint-color: rgb(255, 0, 247);">
+        <engine:VisualElement name="Equipment-Edge" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/19.png?fileID=2800000&amp;guid=39ff7d92fd1c81a4fa8a7df11de9faef&amp;type=3#19&quot;);">
+            <engine:VisualElement name="LeftHand" class="Item-Edge" style="position: absolute; top: 275px; left: 125px; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/LeftGlove.png?fileID=2800000&amp;guid=bf2855ac708a5904487eb7d78a724ff2&amp;type=3#LeftGlove&quot;);">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="LeftShoe" class="Item-Edge" style="position: absolute; top: 375px; left: 125px; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/LeftShoe.png?fileID=2800000&amp;guid=62f80762b16ba654fab67f738ff6f241&amp;type=3#LeftShoe&quot;);">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="RightHand" class="Item-Edge" style="position: absolute; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/RightGlove.png?fileID=2800000&amp;guid=d71c631ccd195bc42b7d02bd9c78a5b5&amp;type=3#RightGlove&quot;); right: 125px; top: 275px;">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="RightShoe" class="Item-Edge" style="position: absolute; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/RightShoe.png?fileID=2800000&amp;guid=745f9f0f6726b73469098dd3cee635e6&amp;type=3#RightShoe&quot;); right: 125px; top: 375px;">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Weapon" class="Item-Edge" style="position: absolute; top: 175px; left: 125px; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/Weapon.png?fileID=2800000&amp;guid=b6909d2173fea364695126229ae8fe75&amp;type=3#Weapon&quot;);">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Helmet" class="Item-Edge" style="background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/Helmet.png?fileID=2800000&amp;guid=e11dcfdff4a6f1542ad188a71c77d1f6&amp;type=3#Helmet&quot;); top: 45px; align-self: center;">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Armor" class="Item-Edge" style="position: absolute; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/Armor.png?fileID=2800000&amp;guid=5da847141b1b5964ebbfe8a380158fe6&amp;type=3#Armor&quot;); top: 175px; right: 125px;">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Ring1" class="Item-Edge" style="position: absolute; top: 70px; left: 50px; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/Ring1.png?fileID=2800000&amp;guid=028ad4c95f1dc864291739565f61dede&amp;type=3#Ring1&quot;);">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+            <engine:VisualElement name="Ring2" class="Item-Edge" style="position: absolute; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Inventory/Imgs/Ring2.png?fileID=2800000&amp;guid=a7f32dc393844b04fb1e3b0d7202023e&amp;type=3#Ring2&quot;); top: 70px; right: 50px;">
+                <engine:VisualElement name="Item-BG" style="width: 80%; height: 80%; align-self: center; top: 10%;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
