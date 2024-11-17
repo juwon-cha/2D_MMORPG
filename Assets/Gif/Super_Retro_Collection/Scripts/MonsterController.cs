@@ -1,10 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterController : ObjectController
 {
     Coroutine _coPatrol;
+    Coroutine _coSearch;
     Vector3Int _destPos;
+
+    GameObject _target;
+    float _searchRange = 5.0f;
+
     public override ObjectState State
     {
         get
@@ -25,6 +31,13 @@ public class MonsterController : ObjectController
             {
                 StopCoroutine(_coPatrol);
                 _coPatrol = null;
+            }
+
+            // 코루틴 반복
+            if (_coSearch != null)
+            {
+                StopCoroutine(_coSearch);
+                _coSearch = null;
             }
         }
     }
@@ -115,12 +128,34 @@ public class MonsterController : ObjectController
         {
             _coPatrol = StartCoroutine("CoPatrol");
         }
+
+        // SearchAI
+        if (_coSearch == null)
+        {
+            _coSearch = StartCoroutine("CoSearch");
+        }
     }
 
     protected override void UpdateCoordinates()
     {
+        Vector3Int targetPos = _destPos;
+        if(_target != null)
+        {
+            targetPos = _target.GetComponent<ObjectController>().CellPos;
+        }
+
         // TODO: A*
-        Vector3Int moveDir = _destPos - CellPos;
+        List<Vector3Int> path = GameScene.FindPathBFS(CellPos, targetPos, true);
+        // 길을 못 찾거나 타겟이 너무 멀어지면 멈춤
+        if(path.Count < 2 || (_target != null && path.Count > 10))
+        {
+            _target = null;
+            State = ObjectState.Idle;
+            return;
+        }
+
+        Vector3Int nextPos = path[1];
+        Vector3Int moveDir = nextPos - CellPos;
         if(moveDir.x > 0)
         {
             MoveDir = MoveDir.Right;
@@ -142,33 +177,9 @@ public class MonsterController : ObjectController
             MoveDir = MoveDir.Idle;
         }
 
-        Vector3Int destPos = CellPos;
-
-        switch (_dir)
+        if (GameScene.CanMove(nextPos) && ObjManager.Find(nextPos) == null)
         {
-            case MoveDir.Up:
-                destPos += Vector3Int.up;
-                break;
-
-            case MoveDir.Down:
-                destPos += Vector3Int.down;
-                break;
-
-            case MoveDir.Left:
-                destPos += Vector3Int.left;
-                break;
-
-            case MoveDir.Right:
-                destPos += Vector3Int.right;
-                break;
-
-            default:
-                break;
-        }
-
-        if (GameScene.CanMove(destPos) && ObjManager.Find(destPos) == null)
-        {
-            CellPos = destPos;
+            CellPos = nextPos;
 
         }
         else
@@ -215,5 +226,36 @@ public class MonsterController : ObjectController
 
         // 갈 수 없는 좌표면 Idle 상태
         State = ObjectState.Idle;
+    }
+
+    IEnumerator CoSearch()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+
+            if(_target != null)
+            {
+                continue;
+            }
+
+            _target = ObjManager.Find((gameObj) =>
+            {
+                // 람다식의 조건에 따라 오브젝트 반환
+                PlayerController playerController = gameObj.GetComponent<PlayerController>();
+                if(playerController == null)
+                {
+                    return false;
+                }
+
+                Vector3Int dir = playerController.CellPos - CellPos;
+                if(dir.magnitude > _searchRange)
+                {
+                    return false;
+                }
+
+                return true;
+            });
+        }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -41,8 +43,8 @@ public class GameScene : MonoBehaviour
             // 랜덤한 위치에 몬스터 생성
             Vector3Int tempPos = new Vector3Int()
             {
-                x = Random.Range(-10, 10),
-                y = Random.Range(-10, 10),
+                x = UnityEngine.Random.Range(-10, 10),
+                y = UnityEngine.Random.Range(-10, 10),
             };
 
             MonsterController monController = monster.GetComponent<MonsterController>();
@@ -121,5 +123,91 @@ public class GameScene : MonoBehaviour
         int y = MaxY - cellPos.y;
         // 갈 수 있는 영역(0, false)은 반전시켜서 반환(CanMove가 참이면 움직일 수 있는 영역)
         return !_collision[y, x];
+    }
+
+    public struct Pos
+    {
+        public Pos(int y, int x) { Y = y; X = x; }
+        public int Y;
+        public int X;
+    }
+
+    public List<Vector3Int> FindPathBFS(Vector3Int start, Vector3Int dest, bool ignoreDestCollision = false)
+    {
+        int[] deltaY = new int[] { 1, -1, 0, 0};
+        int[] deltaX = new int[] { 0, 0, -1, 1};
+
+        bool[,] found = new bool[MaxY - MinY + 1, MaxX - MinX + 1];
+        Pos[,] parent = new Pos[MaxY - MinY + 1, MaxX - MinX + 1];
+
+        Pos startPos = CellToPos(start);
+        Pos destPos = CellToPos(dest);
+
+        Queue<Pos> queue = new Queue<Pos>();
+        queue.Enqueue(new Pos(startPos.Y, startPos.X));
+
+        found[startPos.Y, startPos.X] = true;
+        parent[startPos.Y, startPos.X] = new Pos(startPos.Y, startPos.X);
+
+        while (queue.Count > 0)
+        {
+            Pos pos = queue.Dequeue();
+            int nowY = pos.Y;
+            int nowX = pos.X;
+
+            for (int i = 0; i < deltaY.Length; ++i)
+            {
+                Pos next = new Pos(nowY + deltaY[i], nowX + deltaX[i]);
+
+                // 막혀있으면 스킵
+                if(!ignoreDestCollision || next.Y != destPos.Y || next.X != destPos.X)
+                {
+                    if (CanMove(PosToCell(next)) == false)
+                    {
+                        continue;
+                    }
+                }
+                // 이미 방문한 곳이면 스킵
+                if (found[next.Y, next.X])
+                {
+                    continue;
+                }
+
+                queue.Enqueue(new Pos(next.Y, next.X));
+                found[next.Y, next.X] = true;
+                parent[next.Y, next.X] = new Pos(nowY, nowX);
+            }
+        }
+
+        return CalcCellPathFromParent(parent, destPos);
+    }
+
+    List<Vector3Int> CalcCellPathFromParent(Pos[,] parent, Pos dest)
+    {
+        List<Vector3Int> cells = new List<Vector3Int>();
+
+        int y = dest.Y;
+        int x = dest.X;
+        while (parent[y, x].Y != y || parent[y, x].X != x)
+        {
+            cells.Add(PosToCell(new Pos(y, x)));
+            Pos pos = parent[y, x];
+            y = pos.Y;
+            x = pos.X;
+        }
+        cells.Add(PosToCell(new Pos(y, x)));
+        cells.Reverse();
+
+        return cells;
+    }
+
+    Pos CellToPos(Vector3Int cell)
+    {
+        return new Pos(MaxY - cell.y, cell.x - MinX);
+    }
+
+    Vector3Int PosToCell(Pos pos)
+    {
+        return new Vector3Int(pos.X + MinX, MaxY - pos.Y, 0);
     }
 }
