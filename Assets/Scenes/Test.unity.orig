@@ -171,10 +171,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory
       objectReference: {fileID: 0}
-    - target: {fileID: 8394326876777823953, guid: 772fcad5ff4c0ff4cae5f21f045b90cb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -354,7 +350,11 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
+<<<<<<<< HEAD:Assets/Scenes/Test.unity
+  m_ApplyToSortingLayers: 0000000023a9ce3157316624e987a7cfb59a0dac1f5c1a33ffa0aa9c93f0dac2e1b7060e
+========
   m_ApplyToSortingLayers: 00000000
+>>>>>>>> Client_Monster:Assets/Scenes/CharacterTest.unity
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -401,7 +401,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<<< HEAD:Assets/Scenes/Test.unity
+--- !u!1 &1172880933
+========
 --- !u!1 &1101502413
+>>>>>>>> Client_Monster:Assets/Scenes/CharacterTest.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -409,16 +413,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<<< HEAD:Assets/Scenes/Test.unity
+  - component: {fileID: 1172880934}
+  m_Layer: 0
+  m_Name: Scene
+========
   - component: {fileID: 1101502415}
   - component: {fileID: 1101502414}
   - component: {fileID: 1101502417}
   m_Layer: 0
   m_Name: GameScene
+>>>>>>>> Client_Monster:Assets/Scenes/CharacterTest.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<<< HEAD:Assets/Scenes/Test.unity
+--- !u!4 &1172880934
+========
 --- !u!114 &1101502414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,20 +445,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1101502415
+>>>>>>>> Client_Monster:Assets/Scenes/CharacterTest.unity
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Assets/Scenes/Test.unity
+  m_GameObject: {fileID: 1172880933}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+========
   m_GameObject: {fileID: 1101502413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5552674, y: -1.1379763, z: 0}
+>>>>>>>> Client_Monster:Assets/Scenes/CharacterTest.unity
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<<< HEAD:Assets/Scenes/Test.unity
+========
 --- !u!114 &1101502417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,11 +481,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60311d6a66bd97d4298c9bde29f038aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+>>>>>>>> Client_Monster:Assets/Scenes/CharacterTest.unity
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1101502415}
-  - {fileID: 55672168}
   - {fileID: 519420032}
   - {fileID: 619394802}
+<<<<<<<< HEAD:Assets/Scenes/Test.unity
+  - {fileID: 1172880934}
+  - {fileID: 55672168}
+========
+  - {fileID: 1101502415}
+>>>>>>>> Client_Monster:Assets/Scenes/CharacterTest.unity
