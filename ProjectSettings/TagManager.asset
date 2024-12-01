@@ -65,5 +65,8 @@ TagManager:
   - name: Object
     uniqueID: 2628428031
     locked: 0
+  - name: Decoration
+    uniqueID: 1390964309
+    locked: 0
   m_RenderingLayers:
   - Default
