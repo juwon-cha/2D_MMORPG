@@ -1,0 +1,28 @@
+﻿  pch.cpp
+  CoreGlobal.cpp
+  CorePch.cpp
+  CoreTLS.cpp
+  IocpCore.cpp
+  IocpEvent.cpp
+  Listener.cpp
+  Lock.cpp
+  NetAddress.cpp
+  RecvBuffer.cpp
+C:\MyUnity\2D_MMO_Server\ServerCore\Lock.cpp(31,4): warning C4002: too many arguments for function-like macro invocation 'CRASH'
+  (compiling source file '/Lock.cpp')
+  
+C:\MyUnity\2D_MMO_Server\ServerCore\Lock.cpp(41,3): warning C4002: too many arguments for function-like macro invocation 'CRASH'
+  (compiling source file '/Lock.cpp')
+  
+C:\MyUnity\2D_MMO_Server\ServerCore\Lock.cpp(70,4): warning C4002: too many arguments for function-like macro invocation 'CRASH'
+  (compiling source file '/Lock.cpp')
+  
+C:\MyUnity\2D_MMO_Server\ServerCore\Lock.cpp(79,3): warning C4002: too many arguments for function-like macro invocation 'CRASH'
+  (compiling source file '/Lock.cpp')
+  
+  Service.cpp
+  Session.cpp
+  SocketUtils.cpp
+  ThreadManager.cpp
+  Generating Code...
+  ServerCore.vcxproj -> C:\MyUnity\2D_MMO_Server\Libraries\Debug\ServerCore.lib
