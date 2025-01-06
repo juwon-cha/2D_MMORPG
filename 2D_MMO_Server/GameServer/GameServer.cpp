@@ -36,7 +36,7 @@ int main()
 		((PacketHeader*)buffer)->id = 1; // 1 : Hello Msg
 		::memcpy(&buffer[4], sendData, sizeof(sendData));
 
-		GSessionManager.Broadcast(buffer);
+		GSessionManager.Broadcast(buffer, ((PacketHeader*)buffer)->size);
 
 		this_thread::sleep_for(250ms);
 	}

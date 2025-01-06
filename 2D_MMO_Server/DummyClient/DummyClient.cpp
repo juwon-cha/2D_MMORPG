@@ -20,7 +20,7 @@ public:
 	virtual int32 OnRecvPacket(BYTE* buffer, int32 len) override
 	{
 		PacketHeader header = *((PacketHeader*)buffer);
-		cout << "Packet ID : " << header.id << "Size : " << header.size << endl;
+		cout << "Packet ID : " << header.id << " Size : " << header.size << endl;
 
 		cout << "OnRecv Len = " << len << endl;
 
