@@ -6,7 +6,7 @@
 
 class Service;
 
-class Session : public IocpObject
+class COREDLL Session : public IocpObject
 {
 	friend class Listener;
 	friend class IocpCore;
@@ -99,7 +99,7 @@ struct PacketHeader
 -> 작다면 패킷 처리 불가능 -> 데이터 받을때까지 기다림
 */
 // [size(2)][id(2)][data...][size(2)][id(2)][data...]...
-class PacketSession : public Session
+class COREDLL PacketSession : public Session
 {
 public:
 	PacketSession();

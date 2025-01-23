@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\MyUnity\2D_MMO\2D_MMO_Server\Binary\Debug\DummyClient.exe</FullPath>
+      <FullPath>C:\MyUnity\2D_MMO_Server_DLL_TEST\Binary\Debug\DummyClient.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

@@ -1,2 +1,40 @@
 ﻿  GameServer.cpp
-  GameServer.vcxproj -> C:\MyUnity\2D_MMO\2D_MMO_Server\Binary\Debug\GameServer.exe
+C:\MyUnity\2D_MMO_Server_DLL_TEST\ServerCore\ThreadManager.h(18,8): warning C4251: 'ThreadManager::_lock': 'std::mutex' needs to have dll-interface to be used by clients of 'ThreadManager'
+  (compiling source file '/GameServer.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\mutex(98,19):
+      see declaration of 'std::mutex'
+  
+C:\MyUnity\2D_MMO_Server_DLL_TEST\ServerCore\ThreadManager.h(19,17): warning C4251: 'ThreadManager::_threads': 'std::vector<std::thread,std::allocator<std::thread>>' needs to have dll-interface to be used by clients of 'ThreadManager'
+  (compiling source file '/GameServer.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\vector(429,7):
+      see declaration of 'std::vector<std::thread,std::allocator<std::thread>>'
+  
+C:\MyUnity\2D_MMO_Server_DLL_TEST\ServerCore\Service.h(19,32): warning C4251: 'std::enable_shared_from_this<Service>::_Wptr': 'std::weak_ptr<Service>' needs to have dll-interface to be used by clients of 'std::enable_shared_from_this<Service>'
+  (compiling source file '/GameServer.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\memory(3129,7):
+      see declaration of 'std::weak_ptr<Service>'
+  
+C:\MyUnity\2D_MMO_Server_DLL_TEST\ServerCore\Service.h(46,23): warning C4251: 'Service::_iocpCore': 'std::shared_ptr<IocpCore>' needs to have dll-interface to be used by clients of 'Service'
+  (compiling source file '/GameServer.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\memory(1560,7):
+      see declaration of 'std::shared_ptr<IocpCore>'
+  
+C:\MyUnity\2D_MMO_Server_DLL_TEST\ServerCore\Service.h(48,27): warning C4251: 'Service::_sessions': 'std::set<std::shared_ptr<Session>,std::less<std::shared_ptr<Session>>,std::allocator<std::shared_ptr<Session>>>' needs to have dll-interface to be used by clients of 'Service'
+  (compiling source file '/GameServer.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\set(51,7):
+      see declaration of 'std::set<std::shared_ptr<Session>,std::less<std::shared_ptr<Session>>,std::allocator<std::shared_ptr<Session>>>'
+  
+C:\MyUnity\2D_MMO_Server_DLL_TEST\ServerCore\Service.h(51,17): warning C4251: 'Service::_sessionFactory': 'std::function<std::shared_ptr<Session> (void)>' needs to have dll-interface to be used by clients of 'Service'
+  (compiling source file '/GameServer.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\functional(1074,7):
+      see declaration of 'std::function<std::shared_ptr<Session> (void)>'
+  
+C:\MyUnity\2D_MMO_Server_DLL_TEST\ServerCore\Service.h(82,23): warning C4251: 'ServerService::_listener': 'std::shared_ptr<Listener>' needs to have dll-interface to be used by clients of 'ServerService'
+  (compiling source file '/GameServer.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\memory(1560,7):
+      see declaration of 'std::shared_ptr<Listener>'
+  
+C:\MyUnity\2D_MMO_Server_DLL_TEST\GameServer\GameServer.cpp(48,54): warning C4267: '=': conversion from 'size_t' to 'uint16', possible loss of data
+  (compiling source file '/GameServer.cpp')
+  
+  GameServer.vcxproj -> C:\MyUnity\2D_MMO_Server_DLL_TEST\Binary\Debug\GameServer.exe

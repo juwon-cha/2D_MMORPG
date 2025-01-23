@@ -1,6 +1,7 @@
 #pragma once
 #include "Types.h"
 
+#define COREDLL __declspec( dllexport )
 
 // RW SpinLock
 /*--------------------------------------------
@@ -8,7 +9,7 @@
 W : WriteFlag (Exclusive Lock Owner ThreadId)
 R : ReadFlag (Shared Lock Count)
 ---------------------------------------------*/
-class Lock
+class COREDLL Lock
 {
     enum : uint32
     {
@@ -31,7 +32,7 @@ private:
 };
 
 // LockGuard
-class ReadLockGuard
+class COREDLL ReadLockGuard
 {
 public:
     ReadLockGuard(Lock& lock, const char* name) : _lock(lock), _name(name) { _lock.ReadLock(name); }
@@ -42,7 +43,7 @@ private:
     const char* _name;
 };
 
-class WriteLockGuard
+class COREDLL WriteLockGuard
 {
 public:
     WriteLockGuard(Lock& lock, const char* name) : _lock(lock), _name(name) { _lock.WriteLock(name); }

@@ -7,6 +7,12 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{9ac4e939-02db-4f2a-840d-b1e44f164092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{9119e8f4-94b7-49b1-af5b-6e47da6dbc26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Protocol\flatbuffers">
+      <UniqueIdentifier>{d56de506-8d25-4f7f-a71b-5d2438725447}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DummyClient.cpp">
@@ -19,6 +25,105 @@
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInfo_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\allocator.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\array.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\base.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\buffer.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\buffer_ref.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\code_generator.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\code_generators.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\default_allocator.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\detached_buffer.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\file_manager.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\flatbuffers.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\flatbuffer_builder.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\flatc.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\flexbuffers.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\flex_flat_util.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\grpc.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\hash.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\idl.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\minireflect.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\pch\flatc_pch.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\pch\pch.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\reflection.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\reflection_generated.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\registry.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\stl_emulation.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\string.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\struct.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\table.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\util.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\vector.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\vector_downward.h">
+      <Filter>Protocol\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="flatbuffers\verifier.h">
+      <Filter>Protocol\flatbuffers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

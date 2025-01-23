@@ -21,6 +21,7 @@ void ClientSessionManager::Broadcast(BYTE* buffer, int32 size)
 	WRITE_LOCK;
 	for (shared_ptr<ClientSession> session : _sessions)
 	{
+		char* temp = (char*)buffer;
 		session->Send(buffer, size);
 	}
 }

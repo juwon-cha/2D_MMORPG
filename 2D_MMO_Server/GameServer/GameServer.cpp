@@ -5,6 +5,9 @@
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 
+#include "flatbuffers/flatbuffers.h"
+#include "PlayerInfo_generated.h"
+
 int main()
 {
 	shared_ptr<ServerService> service = std::make_shared<ServerService>(
@@ -26,15 +29,26 @@ int main()
 			});
 	}
 
-	char sendData[11] = "HelloWorld";
+	// char sendData[11] = "HelloWorld";
+
+	flatbuffers::FlatBufferBuilder builder;
+	{
+		flatbuffers::Offset<flatbuffers::String> name = builder.CreateString("FromServer!");
+		int level = 1;
+		flatbuffers::Offset<PlayerInfo> player = CreatePlayerInfo(builder, name, level);
+		builder.Finish(player);
+	}
+	uint8* flatbuf = builder.GetBufferPointer();
 
 	while (true)
 	{
 		BYTE buffer[4096];
 
-		((PacketHeader*)buffer)->size = (sizeof(sendData) + sizeof(PacketHeader));
+		//((PacketHeader*)buffer)->size = (sizeof(sendData) + sizeof(PacketHeader));
+		((PacketHeader*)buffer)->size = (builder.GetSize() + sizeof(PacketHeader));
 		((PacketHeader*)buffer)->id = 1; // 1 : Hello Msg
-		::memcpy(&buffer[4], sendData, sizeof(sendData));
+		//::memcpy(&buffer[4], sendData, sizeof(sendData));
+		::memcpy(&buffer[4], flatbuf, builder.GetSize());
 
 		GSessionManager.Broadcast(buffer, ((PacketHeader*)buffer)->size);
 

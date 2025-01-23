@@ -1,3 +1,4 @@
 #pragma once
+#include "pch.h"
 
-extern class ThreadManager* GThreadManager;
+extern COREDLL class ThreadManager* GThreadManager;

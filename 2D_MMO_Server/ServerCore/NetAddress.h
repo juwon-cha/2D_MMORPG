@@ -1,6 +1,6 @@
 #pragma once
 
-class NetAddress
+class COREDLL NetAddress
 {
 public:
 	NetAddress() = default;

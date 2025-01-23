@@ -2,7 +2,7 @@
 #include <thread>
 #include <functional>
 
-class ThreadManager
+class COREDLL ThreadManager
 {
 public:
 	ThreadManager();
