@@ -16,7 +16,7 @@ enum class ServiceType : uint8
 
 using SessionFactory = function<shared_ptr<Session>(void)>;
 
-class Service : public enable_shared_from_this<Service>
+class COREDLL Service : public enable_shared_from_this<Service>
 {
 public:
 	Service(ServiceType type, NetAddress address, shared_ptr<IocpCore> core, SessionFactory factory, int32 maxSessionCount = 1);
@@ -55,7 +55,7 @@ protected:
 	ClientService
 ------------------*/
 
-class ClientService : public Service
+class COREDLL ClientService : public Service
 {
 public:
 	ClientService(NetAddress targetAddress, shared_ptr<IocpCore> core, SessionFactory factory, int32 maxSessionCount = 1);
@@ -69,7 +69,7 @@ public:
 	ServerService
 ------------------*/
 
-class ServerService : public Service
+class COREDLL ServerService : public Service
 {
 public:
 	ServerService(NetAddress targetAddress, shared_ptr<IocpCore> core, SessionFactory factory, int32 maxSessionCount = 1);
