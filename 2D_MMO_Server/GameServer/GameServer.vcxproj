@@ -182,38 +182,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\DummyClient\flatbuffers\allocator.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\array.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\base.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\buffer.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\buffer_ref.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\code_generator.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\code_generators.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\default_allocator.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\detached_buffer.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\file_manager.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\flatbuffers.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\flatbuffer_builder.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\flatc.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\flexbuffers.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\flex_flat_util.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\grpc.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\hash.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\idl.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\minireflect.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\pch\flatc_pch.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\pch\pch.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\reflection.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\reflection_generated.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\registry.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\stl_emulation.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\string.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\struct.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\table.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\util.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\vector.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\vector_downward.h" />
-    <ClInclude Include="..\DummyClient\flatbuffers\verifier.h" />
     <ClInclude Include="..\DummyClient\PlayerInfo_generated.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="ClientSessionManager.h" />

@@ -3,7 +3,7 @@
 #include "Service.h"
 #include "Session.h"
 
-#include "flatbuffers/flatbuffers.h"
+#include "../Libraries/flatbuffers/flatbuffers.h"
 #include "PlayerInfo_generated.h"
 
 class ServerSession : public PacketSession

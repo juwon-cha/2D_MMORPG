@@ -1,6 +1,0 @@
-﻿  pch.cpp
-  DummyClient.cpp
-C:\MyUnity\2D_MMO\2D_MMO_Server\DummyClient\DummyClient.cpp(32,8): warning C4101: 'recvBuffer': unreferenced local variable
-  (compiling source file '/DummyClient.cpp')
-  
-  DummyClient.vcxproj -> C:\MyUnity\2D_MMO\2D_MMO_Server\Binary\Debug\DummyClient.exe

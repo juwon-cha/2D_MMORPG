@@ -5,7 +5,7 @@
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 
-#include "flatbuffers/flatbuffers.h"
+#include "../Libraries/flatbuffers/flatbuffers.h"
 #include "PlayerInfo_generated.h"
 
 int main()
