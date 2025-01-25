@@ -14,7 +14,7 @@ int main()
 		NetAddress(L"127.0.0.1", 8888),
 		std::make_shared<IocpCore>(),
 		std::make_shared<ClientSession>, // TODO : SessionManager µî
-		10);
+		1);
 
 	ASSERT(service->Start(), "SERVICE_START_ERROR");
 

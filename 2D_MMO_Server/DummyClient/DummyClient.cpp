@@ -36,7 +36,7 @@ public:
 		//cout << recvBuffer << endl;
 		cout << "Name: " << player->name()->c_str() << " Level: " << player->level() << endl;
 
-		Send((BYTE*)buffer, sizeof(buffer));
+		Send(buffer, ((PacketHeader*)buffer)->size);
 
 		return len;
 	}
@@ -60,7 +60,7 @@ int main()
 		NetAddress(L"127.0.0.1", 8888),
 		std::make_shared<IocpCore>(),
 		std::make_shared<ServerSession>, // TODO : SessionManager µî
-		5);
+		1);
 
 	ASSERT(service->Start(), "SERVICE_START_ERROR");
 
