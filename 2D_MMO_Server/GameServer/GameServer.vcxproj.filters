@@ -7,6 +7,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{7c3252fb-4596-4192-b8da-e6c5eb46cbc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{0695a9b4-9e6b-4738-9545-67571be32012}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="ClientSessionManager.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DummyClient\PlayerInfo_generated.h">
+      <Filter>Protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

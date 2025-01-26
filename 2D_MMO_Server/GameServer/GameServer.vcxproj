@@ -182,6 +182,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\DummyClient\PlayerInfo_generated.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="ClientSessionManager.h" />
     <ClInclude Include="pch.h" />
