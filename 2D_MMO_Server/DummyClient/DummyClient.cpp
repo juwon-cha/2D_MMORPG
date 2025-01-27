@@ -30,9 +30,11 @@ public:
 		this_thread::sleep_for(1s);
 
 		char recvBuffer[4096];
-		::memcpy(recvBuffer, &buffer[4], header.size - sizeof(PacketHeader));
-		//recvBuffer = (char*)buffer;
-		cout << recvBuffer << endl;
+		uint8* flatbuffer = (uint8*)&buffer[4];
+		const PlayerInfo* player = GetPlayerInfo(flatbuffer);
+		//::memcpy(recvBuffer, &buffer[4], header.size - sizeof(PacketHeader));
+		//cout << recvBuffer << endl;
+		cout << "Name: " << player->name()->c_str() << " Level: " << player->level() << endl;
 
 		Send(buffer, ((PacketHeader*)buffer)->size);
 
