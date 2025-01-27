@@ -7,9 +7,6 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{9ac4e939-02db-4f2a-840d-b1e44f164092}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Protocol">
-      <UniqueIdentifier>{290db8d2-ad73-41dc-a9e9-3f57ff96e57c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DummyClient.cpp">
@@ -22,9 +19,6 @@
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\GameServer\PlayerInfo_generated.h">
-      <Filter>Protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
