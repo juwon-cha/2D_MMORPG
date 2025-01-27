@@ -3,6 +3,9 @@
 #include "Service.h"
 #include "Session.h"
 
+#include "../Libraries/flatbuffers/flatbuffers.h"
+#include "PlayerInfo_generated.h"
+
 class ServerSession : public PacketSession
 {
 public:
@@ -32,6 +35,7 @@ public:
 		cout << recvBuffer << endl;
 
 		Send(buffer, ((PacketHeader*)buffer)->size);
+
 		return len;
 	}
 
