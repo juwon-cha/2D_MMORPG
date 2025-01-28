@@ -16,7 +16,7 @@ Session::~Session()
 
 void Session::Send(BYTE* buffer, int32 len)
 {
-	// 현재 RegisterSend가 걸리지 않은 상태라면, 걸어준다
+	// 현재 RegisterSend가 걸리지 않은 상태라면 걸어준다
 	WRITE_LOCK;
 
 	_sendQueue.push(buffer);
@@ -65,7 +65,7 @@ void Session::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 		ProcessRecv(numOfBytes);
 		break;
 	case EventType::Send:
-		ProcessSend(/*static_cast<SendEvent*>(iocpEvent), */numOfBytes);
+		ProcessSend(numOfBytes);
 		break;
 	default:
 		break;
@@ -169,7 +169,7 @@ void Session::RegisterSend(int32 packetLen)
 		_sendEvent.sendBuffers.push_back(sendBuffer);
 	}
 
-	// Scatter-Gather (흩어져 있는 데이터들을 모아서 한 방에 보낸다)
+	// Scatter-Gather(데이터들을 모아서 한 번에 보낸다)
 	vector<WSABUF> wsaBufs;
 	wsaBufs.reserve(_sendEvent.sendBuffers.size());
 	for (BYTE* sendBuffer : _sendEvent.sendBuffers)
@@ -250,7 +250,7 @@ void Session::ProcessRecv(int32 numOfBytes)
 	RegisterRecv();
 }
 
-void Session::ProcessSend(/*SendEvent* sendEvent, */int32 numOfBytes)
+void Session::ProcessSend(int32 numOfBytes)
 {
 	_sendEvent.owner = nullptr; // 레퍼런스 카운트 감소
 	_sendEvent.sendBuffers.clear(); // 레퍼런스 카운트 감소
