@@ -16,11 +16,11 @@ void ClientSessionManager::Remove(shared_ptr<ClientSession> session)
 	_sessions.erase(session);
 }
 
-void ClientSessionManager::Broadcast(BYTE* buffer, int32 size)
+void ClientSessionManager::Broadcast(BYTE* buffer, int32 len)
 {
 	WRITE_LOCK;
 	for (shared_ptr<ClientSession> session : _sessions)
 	{
-		session->Send(buffer, size);
+		session->Send(buffer, len);
 	}
 }

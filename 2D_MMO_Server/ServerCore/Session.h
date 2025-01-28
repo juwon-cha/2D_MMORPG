@@ -48,12 +48,12 @@ private:
 	bool RegisterConnect();
 	bool RegisterDisconnect();
 	void RegisterRecv();
-	void RegisterSend(SendEvent* sendEvent);
+	void RegisterSend(int32 numOfBytes);
 		 
 	void ProcessConnect();
 	void ProcessDisconnect();
 	void ProcessRecv(int32 numOfBytes);
-	void ProcessSend(SendEvent* sendEvent, int32 numOfBytes);
+	void ProcessSend(/*SendEvent* sendEvent, */int32 numOfBytes);
 		 
 	void HandleError(int32 errorCode);
 
@@ -77,12 +77,15 @@ private:
 	RecvBuffer _recvBuffer;
 
 	// 송신
+	queue<BYTE*> _sendQueue;
+	atomic<bool> _sendRegistered = false;
 
 private:
 	// IocpEvent 재사용
 	ConnectEvent _connectEvent;
 	DisconnectEvent _disconnectEvent;
 	RecvEvent _recvEvent;
+	SendEvent _sendEvent;
 };
 
 // PacketSession
