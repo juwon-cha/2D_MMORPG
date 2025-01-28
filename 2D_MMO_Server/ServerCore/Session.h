@@ -53,7 +53,7 @@ private:
 	void ProcessConnect();
 	void ProcessDisconnect();
 	void ProcessRecv(int32 numOfBytes);
-	void ProcessSend(int32 numOfBytes);
+	void ProcessSend(int32 packetLen);
 		 
 	void HandleError(int32 errorCode);
 
