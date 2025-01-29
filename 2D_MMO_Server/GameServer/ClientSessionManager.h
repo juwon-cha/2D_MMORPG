@@ -7,7 +7,7 @@ class ClientSessionManager
 public:
 	void Add(shared_ptr<ClientSession> session);
 	void Remove(shared_ptr<ClientSession> session);
-	void Broadcast(BYTE* buffer, int32 len);
+	void Broadcast(shared_ptr<SendBuffer> buffer);
 
 private:
 	USE_LOCK;

@@ -32,11 +32,11 @@ public:
 		char recvBuffer[4096];
 		uint8* flatbuffer = (uint8*)&buffer[4];
 		const PlayerInfo* player = GetPlayerInfo(flatbuffer);
-		//::memcpy(recvBuffer, &buffer[4], header.size - sizeof(PacketHeader));
-		//cout << recvBuffer << endl;
 		cout << "Name: " << player->name()->c_str() << " Level: " << player->level() << endl;
 
-		Send(buffer, ((PacketHeader*)buffer)->size);
+		shared_ptr<SendBuffer> sendBuffer = make_shared<SendBuffer>(4096);
+		sendBuffer->CopyBuffer(buffer, len);
+		Send(sendBuffer);
 
 		return len;
 	}

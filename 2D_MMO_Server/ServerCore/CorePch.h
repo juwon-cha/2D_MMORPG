@@ -28,3 +28,4 @@ using namespace std;
 
 #include "Lock.h"
 #include "Session.h"
+#include "SendBuffer.h"

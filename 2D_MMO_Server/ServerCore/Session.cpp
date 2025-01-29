@@ -14,16 +14,16 @@ Session::~Session()
 	SocketUtils::Close(_socket);
 }
 
-void Session::Send(BYTE* buffer, int32 len)
+void Session::Send(shared_ptr<SendBuffer> sendBuffer)
 {
 	// 현재 RegisterSend가 걸리지 않은 상태라면 걸어준다
 	WRITE_LOCK;
 
-	_sendQueue.push(buffer);
+	_sendQueue.push(sendBuffer);
 
 	if (_sendRegistered.exchange(true) == false)
 	{
-		RegisterSend(len);
+		RegisterSend();
 	}
 }
 
@@ -147,7 +147,7 @@ void Session::RegisterRecv()
 	}
 }
 
-void Session::RegisterSend(int32 packetLen)
+void Session::RegisterSend()
 {
 	if (IsConnected() == false)
 		return;
@@ -156,14 +156,9 @@ void Session::RegisterSend(int32 packetLen)
 	_sendEvent.owner = shared_from_this(); // 레퍼런스 카운트 증가
 
 	// 보낼 데이터를 sendEvent에 등록
-	WRITE_LOCK;
-
-	int32 writeSize = 0;
 	while (_sendQueue.empty() == false)
 	{
-		BYTE* sendBuffer = _sendQueue.front();
-
-		writeSize += packetLen;
+		shared_ptr<SendBuffer> sendBuffer = _sendQueue.front();
 
 		_sendQueue.pop();
 		_sendEvent.sendBuffers.push_back(sendBuffer);
@@ -172,11 +167,12 @@ void Session::RegisterSend(int32 packetLen)
 	// Scatter-Gather(데이터들을 모아서 한 번에 보낸다)
 	vector<WSABUF> wsaBufs;
 	wsaBufs.reserve(_sendEvent.sendBuffers.size());
-	for (BYTE* sendBuffer : _sendEvent.sendBuffers)
+
+	for (shared_ptr<SendBuffer> sendBuffer : _sendEvent.sendBuffers)
 	{
 		WSABUF wsaBuf;
-		wsaBuf.buf = reinterpret_cast<char*>(sendBuffer);
-		wsaBuf.len = static_cast<LONG>(packetLen);
+		wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->GetBufferData());
+		wsaBuf.len = static_cast<LONG>(sendBuffer->GetWriteSize());
 		wsaBufs.push_back(wsaBuf);
 	}
 
@@ -271,7 +267,7 @@ void Session::ProcessSend(int32 numOfBytes)
 	}
 	else
 	{
-		RegisterSend(numOfBytes);
+		RegisterSend();
 	}
 }
 

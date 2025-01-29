@@ -1,4 +1,5 @@
 #pragma once
+#include "SendBuffer.h"
 
 class Session;
 
@@ -7,7 +8,6 @@ enum class EventType : uint8
 	Connect,
 	Disconnect,
 	Accept,
-	//PreRecv,
 	Recv,
 	Send
 };
@@ -56,6 +56,5 @@ class SendEvent : public IocpEvent
 public:
 	SendEvent() : IocpEvent(EventType::Send) { }
 
-	// TEMP
-	vector<BYTE*> sendBuffers;
+	vector<shared_ptr<SendBuffer>> sendBuffers;
 };

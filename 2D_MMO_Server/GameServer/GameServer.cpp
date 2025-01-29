@@ -29,7 +29,6 @@ int main()
 			});
 	}
 
-	//char sendData[11] = "HelloWorld";
 	flatbuffers::FlatBufferBuilder builder;
 	{
 		flatbuffers::Offset<flatbuffers::String> name = builder.CreateString("FromServer!");
@@ -41,15 +40,16 @@ int main()
 
 	while (true)
 	{
-		BYTE buffer[4096];
+		shared_ptr<SendBuffer> sendBuffer = make_shared<SendBuffer>(4096);
 
-		//((PacketHeader*)buffer)->size = (sizeof(sendData) + sizeof(PacketHeader));
+		BYTE* buffer = sendBuffer->GetBufferData();
 		((PacketHeader*)buffer)->size = (builder.GetSize() + sizeof(PacketHeader));
-		((PacketHeader*)buffer)->id = 1; // 1 : Hello Msg
-		//::memcpy(&buffer[4], sendData, sizeof(sendData));
+		((PacketHeader*)buffer)->id = 1; // temp packet ID
 		::memcpy(&buffer[4], flatbuf, builder.GetSize());
 
-		GSessionManager.Broadcast(buffer, ((PacketHeader*)buffer)->size);
+		sendBuffer->CopyBuffer(buffer, ((PacketHeader*)buffer)->size);
+
+		GSessionManager.Broadcast(sendBuffer);
 
 		this_thread::sleep_for(250ms);
 	}
