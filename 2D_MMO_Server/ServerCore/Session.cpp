@@ -161,14 +161,14 @@ void Session::RegisterSend()
 		shared_ptr<SendBuffer> sendBuffer = _sendQueue.front();
 
 		_sendQueue.pop();
-		_sendEvent.sendBuffers.push_back(sendBuffer);
+		_sendEvent.SendBuffers.push_back(sendBuffer);
 	}
 
 	// Scatter-Gather(데이터들을 모아서 한 번에 보낸다)
 	vector<WSABUF> wsaBufs;
-	wsaBufs.reserve(_sendEvent.sendBuffers.size());
+	wsaBufs.reserve(_sendEvent.SendBuffers.size());
 
-	for (shared_ptr<SendBuffer> sendBuffer : _sendEvent.sendBuffers)
+	for (shared_ptr<SendBuffer> sendBuffer : _sendEvent.SendBuffers)
 	{
 		WSABUF wsaBuf;
 		wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->GetBufferData());
@@ -184,7 +184,7 @@ void Session::RegisterSend()
 		{
 			HandleError(errorCode);
 			_sendEvent.owner = nullptr; // 레퍼런스 카운트 감소
-			_sendEvent.sendBuffers.clear(); // 레퍼런스 카운트 감소
+			_sendEvent.SendBuffers.clear(); // 레퍼런스 카운트 감소
 			_sendRegistered.store(false);
 		}
 	}
@@ -249,7 +249,7 @@ void Session::ProcessRecv(int32 numOfBytes)
 void Session::ProcessSend(int32 numOfBytes)
 {
 	_sendEvent.owner = nullptr; // 레퍼런스 카운트 감소
-	_sendEvent.sendBuffers.clear(); // 레퍼런스 카운트 감소
+	_sendEvent.SendBuffers.clear(); // 레퍼런스 카운트 감소
 
 	if (numOfBytes == 0)
 	{
