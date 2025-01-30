@@ -14,20 +14,17 @@ Session::~Session()
 	SocketUtils::Close(_socket);
 }
 
-void Session::Send(BYTE* buffer, int32 len)
+void Session::Send(shared_ptr<SendBuffer> sendBuffer)
 {
-	// 문제
-	// 1) 버퍼 관리
-	// 2) sendEvent 관리(단일, 여러개, WSASend 중첩)
-
-	// TEMP
-	SendEvent* sendEvent = new SendEvent();
-	sendEvent->owner = shared_from_this(); // 레퍼런스 카운트 1 증가
-	sendEvent->buffer.resize(len);
-	::memcpy(sendEvent->buffer.data(), buffer, len);
-
+	// 현재 RegisterSend가 걸리지 않은 상태라면 걸어준다
 	WRITE_LOCK;
-	RegisterSend(sendEvent);
+
+	_sendQueue.push(sendBuffer);
+
+	if (_sendRegistered.exchange(true) == false)
+	{
+		RegisterSend();
+	}
 }
 
 bool Session::Connect()
@@ -68,7 +65,7 @@ void Session::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 		ProcessRecv(numOfBytes);
 		break;
 	case EventType::Send:
-		ProcessSend(static_cast<SendEvent*>(iocpEvent), numOfBytes);
+		ProcessSend(numOfBytes);
 		break;
 	default:
 		break;
@@ -150,24 +147,45 @@ void Session::RegisterRecv()
 	}
 }
 
-void Session::RegisterSend(SendEvent* sendEvent)
+void Session::RegisterSend()
 {
 	if (IsConnected() == false)
 		return;
 
-	WSABUF wsaBuf;
-	wsaBuf.buf = (char*)sendEvent->buffer.data();
-	wsaBuf.len = (ULONG)sendEvent->buffer.size();
+	_sendEvent.Init();
+	_sendEvent.owner = shared_from_this(); // 레퍼런스 카운트 증가
+
+	// 보낼 데이터를 sendEvent에 등록
+	while (_sendQueue.empty() == false)
+	{
+		shared_ptr<SendBuffer> sendBuffer = _sendQueue.front();
+
+		_sendQueue.pop();
+		_sendEvent.SendBuffers.push_back(sendBuffer);
+	}
+
+	// Scatter-Gather(데이터들을 모아서 한 번에 보낸다)
+	vector<WSABUF> wsaBufs;
+	wsaBufs.reserve(_sendEvent.SendBuffers.size());
+
+	for (shared_ptr<SendBuffer> sendBuffer : _sendEvent.SendBuffers)
+	{
+		WSABUF wsaBuf;
+		wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->GetBufferData());
+		wsaBuf.len = static_cast<LONG>(sendBuffer->GetWriteSize());
+		wsaBufs.push_back(wsaBuf);
+	}
 
 	DWORD numOfBytes = 0;
-	if (SOCKET_ERROR == ::WSASend(_socket, &wsaBuf, 1, &numOfBytes, 0, sendEvent, nullptr))
+	if (SOCKET_ERROR == ::WSASend(_socket, wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), &numOfBytes, 0, &_sendEvent, nullptr))
 	{
 		int32 errorCode = ::WSAGetLastError();
 		if (errorCode != WSA_IO_PENDING)
 		{
 			HandleError(errorCode);
-			sendEvent->owner = nullptr; // 레퍼런스 해제
-			delete sendEvent;
+			_sendEvent.owner = nullptr; // 레퍼런스 카운트 감소
+			_sendEvent.SendBuffers.clear(); // 레퍼런스 카운트 감소
+			_sendRegistered.store(false);
 		}
 	}
 }
@@ -228,10 +246,10 @@ void Session::ProcessRecv(int32 numOfBytes)
 	RegisterRecv();
 }
 
-void Session::ProcessSend(SendEvent* sendEvent, int32 numOfBytes)
+void Session::ProcessSend(int32 numOfBytes)
 {
-	sendEvent->owner = nullptr; // RELEASE_REF
-	delete sendEvent;
+	_sendEvent.owner = nullptr; // 레퍼런스 카운트 감소
+	_sendEvent.SendBuffers.clear(); // 레퍼런스 카운트 감소
 
 	if (numOfBytes == 0)
 	{
@@ -241,6 +259,16 @@ void Session::ProcessSend(SendEvent* sendEvent, int32 numOfBytes)
 
 	// 컨텐츠 코드에서 오버라이딩
 	OnSend(numOfBytes);
+
+	WRITE_LOCK;
+	if (_sendQueue.empty())
+	{
+		_sendRegistered.store(false);
+	}
+	else
+	{
+		RegisterSend();
+	}
 }
 
 void Session::HandleError(int32 errorCode)
