@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Array.h" />
     <ClInclude Include="BitConverter.h" />
     <ClInclude Include="CoreGlobal.h" />
     <ClInclude Include="CoreMacro.h" />
     <ClInclude Include="CorePch.h" />
+    <ClInclude Include="CoreRef.h" />
     <ClInclude Include="CoreTLS.h" />
     <ClInclude Include="IocpCore.h" />
     <ClInclude Include="IocpEvent.h" />
