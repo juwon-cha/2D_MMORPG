@@ -119,5 +119,11 @@
     <ClInclude Include="BitConverter.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Array.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreRef.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
