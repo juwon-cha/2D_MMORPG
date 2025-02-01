@@ -4,7 +4,7 @@ using uint32 = unsigned int;
 
 namespace Utils
 {
-	class Array
+	class COREDLL Array
 	{
 	public:
 		template <typename T>
