@@ -4,7 +4,7 @@
 #ifndef FLATBUFFERS_GENERATED_PLAYERINFO_H_
 #define FLATBUFFERS_GENERATED_PLAYERINFO_H_
 
-#include "../Libraries/flatbuffers/flatbuffers.h"
+#include "flatbuffers/flatbuffers.h"
 
 // Ensure the included flatbuffers.h is the same version as when this file was
 // generated, otherwise it may not be compatible.
@@ -15,6 +15,40 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
 
 struct PlayerInfo;
 struct PlayerInfoBuilder;
+
+enum PacketType : uint8_t {
+  PacketType_NONE = 0,
+  PacketType_MIN = PacketType_NONE,
+  PacketType_MAX = PacketType_NONE
+};
+
+inline const PacketType (&EnumValuesPacketType())[1] {
+  static const PacketType values[] = {
+    PacketType_NONE
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesPacketType() {
+  static const char * const names[2] = {
+    "NONE",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamePacketType(PacketType e) {
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_NONE)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesPacketType()[index];
+}
+
+template<typename T> struct PacketTypeTraits {
+  static const PacketType enum_value = PacketType_NONE;
+};
+
+bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
+bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
 struct PlayerInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef PlayerInfoBuilder Builder;
@@ -77,6 +111,27 @@ inline ::flatbuffers::Offset<PlayerInfo> CreatePlayerInfoDirect(
       _fbb,
       name__,
       level);
+}
+
+inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type) {
+  switch (type) {
+    case PacketType_NONE: {
+      return true;
+    }
+    default: return true;
+  }
+}
+
+inline bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types) {
+  if (!values || !types) return !values && !types;
+  if (values->size() != types->size()) return false;
+  for (::flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
+    if (!VerifyPacketType(
+        verifier,  values->Get(i), types->GetEnum<PacketType>(i))) {
+      return false;
+    }
+  }
+  return true;
 }
 
 inline const PlayerInfo *GetPlayerInfo(const void *buf) {

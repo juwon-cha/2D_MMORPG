@@ -5,4 +5,8 @@
 // flatbuffers std::min,std::max error
 #define NOMINMAX
 
+
+#include "../Libraries/flatbuffers/flatbuffers.h"
+#include "PlayerInfo_generated.h"
+using namespace flatbuffers;
 #include "CorePch.h"

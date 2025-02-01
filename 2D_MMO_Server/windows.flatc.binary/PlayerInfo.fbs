@@ -2,5 +2,9 @@ table PlayerInfo{
   name:string;
   level:int;
 }
+
+union PacketType {
+}
+
  
 root_type PlayerInfo;
