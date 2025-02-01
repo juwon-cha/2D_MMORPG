@@ -10,6 +10,9 @@
     <Filter Include="Thread">
       <UniqueIdentifier>{21e2b596-4d56-41cd-a33f-fa7102802703}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{2cc80dec-596c-412f-be4f-61eefeb94876}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -56,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="SendBuffer.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="BitConverter.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="SendBuffer.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="BitConverter.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
