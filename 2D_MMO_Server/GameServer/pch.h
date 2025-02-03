@@ -7,6 +7,6 @@
 
 
 #include "../Libraries/flatbuffers/flatbuffers.h"
-#include "PlayerInfo_generated.h"
+#include "Protocol_generated.h"
 using namespace flatbuffers;
 #include "CorePch.h"

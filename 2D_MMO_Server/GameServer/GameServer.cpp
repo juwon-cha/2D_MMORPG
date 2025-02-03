@@ -5,9 +5,6 @@
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 
-#include "../Libraries/flatbuffers/flatbuffers.h"
-#include "PlayerInfo_generated.h"
-
 int main()
 {
 	shared_ptr<ServerService> service = std::make_shared<ServerService>(
