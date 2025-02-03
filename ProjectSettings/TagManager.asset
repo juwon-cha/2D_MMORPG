@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -41,3 +41,32 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 835627299
+    locked: 0
+  - name: Ground2
+    uniqueID: 2886572725
+    locked: 0
+  - name: Ground1
+    uniqueID: 610677079
+    locked: 0
+  - name: Bridge
+    uniqueID: 857365535
+    locked: 0
+  - name: Grass
+    uniqueID: 3483863017
+    locked: 0
+  - name: Fence2
+    uniqueID: 235321313
+    locked: 0
+  - name: Fence1
+    uniqueID: 3269128339
+    locked: 0
+  - name: Object
+    uniqueID: 2628428031
+    locked: 0
+  - name: Decoration
+    uniqueID: 1390964309
+    locked: 0
+  m_RenderingLayers:
+  - Default

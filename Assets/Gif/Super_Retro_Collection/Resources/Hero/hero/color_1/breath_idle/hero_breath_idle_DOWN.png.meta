@@ -122,12 +122,12 @@ TextureImporter:
       name: hero_breath_idle_DOWN_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 6
-        width: 16
-        height: 22
+        x: 9
+        y: 7
+        width: 14
+        height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -144,12 +144,12 @@ TextureImporter:
       name: hero_breath_idle_DOWN_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 6
-        width: 16
-        height: 22
+        x: 41
+        y: 7
+        width: 14
+        height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -166,12 +166,12 @@ TextureImporter:
       name: hero_breath_idle_DOWN_2
       rect:
         serializedVersion: 2
-        x: 72
-        y: 6
-        width: 16
-        height: 23
+        x: 73
+        y: 7
+        width: 14
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -188,12 +188,12 @@ TextureImporter:
       name: hero_breath_idle_DOWN_3
       rect:
         serializedVersion: 2
-        x: 104
-        y: 6
-        width: 16
-        height: 22
+        x: 105
+        y: 7
+        width: 14
+        height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -210,12 +210,12 @@ TextureImporter:
       name: hero_breath_idle_DOWN_4
       rect:
         serializedVersion: 2
-        x: 136
-        y: 6
-        width: 16
-        height: 22
+        x: 137
+        y: 7
+        width: 14
+        height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -232,7 +232,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: acff6339801af1d4e8226c8e65fe38f9
     internalID: 0
     vertices: []
     indices: 
