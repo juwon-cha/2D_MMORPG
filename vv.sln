@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{BC4956F9-F6E4-E62A-953F-C04FF496C851}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FangAutoTile", "FangAutoTile.csproj", "{32C6FCB1-D105-398C-3DB9-87E353BCC19B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FangAutoTile.Editor", "FangAutoTile.Editor.csproj", "{B7C233C6-A867-F563-2B3B-A4A0C343A291}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC4956F9-F6E4-E62A-953F-C04FF496C851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4956F9-F6E4-E62A-953F-C04FF496C851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4956F9-F6E4-E62A-953F-C04FF496C851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4956F9-F6E4-E62A-953F-C04FF496C851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32C6FCB1-D105-398C-3DB9-87E353BCC19B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C6FCB1-D105-398C-3DB9-87E353BCC19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32C6FCB1-D105-398C-3DB9-87E353BCC19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32C6FCB1-D105-398C-3DB9-87E353BCC19B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7C233C6-A867-F563-2B3B-A4A0C343A291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7C233C6-A867-F563-2B3B-A4A0C343A291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7C233C6-A867-F563-2B3B-A4A0C343A291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7C233C6-A867-F563-2B3B-A4A0C343A291}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
