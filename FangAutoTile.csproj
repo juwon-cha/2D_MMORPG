@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{82EAD07D-F932-7D07-1A0D-E440E0E5382C}</ProjectGuid>
+    <ProjectGuid>{32C6FCB1-D105-398C-3DB9-87E353BCC19B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>FangAutoTile</AssemblyName>
@@ -571,12 +571,20 @@
       <HintPath>Library\PackageCache\com.unity.collab-proxy\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Google.FlatBuffers">
+      <HintPath>Assets\DLL\Google.FlatBuffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.IonicZip">
       <HintPath>Library\PackageCache\com.unity.visualscripting\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ServerCore">
+      <HintPath>Assets\DLL\ServerCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">

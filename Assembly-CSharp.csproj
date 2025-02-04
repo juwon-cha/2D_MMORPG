@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F1933D40-E0EE-AD99-8F70-86A485CDC7D4}</ProjectGuid>
+    <ProjectGuid>{BC4956F9-F6E4-E62A-953F-C04FF496C851}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -76,16 +76,23 @@
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Scripts\Scene\LoginScene.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Crops\Scripts\SpriteSelectFrame.cs" />
+    <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SD_Test.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_Test.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\GameScene.cs" />
+    <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\CharacterAppearance.cs" />
     <Compile Include="Assets\FantasyIconsPackFree\Demo\IconViewer.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\MonsterController.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Layer Lab\Scripts\PanelView.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\D_Test.cs" />
     <Compile Include="Assets\Scripts\Utils\Define.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\ObjectController.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_Test.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUIController.cs" />
     <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs_with_behavior\block_push_on_contact\Scripts\BlockPushOnContact.cs" />
   </ItemGroup>
@@ -102,12 +109,14 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\UI Toolkit\Default\DefaultStyle.uss" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
+    <None Include="Assets\DLL\Google.FlatBuffers.dll" />
     <None Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Player\TestMap.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\DLL\ServerCore.dll" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
@@ -595,6 +604,14 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.FlatBuffers">
+      <HintPath>Assets\DLL\Google.FlatBuffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ServerCore">
+      <HintPath>Assets\DLL\ServerCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
@@ -1392,11 +1409,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FangAutoTile.Editor.csproj">
-      <Project>{E334B3F4-0F8B-A78F-C9A0-8E72A937D9FD}</Project>
+      <Project>{B7C233C6-A867-F563-2B3B-A4A0C343A291}</Project>
       <Name>FangAutoTile.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="FangAutoTile.csproj">
-      <Project>{82EAD07D-F932-7D07-1A0D-E440E0E5382C}</Project>
+      <Project>{32C6FCB1-D105-398C-3DB9-87E353BCC19B}</Project>
       <Name>FangAutoTile</Name>
     </ProjectReference>
   </ItemGroup>
