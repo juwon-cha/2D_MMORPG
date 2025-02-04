@@ -158,12 +158,14 @@
     <ClInclude Include="CorePch.h" />
     <ClInclude Include="CoreRef.h" />
     <ClInclude Include="CoreTLS.h" />
+    <ClInclude Include="format.h" />
     <ClInclude Include="IocpCore.h" />
     <ClInclude Include="IocpEvent.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="Lock.h" />
     <ClInclude Include="NetAddress.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PoolManager.h" />
     <ClInclude Include="RecvBuffer.h" />
     <ClInclude Include="SendBuffer.h" />
     <ClInclude Include="Service.h" />

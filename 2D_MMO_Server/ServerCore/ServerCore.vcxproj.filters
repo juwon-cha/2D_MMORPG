@@ -125,5 +125,11 @@
     <ClInclude Include="CoreRef.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="format.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
