@@ -10,3 +10,20 @@ namespace Define
         INGAME,
     }
 }
+
+public enum ObjectState
+{
+    Idle,
+    Moving,
+    Skill,
+    Dead,
+}
+
+public enum MoveDir
+{
+    Idle,
+    Up,
+    Down,
+    Left,
+    Right,
+}

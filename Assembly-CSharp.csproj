@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F1933D40-E0EE-AD99-8F70-86A485CDC7D4}</ProjectGuid>
+    <ProjectGuid>{2ECC457B-661D-99FB-3556-F01DC903DA44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -62,39 +62,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs_with_behavior\tall_grass_react_on_contact\Scripts\TallGrassAnimationOnContact.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
-    <Compile Include="Assets\Layer Lab\Scripts\PanelControl.cs" />
-    <Compile Include="Assets\Gif\Ruccho\FangAutoTile\Sample\OnMapPlayerController.cs" />
     <Compile Include="Assets\Scripts\UI\BaseUIController.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryUIController.cs" />
     <Compile Include="Assets\Scripts\Utils\Utils.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs_with_behavior\chest_open_on_contact\Scripts\ChestAnimationOnContact.cs" />
+    <Compile Include="Assets\Scripts\Managers\ObjectManager.cs" />
+    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\chest_open_on_contact\Scripts\ChestAnimationOnContact.cs" />
+    <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
-    <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\ObjectManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\MonsterController.cs" />
     <Compile Include="Assets\Scripts\Scene\LoginScene.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Crops\Scripts\SpriteSelectFrame.cs" />
+    <Compile Include="Assets\Scripts\Controllers\ObjectController.cs" />
+    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\tall_grass_react_on_contact\Scripts\TallGrassAnimationOnContact.cs" />
+    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\block_push_on_contact\Scripts\BlockPushOnContact.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIController.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\GameScene.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\CharacterAppearance.cs" />
-    <Compile Include="Assets\FantasyIconsPackFree\Demo\IconViewer.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\MonsterController.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\Layer Lab\Scripts\PanelView.cs" />
+    <Compile Include="Assets\Scripts\Managers\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\Scene\GameScene.cs" />
     <Compile Include="Assets\Scripts\Utils\Define.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Scripts\ObjectController.cs" />
+    <Compile Include="Assets\Resources\Art\UI\FantasyIconsPackFree\Demo\IconViewer.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUIController.cs" />
-    <Compile Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs_with_behavior\block_push_on_contact\Scripts\BlockPushOnContact.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\UI Toolkit\Inventory\InventoryStyle.uss" />
-    <None Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Crops\README_HOW_TO_USE_CROPS.txt" />
     <None Include="Assets\UI Toolkit\Default\DefaultDocument.uxml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
@@ -102,9 +95,9 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\UI Toolkit\Default\DefaultStyle.uss" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
-    <None Include="Assets\Gif\Super_Retro_Collection\Resources\Prefabs\Player\TestMap.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\Resources\Art\Environment\Crops\README_HOW_TO_USE_CROPS.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
@@ -116,11 +109,10 @@
     <None Include="Assets\UI Toolkit\Login\LoginDocument.uxml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\UI Toolkit\Login\LoginStyle.uss" />
-    <None Include="Assets\Gif\Ruccho\FangAutoTile\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\Gif\Ruccho\FangAutoTile\Readme-ja.txt" />
+    <None Include="Assets\Resources\Prefabs\Character\Player\TestMap.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
@@ -603,14 +595,6 @@
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Android.Types">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Android.Gradle">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">
@@ -1391,14 +1375,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="FangAutoTile.Editor.csproj">
-      <Project>{E334B3F4-0F8B-A78F-C9A0-8E72A937D9FD}</Project>
-      <Name>FangAutoTile.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="FangAutoTile.csproj">
-      <Project>{82EAD07D-F932-7D07-1A0D-E440E0E5382C}</Project>
-      <Name>FangAutoTile</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
