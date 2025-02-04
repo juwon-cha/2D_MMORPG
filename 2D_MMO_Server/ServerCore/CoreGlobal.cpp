@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "CoreGlobal.h"
-#include "ThreadManager.h"
+#include "ThreadPool.h"
 #include "SocketUtils.h"
 #include "PoolManager.h"
 
-ThreadManager* GThreadManager = nullptr;
+ThreadPool* GThreadManager = nullptr;
 PoolManager* GPoolManager = nullptr;
 
 class CoreGlobal
@@ -12,7 +12,7 @@ class CoreGlobal
 public:
 	CoreGlobal()
 	{
-		GThreadManager = new ThreadManager();
+		GThreadManager = new ThreadPool(8);
 		GPoolManager = new PoolManager();
 		SocketUtils::Init();
 	}

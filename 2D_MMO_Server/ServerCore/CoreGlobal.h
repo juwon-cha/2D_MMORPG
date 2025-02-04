@@ -1,4 +1,4 @@
 #pragma once
 
-COREDLL extern class ThreadManager* GThreadManager;
+COREDLL extern class ThreadPool* GThreadManager;
 COREDLL extern class PoolManager* GPoolManager;

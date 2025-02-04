@@ -20,13 +20,14 @@ class COREDLL Lock
     };
 
 public:
-    void WriteLock(const char* name);
-    void WriteUnlock(const char* name);
-    void ReadLock(const char* name);
-    void ReadUnlock(const char* name);
+    void WriteLock();
+    void WriteUnlock();
+    void ReadLock();
+    void ReadUnlock();
 
 private:
-    atomic<uint32> _lockFlag = EMPTY_FLAG;
+    atomic<uint32> _writeLockFlag = 0;
+    atomic<uint32> _readLockFlag = 0;
     uint16 _writeCount = 0;
 };
 
@@ -34,21 +35,19 @@ private:
 class COREDLL ReadLockGuard
 {
 public:
-    ReadLockGuard(Lock& lock, const char* name) : _lock(lock), _name(name) { _lock.ReadLock(name); }
-    ~ReadLockGuard() { _lock.ReadUnlock(_name); }
+    ReadLockGuard(Lock& lock) : _lock(lock) { _lock.ReadLock(); }
+    ~ReadLockGuard() { _lock.ReadUnlock(); }
 
 private:
     Lock& _lock;
-    const char* _name;
 };
 
 class COREDLL WriteLockGuard
 {
 public:
-    WriteLockGuard(Lock& lock, const char* name) : _lock(lock), _name(name) { _lock.WriteLock(name); }
-    ~WriteLockGuard() { _lock.WriteUnlock(_name); }
+    WriteLockGuard(Lock& lock) : _lock(lock) { _lock.WriteLock(); }
+    ~WriteLockGuard() { _lock.WriteUnlock(); }
 
 private:
     Lock& _lock;
-    const char* _name;
 };
