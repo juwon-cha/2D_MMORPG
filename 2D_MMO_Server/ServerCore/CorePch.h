@@ -19,6 +19,8 @@
 #include <stdexcept>
 #include <windows.h>
 #include <iostream>
+#include <string>
+#include <future>
 using namespace std;
 
 #include <winsock2.h>
