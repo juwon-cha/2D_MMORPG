@@ -1,12 +1,10 @@
-#pragma once
-
-#include "pch.h"
+#ifndef FORMAT_H
+#define FORMAT_H
 #include <initializer_list>
-#include <string>
 
 namespace Utils {
 	namespace {
-		void ReplaceString(string& input, uint32 i, const string& val)
+		static void ReplaceString(string& input, uint32 i, const string& val)
 		{
 			string target = "{" + to_string(i) + "}";
 			uint64 pos = input.find(target);
@@ -22,7 +20,7 @@ namespace Utils {
 			}
 		}
 
-		void ReplacewString(wstring& input, uint32 i, const wstring& val)
+		static void ReplacewString(wstring& input, uint32 i, const wstring& val)
 		{
 			wstring target = L"{" + to_wstring(i) + L"}";
 			uint64 pos = input.find(target);
@@ -38,7 +36,7 @@ namespace Utils {
 			}
 		}
 		template <typename T>
-		wstring wformatHandler(const string& input, const initializer_list<T>& args) {
+		static wstring wformatHandler(const string& input, const initializer_list<T>& args) {
 			wstring result;
 			uint32 i = 0;
 
@@ -52,7 +50,7 @@ namespace Utils {
 			return result;
 		}
 	}
-	COREDLL string format(const string& input, const initializer_list<string>& args) {
+	static string format(const string& input, const initializer_list<string>& args) {
 		string result = input;
 		uint32 i = 0;
 
@@ -63,7 +61,7 @@ namespace Utils {
 		}
 		return result;
 	}
-	COREDLL wstring wformat(const wstring& input, const initializer_list<wstring>& args) {
+	static wstring wformat(const wstring& input, const initializer_list<wstring>& args) {
 		wstring result = input;
 		uint32 i = 0;
 
@@ -74,16 +72,17 @@ namespace Utils {
 		}
 		return result;
 	}
-	COREDLL wstring wformat(const string& input, const initializer_list<string>& args) {
+	static wstring wformat(const string& input, const initializer_list<string>& args) {
 		wstring result;
 		string t = format(input, args);
 		result.assign(t.begin(), t.end());
 		return result;
 	}
-	COREDLL wstring wformat(const string& input, const initializer_list<uint64>& args) {
+	static wstring wformat(const string& input, const initializer_list<uint64>& args) {
 		return wformatHandler(input, args);
 	}
-	COREDLL wstring wformat(const string& input, const initializer_list<uint32>& args) {
+	static wstring wformat(const string& input, const initializer_list<uint32>& args) {
 		return wformatHandler(input, args);
 	}
 }
+#endif

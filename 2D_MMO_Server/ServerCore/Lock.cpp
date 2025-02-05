@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Lock.h"
-#include "CoreTLS.h"
 
 void Lock::WriteLock()
 {
@@ -82,3 +81,4 @@ void Lock::ReadUnlock()
 	if (_readLockFlag.fetch_sub(1) == 0)
 		CRASH("MULTIPLE_UNLOCK");
 }
+

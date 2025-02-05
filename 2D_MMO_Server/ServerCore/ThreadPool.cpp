@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ThreadPool.h"
+
 ThreadPool::ThreadPool(uint32 n)
 {
 	_numOfThreads = n;

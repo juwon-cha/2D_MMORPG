@@ -1,6 +1,6 @@
 #pragma once
 
-#include <future>
+#include <functional>
 
 class COREDLL ThreadPool
 {
