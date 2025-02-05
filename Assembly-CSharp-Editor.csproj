@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{EA36A84C-EAB0-207A-7DD3-167C7D8BAED5}</ProjectGuid>
+    <ProjectGuid>{48CC2BF2-A634-F6F6-80D7-1099CA6F2C1D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -61,42 +61,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Attributes\PostProcessingModelEditorAttribute.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\ChromaticAberrationEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PostProcessingBehaviourEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\MotionBlurModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PostProcessingModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PostProcessingFactory.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Monitors\VectorscopeMonitor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\AntialiasingModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\GrainModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Monitors\ParadeMonitor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Utils\CurveEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\ColorGradingModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PropertyDrawers\MinDrawer.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PostProcessingMonitor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\ScreenSpaceReflectionModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PostProcessingInspector.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\UserLutModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Monitors\HistogramMonitor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\BloomModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\FogModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PropertyDrawers\GetSetDrawer.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\#NVJOB Water Shaders V2\Editor\NVWaterMaterials.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Utils\ReflectionUtils.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\PropertyDrawers\TrackballGroupDrawer.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\VignetteModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\BuiltinDebugViewsEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\EyeAdaptationModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Monitors\WaveformMonitor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\DepthOfFieldModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Utils\EditorGUIHelper.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\AmbientOcclusionModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\DefaultPostFxModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Utils\FxStyles.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Models\DitheringModelEditor.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\Environment\#NVJOB Assets\Dynamic Sky (For Demo)\Editor\NVDSkyDemoMaterials.cs" />
-    <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor\Utils\EditorResources.cs" />
+    <Compile Include="Assets\Editor\MapTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -579,10 +544,6 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.Android.Extensions">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\AndroidPlayer\UnityEditor.Android.Extensions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.VisualScripting.YamlDotNet">
       <HintPath>Library\PackageCache\com.unity.visualscripting\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll</HintPath>
       <Private>False</Private>
@@ -625,14 +586,6 @@
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Android.Types">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Android.Gradle">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="mscorlib">
@@ -1434,16 +1387,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{F1933D40-E0EE-AD99-8F70-86A485CDC7D4}</Project>
+      <Project>{2ECC457B-661D-99FB-3556-F01DC903DA44}</Project>
       <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="FangAutoTile.Editor.csproj">
-      <Project>{E334B3F4-0F8B-A78F-C9A0-8E72A937D9FD}</Project>
-      <Name>FangAutoTile.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="FangAutoTile.csproj">
-      <Project>{82EAD07D-F932-7D07-1A0D-E440E0E5382C}</Project>
-      <Name>FangAutoTile</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
