@@ -3,7 +3,7 @@ using Define;
 
 public class BaseScene : BaseMonobehaviour
 {
-    public SceneType SceneType { get; set; }
+    public SceneType SceneType { get; set; } = Define.SceneType.NONE;
     public BaseUIController[] UIControllers;
     void Start()
     {
@@ -11,9 +11,9 @@ public class BaseScene : BaseMonobehaviour
     }
     protected virtual void Init()
     {
-        Manager.Scene.CurScene = this;
+        
     }
-    protected virtual void Clear()
+    public virtual void Clear()
     {
     }
 }
