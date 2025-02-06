@@ -9,21 +9,21 @@ namespace Define
         CHARSELECTION,
         INGAME,
     }
-}
 
-public enum ObjectState
-{
-    Idle,
-    Moving,
-    Skill,
-    Dead,
-}
+    public enum ObjectState
+    {
+        Idle,
+        Moving,
+        Skill,
+        Dead,
+    }
 
-public enum MoveDir
-{
-    Idle,
-    Up,
-    Down,
-    Left,
-    Right,
+    public enum MoveDir
+    {
+        Idle,
+        Up,
+        Down,
+        Left,
+        Right,
+    }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerController : ObjectController
 {
@@ -17,11 +18,11 @@ public class PlayerController : ObjectController
     {
         switch(State)
         {
-            case ObjectState.Idle:
+            case Define.ObjectState.Idle:
                 InputDirection();
                 break;
 
-            case ObjectState.Moving:
+            case Define.ObjectState.Moving:
                 InputDirection();
                 break;
 
@@ -35,21 +36,22 @@ public class PlayerController : ObjectController
     private void LateUpdate()
     {
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+
     }
 
     protected override void UpdateIdle()
     {
         // 이동 상태
-        if(MoveDir != MoveDir.Idle)
+        if(MoveDir != Define.MoveDir.Idle)
         {
-            State = ObjectState.Moving;
+            State = Define.ObjectState.Moving;
             return;
         }
 
         // 스킬 상태
         if (Input.GetKey(KeyCode.Space))
         {
-            State = ObjectState.Skill;
+            State = Define.ObjectState.Skill;
             _coSkill = StartCoroutine("CoStartAttack");
         }
     }
@@ -59,30 +61,30 @@ public class PlayerController : ObjectController
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            MoveDir = MoveDir.Up;
+            MoveDir = Define.MoveDir.Up;
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            MoveDir = MoveDir.Down;
+            MoveDir = Define.MoveDir.Down;
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            MoveDir = MoveDir.Left;
+            MoveDir = Define.MoveDir.Left;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            MoveDir = MoveDir.Right;
+            MoveDir = Define.MoveDir.Right;
         }
         else
         {
-            MoveDir = MoveDir.Idle;
+            MoveDir = Define.MoveDir.Idle;
         }
     }
 
     IEnumerator CoStartAttack()
     {
         // 피격 판정
-        GameObject gameObj = ObjManager.Find(GetFacingCellPostition());
+        GameObject gameObj = Manager.Object.Find(GetFacingCellPostition());
         if(gameObj != null)
         {
             Debug.Log(gameObj.name);
@@ -97,7 +99,7 @@ public class PlayerController : ObjectController
 
         // 대기 시간
         yield return new WaitForSeconds(0.5f);
-        State = ObjectState.Idle;
+        State = Define.ObjectState.Idle;
         _coSkill = null;
     }
 }
