@@ -15,7 +15,7 @@ public class GameScene : BaseScene
 
         SceneType = Define.SceneType.INGAME;
 
-        Manager.Map.LoadMap(1);
+        Manager.Map.LoadMap(3);
 
         GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/TestPlayer");
         GameObject player = Instantiate(playerOriginal);
