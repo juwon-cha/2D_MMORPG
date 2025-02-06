@@ -11,7 +11,7 @@ public class MonsterController : ObjectController
     GameObject _target;
     float _searchRange = 5.0f;
 
-    public override ObjectState State
+    public override Define.ObjectState State
     {
         get
         {
@@ -45,33 +45,33 @@ public class MonsterController : ObjectController
     protected override void Init()
     {
         base.Init();
-        State = ObjectState.Idle;
-        MoveDir = MoveDir.Idle;
+        State = Define.ObjectState.Idle;
+        MoveDir = Define.MoveDir.Idle;
     }
 
     protected override void UpdateAnim()
     {
-        if (State == ObjectState.Idle)
+        if (State == Define.ObjectState.Idle)
         {
             // 마지막으로 바라보는 방향 Idle
             switch (_lastFacingDir)
             {
-                case MoveDir.Up:
+                case Define.MoveDir.Up:
                     _animator.Play("SLIME01_IDLE");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
-                case MoveDir.Down:
+                case Define.MoveDir.Down:
                     _animator.Play("SLIME01_IDLE");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
-                case MoveDir.Left:
+                case Define.MoveDir.Left:
                     _animator.Play("SLIME01_IDLE");
                     transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                     break;
 
-                case MoveDir.Right:
+                case Define.MoveDir.Right:
                     _animator.Play("SLIME01_IDLE");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
@@ -80,27 +80,27 @@ public class MonsterController : ObjectController
                     break;
             }
         }
-        else if (State == ObjectState.Moving)
+        else if (State == Define.ObjectState.Moving)
         {
             switch (_dir)
             {
-                case MoveDir.Up:
+                case Define.MoveDir.Up:
                     _animator.Play("SLIME01_IDLE");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
-                case MoveDir.Down:
+                case Define.MoveDir.Down:
                     _animator.Play("SLIME01_IDLE");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
                 // 오른쪽 애니메이션 반전
-                case MoveDir.Left:
+                case Define.MoveDir.Left:
                     _animator.Play("SLIME01_WALK_RIGHT");
                     transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                     break;
 
-                case MoveDir.Right:
+                case Define.MoveDir.Right:
                     _animator.Play("SLIME01_WALK_RIGHT");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
@@ -109,11 +109,11 @@ public class MonsterController : ObjectController
                     break;
             }
         }
-        else if (State == ObjectState.Skill)
+        else if (State == Define.ObjectState.Skill)
         {
             // TODO: Skill anim
         }
-        else if (State == ObjectState.Dead)
+        else if (State == Define.ObjectState.Dead)
         {
             // TODO: Death anim
         }
@@ -145,12 +145,12 @@ public class MonsterController : ObjectController
         }
 
         // TODO: A*
-        List<Vector3Int> path = GameScene.FindPathBFS(CellPos, targetPos, true);
+        List<Vector3Int> path = Manager.Map.FindPathBFS(CellPos, targetPos, true);
         // 길을 못 찾거나 타겟이 너무 멀어지면 멈춤
         if(path.Count < 2 || (_target != null && path.Count > 10))
         {
             _target = null;
-            State = ObjectState.Idle;
+            State = Define.ObjectState.Idle;
             return;
         }
 
@@ -158,40 +158,40 @@ public class MonsterController : ObjectController
         Vector3Int moveDir = nextPos - CellPos;
         if(moveDir.x > 0)
         {
-            MoveDir = MoveDir.Right;
+            MoveDir = Define.MoveDir.Right;
         }
         else if(moveDir.x < 0)
         {
-            MoveDir = MoveDir.Left;
+            MoveDir = Define.MoveDir.Left;
         }
         else if(moveDir.y > 0)
         {
-            MoveDir = MoveDir.Up;
+            MoveDir = Define.MoveDir.Up;
         }
         else if (moveDir.y < 0)
         {
-            MoveDir = MoveDir.Down;
+            MoveDir = Define.MoveDir.Down;
         }
         else
         {
-            MoveDir = MoveDir.Idle;
+            MoveDir = Define.MoveDir.Idle;
         }
 
-        if (GameScene.CanMove(nextPos) && ObjManager.Find(nextPos) == null)
+        if (Manager.Map.CanMove(nextPos) && Manager.Object.Find(nextPos) == null)
         {
             CellPos = nextPos;
 
         }
         else
         {
-            State = ObjectState.Idle;
+            State = Define.ObjectState.Idle;
         }
     }
 
     public override void OnDamaged()
     {
         // 몬스터 죽음 이펙트 오브젝트
-        GameObject effectOriginal = Resources.Load<GameObject>("Animations/Effects/MonsterDeathEffect");
+        GameObject effectOriginal = Resources.Load<GameObject>("Prefabs/Effect/MonsterDeathEffect");
         GameObject deathEffect = Object.Instantiate(effectOriginal);
         deathEffect.transform.position = transform.position;
         deathEffect.name = "DeathEffect";
@@ -200,7 +200,7 @@ public class MonsterController : ObjectController
         GameObject.Destroy(deathEffect, 0.5f);
 
         // 몬스터 삭제
-        ObjManager.Remove(gameObject);
+        Manager.Object.Remove(gameObject);
         GameObject.Destroy(gameObject);
     }
 
@@ -216,16 +216,16 @@ public class MonsterController : ObjectController
             int y = Random.Range(-5, 5);
             Vector3Int randomPos = CellPos + new Vector3Int(x, y, 0);
 
-            if (GameScene.CanMove(randomPos) && ObjManager.Find(randomPos) == null)
+            if (Manager.Map.CanMove(randomPos) && Manager.Object.Find(randomPos) == null)
             {
                 _destPos = randomPos;
-                State = ObjectState.Moving;
+                State = Define.ObjectState.Moving;
                 yield break;
             }
         }
 
         // 갈 수 없는 좌표면 Idle 상태
-        State = ObjectState.Idle;
+        State = Define.ObjectState.Idle;
     }
 
     IEnumerator CoSearch()
@@ -239,7 +239,7 @@ public class MonsterController : ObjectController
                 continue;
             }
 
-            _target = ObjManager.Find((gameObj) =>
+            _target = Manager.Object.Find((gameObj) =>
             {
                 // 람다식의 조건에 따라 오브젝트 반환
                 PlayerController playerController = gameObj.GetComponent<PlayerController>();
