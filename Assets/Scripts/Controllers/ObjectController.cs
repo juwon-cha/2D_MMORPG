@@ -8,9 +8,11 @@ public class ObjectController : MonoBehaviour
     public float _speed = 8.0f;
     public Vector3Int CellPos { get; set; } = Vector3Int.zero;
     protected Animator _animator;
+    public ObjectManager ObjManager { get; set; }
+    public GameScene GameScene {  get; set; }
 
-    protected Define.ObjectState _state = Define.ObjectState.Idle;
-    public virtual Define.ObjectState State
+    protected ObjectState _state = ObjectState.Idle;
+    public virtual ObjectState State
     {
         get
         {
@@ -28,9 +30,9 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    protected Define.MoveDir _dir = Define.MoveDir.Down;
-    protected Define.MoveDir _lastFacingDir = Define.MoveDir.Down;
-    public Define.MoveDir MoveDir
+    protected MoveDir _dir = MoveDir.Down;
+    protected MoveDir _lastFacingDir = MoveDir.Down;
+    public MoveDir MoveDir
     {
         get
         {
@@ -44,7 +46,7 @@ public class ObjectController : MonoBehaviour
             }
 
             _dir = value;
-            if(value != Define.MoveDir.Idle)
+            if(value != MoveDir.Idle)
             {
                 _lastFacingDir = value;
             }
@@ -65,34 +67,38 @@ public class ObjectController : MonoBehaviour
 
     protected virtual void Init()
     {
+        GameObject obj = GameObject.Find("GameScene");
+        GameScene = obj.GetComponent<GameScene>();
+        ObjManager = obj.GetComponent<ObjectManager>();
+
         _animator = GetComponent<Animator>();
-        Vector3 position = Manager.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
+        Vector3 position = GameScene.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
         transform.position = position;
     }
 
     protected virtual void UpdateAnim()
     {
-        if (State == Define.ObjectState.Idle)
+        if (State == ObjectState.Idle)
         {
             // 마지막으로 바라보는 방향 Idle
             switch (_lastFacingDir)
             {
-                case Define.MoveDir.Up:
+                case MoveDir.Up:
                     _animator.Play("IDLE_UP");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
-                case Define.MoveDir.Down:
+                case MoveDir.Down:
                     _animator.Play("IDLE_DOWN");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
-                case Define.MoveDir.Left:
+                case MoveDir.Left:
                     _animator.Play("IDLE_RIGHT");
                     transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                     break;
 
-                case Define.MoveDir.Right:
+                case MoveDir.Right:
                     _animator.Play("IDLE_RIGHT");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
@@ -101,27 +107,27 @@ public class ObjectController : MonoBehaviour
                     break;
             }
         }
-        else if (State == Define.ObjectState.Moving)
+        else if (State == ObjectState.Moving)
         {
             switch (_dir)
             {
-                case Define.MoveDir.Up:
+                case MoveDir.Up:
                     _animator.Play("WALK_UP");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
-                case Define.MoveDir.Down:
+                case MoveDir.Down:
                     _animator.Play("WALK_DOWN");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
                 // 오른쪽 애니메이션 반전
-                case Define.MoveDir.Left:
+                case MoveDir.Left:
                     _animator.Play("WALK_RIGHT");
                     transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                     break;
 
-                case Define.MoveDir.Right:
+                case MoveDir.Right:
                     _animator.Play("WALK_RIGHT");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
@@ -130,29 +136,29 @@ public class ObjectController : MonoBehaviour
                     break;
             }
         }
-        else if (State == Define.ObjectState.Skill)
+        else if (State == ObjectState.Skill)
         {
             // TODO: skill anim
             // 마지막으로 바라본 방향 기준으로 스킬 시전
             switch (_lastFacingDir)
             {
-                case Define.MoveDir.Up:
+                case MoveDir.Up:
                     _animator.Play("ATTACK_UP");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
-                case Define.MoveDir.Down:
+                case MoveDir.Down:
                     _animator.Play("ATTACK_DOWN");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
 
                 // 오른쪽 애니메이션 반전
-                case Define.MoveDir.Left:
+                case MoveDir.Left:
                     _animator.Play("ATTACK_RIGHT");
                     transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                     break;
 
-                case Define.MoveDir.Right:
+                case MoveDir.Right:
                     _animator.Play("ATTACK_RIGHT");
                     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                     break;
@@ -161,7 +167,7 @@ public class ObjectController : MonoBehaviour
                     break;
             }
         }
-        else if (State == Define.ObjectState.Dead)
+        else if (State == ObjectState.Dead)
         {
             // TODO: Death anim
         }
@@ -171,19 +177,19 @@ public class ObjectController : MonoBehaviour
     {
         switch(State)
         {
-            case Define.ObjectState.Idle:
+            case ObjectState.Idle:
                 UpdateIdle();
                 break;
 
-            case Define.ObjectState.Moving:
+            case ObjectState.Moving:
                 UpdateMovement();
                 break;
 
-            case Define.ObjectState.Skill:
+            case ObjectState.Skill:
                 UpdateSkill();
                 break;
 
-            case Define.ObjectState.Dead:
+            case ObjectState.Dead:
                 UpdateDead();
                 break;
 
@@ -201,7 +207,7 @@ public class ObjectController : MonoBehaviour
     // 자연스러운 이동 처리
     protected virtual void UpdateMovement()
     {
-        Vector3 destPos = Manager.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
+        Vector3 destPos = GameScene.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
         Vector3 moveDir = destPos - transform.position;
 
         // 도착 여부 체크
@@ -215,15 +221,15 @@ public class ObjectController : MonoBehaviour
         {
             // 자연스러운 움직임
             transform.position += moveDir.normalized * _speed * Time.deltaTime;
-            State = Define.ObjectState.Moving;
+            State = ObjectState.Moving;
         }
     }
 
     protected virtual void UpdateCoordinates()
     {
-        if(_dir == Define.MoveDir.Idle)
+        if(_dir == MoveDir.Idle)
         {
-            State = Define.ObjectState.Idle;
+            State = ObjectState.Idle;
             return;
         }
 
@@ -232,19 +238,19 @@ public class ObjectController : MonoBehaviour
 
         switch (_dir)
         {
-            case Define.MoveDir.Up:
+            case MoveDir.Up:
                 destPos += Vector3Int.up;
                 break;
 
-            case Define.MoveDir.Down:
+            case MoveDir.Down:
                 destPos += Vector3Int.down;
                 break;
 
-            case Define.MoveDir.Left:
+            case MoveDir.Left:
                 destPos += Vector3Int.left;
                 break;
 
-            case Define.MoveDir.Right:
+            case MoveDir.Right:
                 destPos += Vector3Int.right;
                 break;
 
@@ -252,10 +258,10 @@ public class ObjectController : MonoBehaviour
                 break;
         }
 
-        if (Manager.Map.CanMove(destPos))
+        if (GameScene.CanMove(destPos))
         {
             // 객체가 없으면 이동 가능
-            if (Manager.Object.Find(destPos) == null)
+            if (ObjManager.Find(destPos) == null)
             {
                 CellPos = destPos;
             }
@@ -278,19 +284,19 @@ public class ObjectController : MonoBehaviour
 
         switch (_lastFacingDir)
         {
-            case Define.MoveDir.Up:
+            case MoveDir.Up:
                 curCellPos += Vector3Int.up;
                 break;
 
-            case Define.MoveDir.Down:
+            case MoveDir.Down:
                 curCellPos += Vector3Int.down;
                 break;
 
-            case Define.MoveDir.Left:
+            case MoveDir.Left:
                 curCellPos += Vector3Int.left;
                 break;
 
-            case Define.MoveDir.Right:
+            case MoveDir.Right:
                 curCellPos += Vector3Int.right;
                 break;
 

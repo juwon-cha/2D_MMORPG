@@ -68,8 +68,5 @@ TagManager:
   - name: Decoration
     uniqueID: 1390964309
     locked: 0
-  - name: Creature
-    uniqueID: 2545773065
-    locked: 0
   m_RenderingLayers:
   - Default

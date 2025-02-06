@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectManager
+public class ObjectManager : MonoBehaviour
 {
     List<GameObject> _objects = new List<GameObject>();
 
