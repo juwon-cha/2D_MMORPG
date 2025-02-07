@@ -2,23 +2,24 @@
 #include "ServerSession.h"
 #include "Manager.h"
 
-void ServerSession::OnConnect()
+void ServerSession::OnConnected()
 {
 	cout << "serversession onconnect\n";
-	Init();
 	RegisterRecv();
 }
 
-void ServerSession::OnDisconnect()
+void ServerSession::OnDisconnected()
 {
 }
 
-void ServerSession::OnSend()
+void ServerSession::OnSend(int32 len)
 {
 	cout << "OnSend\n";
 }
 
-void ServerSession::OnRecvPacket(int32 size, byte* data)
+int32 ServerSession::OnRecvPacket(BYTE* buffer, int32 len)
 {
-	Manager::Packet.OnRecvPacket(this, data);
+	Manager::Packet.OnRecvPacket(this, buffer);
+
+	return len;
 }

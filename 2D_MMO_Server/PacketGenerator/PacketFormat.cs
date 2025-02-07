@@ -97,7 +97,7 @@ public:
 };
 
 template<typename T>
-inline ByteRef PacketManager::CreatePacket(Offset<T>& data, FlatBufferBuilder& builder, PacketType id)
+inline SendBufferRef PacketManager::CreatePacket(Offset<T>& data, FlatBufferBuilder& builder, PacketType id)
 {
     builder.Finish(data);
     auto size = builder.GetSize() + 4;

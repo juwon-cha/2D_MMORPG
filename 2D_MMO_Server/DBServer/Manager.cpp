@@ -2,6 +2,9 @@
 #include "Manager.h"
 #include "Listener.h"
 #include "ThreadPool.h"
+#include "PoolManager.h"
+#include "Service.h"
+#include <fstream>
 
 PacketManager& Manager::Packet = PacketManager::Instance();
 DbManager& Manager::DB = DbManager::Instance();
@@ -10,21 +13,23 @@ ServerSession* Manager::session = nullptr;
 
 void Manager::Init()
 {
+	 
+
 	// -------------- DBManager Init ----------------
 	{
 		string connectionDataPath = COMMON_JSON_PATH + (string)"DBConnectionData.json";
 
 		ifstream connection(connectionDataPath);
 		bool s = connection.is_open();
-		ASSERT_CRASH(connection.is_open());
+		ASSERT(connection.is_open(), "");
 
 		json j = json::parse(connection);
 
-		ASSERT_CRASH((j.find("password") != j.end()));
-		ASSERT_CRASH((j.find("uid") != j.end()));
-		ASSERT_CRASH((j.find("db_name") != j.end()));
-		ASSERT_CRASH((j.find("ip") != j.end()));
-		ASSERT_CRASH((j.find("driver") != j.end()));
+		ASSERT((j.find("password") != j.end()), "");
+		ASSERT((j.find("uid") != j.end()), "");
+		ASSERT((j.find("db_name") != j.end()), "");
+		ASSERT((j.find("ip") != j.end()), "");
+		ASSERT((j.find("driver") != j.end()), "");
 		Manager::DB.Init(j);
 		connection.close();
 	}
@@ -32,14 +37,19 @@ void Manager::Init()
 
 	// -------------- GameServer Connecting ---------
 	{
-		Listener* listener = new Listener();
-
 		string portJsonPath = COMMON_JSON_PATH + (string)"port.json";
 		ifstream port(portJsonPath);
 
-		ASSERT_CRASH(port.is_open());
+		ASSERT(port.is_open(), "");
 
 		Manager::session = new ServerSession();
+		static shared_ptr<ServerService> service = make_shared<ServerService>(
+			NetAddress(L"127.0.0.1", 8080),
+			make_shared<IocpCore>(),
+			[]() { return shared_ptr<ServerSession>(Manager::session); }, // TODO : SessionManager µî
+			1);
+		ASSERT(service->Start(), "SERVICE_START_ERROR");
+
 		json j = json::parse(port);
 		port.close();
 
@@ -48,13 +58,9 @@ void Manager::Init()
 		addr.sin_addr.s_addr = htonl(INADDR_ANY);
 		addr.sin_family = AF_INET;
 		addr.sin_port = htons(::atoi(j["db_to_server"].dump().c_str()));
-		GPoolManager->CreatePool<ServerSession>(1);
-		GPoolManager->Push<ServerSession>(session);
 
 		for (int32 i = 0; i < 3; i++)
-			GThreadPool->EnqueueJob([]() { GIocpCore->Dispatch(); });
-		for (int32 i = 0; i < 3; i++);
-		listener->StartAccept(addr, [&]() { return GPoolManager->Pop<ServerSession>(); });
+			GThreadManager->EnqueueJob([]() { service->GetIocpCore()->Dispatch(); });
 	}
 	// -------------- GameServer Connecting ---------
 }

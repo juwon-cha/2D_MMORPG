@@ -44,13 +44,14 @@ private:
 	virtual HANDLE GetHandle() override;
 	virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
-private:
+protected:
 	// Àü¼Û
 	bool RegisterConnect();
 	bool RegisterDisconnect();
 	void RegisterRecv();
 	void RegisterSend();
-		 
+
+private:
 	void ProcessConnect();
 	void ProcessDisconnect();
 	void ProcessRecv(int32 numOfBytes);

@@ -4,8 +4,8 @@
 
 class ServerSession : public PacketSession
 {
-	virtual void OnConnect() override;
-	virtual void OnDisconnect() override;
-	virtual void OnSend() override;
-	virtual void OnRecvPacket(int32 size, byte* data) override;
+	virtual void OnConnected() override;
+	virtual void OnSend(int32 len) override;
+	virtual int32 OnRecvPacket(BYTE* buffer, int32 len) override;
+	virtual void OnDisconnected() override;
 };

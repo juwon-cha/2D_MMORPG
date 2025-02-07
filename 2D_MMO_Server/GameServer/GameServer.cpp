@@ -1,9 +1,12 @@
 #include "pch.h"
-#include "ThreadManager.h"
 #include "Service.h"
 #include "Session.h"
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
+#include "ThreadPool.h"
+#include "PacketManager.h"
+
+PacketManager& Packet = PacketManager::Instance();
 
 int main()
 {
@@ -17,36 +20,22 @@ int main()
 
 	for (int32 i = 0; i < 5; i++)
 	{
-		GThreadManager->Launch([=]()
+		GThreadManager->EnqueueJob([service]() {
+			while (true)
 			{
-				while (true)
-				{
-					service->GetIocpCore()->Dispatch();
-				}
+				service->GetIocpCore()->Dispatch();
+			}
 			});
 	}
 
 	flatbuffers::FlatBufferBuilder builder;
-	{
-		flatbuffers::Offset<flatbuffers::String> name = builder.CreateString("FromServer!");
-		int level = 1;
-		flatbuffers::Offset<PlayerInfo> player = CreatePlayerInfo(builder, name, level);
-		builder.Finish(player);
-	}
+	auto data = CreateSD_Test(builder, 24);
+	auto pkt = Packet.CreatePacket(data, builder, PacketType_SD_Test);
 	uint8* flatbuf = builder.GetBufferPointer();
 
 	while (true)
 	{
-		shared_ptr<SendBuffer> sendBuffer = make_shared<SendBuffer>(4096);
-
-		BYTE* buffer = sendBuffer->GetBufferData();
-		((PacketHeader*)buffer)->size = (builder.GetSize() + sizeof(PacketHeader));
-		((PacketHeader*)buffer)->id = 1; // temp packet ID
-		::memcpy(&buffer[4], flatbuf, builder.GetSize());
-
-		sendBuffer->CopyBuffer(buffer, ((PacketHeader*)buffer)->size);
-
-		GSessionManager.Broadcast(sendBuffer);
+		GSessionManager.Broadcast(pkt);
 
 		this_thread::sleep_for(250ms);
 	}

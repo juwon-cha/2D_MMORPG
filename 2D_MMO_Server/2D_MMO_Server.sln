@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerCore", "ServerCore\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketGenerator", "PacketGenerator\PacketGenerator.csproj", "{68BEA18F-1DF0-4EEB-B69F-44F140F66ACD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DBServer", "DBServer\DBServer.vcxproj", "{3B1D0C14-5E84-4047-9803-A901BFB66337}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{68BEA18F-1DF0-4EEB-B69F-44F140F66ACD}.Release|x64.Build.0 = Release|Any CPU
 		{68BEA18F-1DF0-4EEB-B69F-44F140F66ACD}.Release|x86.ActiveCfg = Release|Any CPU
 		{68BEA18F-1DF0-4EEB-B69F-44F140F66ACD}.Release|x86.Build.0 = Release|Any CPU
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Debug|Any CPU.Build.0 = Debug|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Debug|x64.ActiveCfg = Debug|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Debug|x64.Build.0 = Debug|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Debug|x86.ActiveCfg = Debug|Win32
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Debug|x86.Build.0 = Debug|Win32
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Release|Any CPU.ActiveCfg = Release|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Release|Any CPU.Build.0 = Release|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Release|x64.ActiveCfg = Release|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Release|x64.Build.0 = Release|x64
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Release|x86.ActiveCfg = Release|Win32
+		{3B1D0C14-5E84-4047-9803-A901BFB66337}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
