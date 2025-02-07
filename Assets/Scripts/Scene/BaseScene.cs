@@ -5,14 +5,17 @@ public class BaseScene : BaseMonobehaviour
 {
     public SceneType SceneType { get; set; } = Define.SceneType.NONE;
     public BaseUIController[] UIControllers;
-    void Start()
+
+    void Awake()
     {
         Init();
     }
+
     protected virtual void Init()
     {
         
     }
+
     public virtual void Clear()
     {
     }

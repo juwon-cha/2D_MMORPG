@@ -33,12 +33,6 @@ public class PlayerController : ObjectController
         base.UpdateController();
     }
 
-    private void LateUpdate()
-    {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
-
-    }
-
     protected override void UpdateIdle()
     {
         // 이동 상태
