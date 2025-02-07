@@ -34,8 +34,12 @@ public class MapManager
         go.name = "Map";
 
         GameObject collision = Utils.FindChild(go, "Collision");
-        if (collision != null)
-            collision.SetActive(false);
+        if (collision == null)
+        {
+            throw new System.Exception("Can not find Collision!");
+        }
+
+        collision.SetActive(false);
 
         CurrentGrid = go.GetComponent<Grid>();
 
