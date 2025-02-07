@@ -20,7 +20,7 @@ public:
     ~PacketManager();
     void OnRecvPacket(PacketSession* session, BYTE* buffer);
     template <typename T>
-    ByteRef CreatePacket(Offset<T>& data, FlatBufferBuilder& builder, PacketType id);
+    SendBufferRef CreatePacket(Offset<T>& data, FlatBufferBuilder& builder, PacketType id);
 };
 
 template<typename T>
