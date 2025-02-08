@@ -25,7 +25,7 @@ public:
 public:
 	// 외부에서 사용
 	void Send(shared_ptr<SendBuffer> sendBuffer);
-	bool Connect();
+	bool Connect(NetAddress netAddr);
 	void Disconnect(const WCHAR* cause);
 
 	shared_ptr<Service>	GetService() { return _service.lock(); }

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "ThreadManager.h"
+#include "ThreadPool.h"
 #include "Service.h"
 #include "Session.h"
 #include "ClientSession.h"
@@ -17,13 +17,7 @@ int main()
 
 	for (int32 i = 0; i < 5; i++)
 	{
-		GThreadManager->Launch([=]()
-			{
-				while (true)
-				{
-					service->GetIocpCore()->Dispatch();
-				}
-			});
+		GThreadManager->EnqueueJob([&]() { service->GetIocpCore()->Dispatch(); });
 	}
 
 	flatbuffers::FlatBufferBuilder builder;
@@ -50,6 +44,4 @@ int main()
 
 		this_thread::sleep_for(250ms);
 	}
-
-	GThreadManager->Join();
 }

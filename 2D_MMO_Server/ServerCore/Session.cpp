@@ -27,8 +27,10 @@ void Session::Send(shared_ptr<SendBuffer> sendBuffer)
 	}
 }
 
-bool Session::Connect()
+bool Session::Connect(NetAddress netAddr)
 {
+	SetNetAddress(netAddr);
+
 	return RegisterConnect();
 }
 
@@ -77,13 +79,14 @@ bool Session::RegisterConnect()
 	if (IsConnected())
 		return false;
 
-	if (GetService()->GetServiceType() != ServiceType::Client)
-		return false;
+	// 서비스 타입이 클라이언트가 아니면 false 반환
+	//if (GetService()->GetServiceType() != ServiceType::Client)
+	//	return false;
 
 	if (SocketUtils::SetReuseAddress(_socket, true) == false)
 		return false;
 
-	if (SocketUtils::BindAnyAddress(_socket, 0) == false)
+	if (SocketUtils::Bind(_socket, _netAddress) == false)
 		return false;
 
 	_connectEvent.Init();
