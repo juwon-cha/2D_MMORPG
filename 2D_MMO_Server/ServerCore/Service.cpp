@@ -65,7 +65,7 @@ bool ClientService::Start()
 	for (int32 i = 0; i < sessionCount; i++)
 	{
 		shared_ptr<Session> session = CreateSession();
-		if (session->Connect(NetAddress(L"127.0.0.1", 0)) == false)
+		if (session->Connect() == false)
 			return false;
 	}
 

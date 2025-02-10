@@ -30,7 +30,7 @@ inline ByteRef PacketManager::CreatePacket(Offset<T>& data, FlatBufferBuilder& b
     BYTE* bb = new BYTE[size];
     Utils::BitConverter::TryWriteBytes(bb, size, 0);
     Utils::BitConverter::TryWriteBytes(bb, id, 2);
-    
+
     auto* pkt = builder.GetBufferPointer();
     Utils::Array::Copy((BYTE*)pkt, 0, bb, 4, size - 4);
     SendBufferRef buf = make_shared<SendBuffer>(size);

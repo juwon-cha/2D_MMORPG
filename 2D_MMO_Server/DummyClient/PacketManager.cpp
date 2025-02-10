@@ -23,9 +23,7 @@ PacketManager::~PacketManager()
 
 void PacketManager::Register()
 {
-    _handler[PacketType::PacketType_C_Test] = PacketHandler::C_TestHandler;
-		_handler[PacketType::PacketType_D_Test] = PacketHandler::D_TestHandler;
-		
+	_handler[PacketType::PacketType_C_Test] = PacketHandler::C_TestHandler;
 }
 
 void PacketManager::OnRecvPacket(PacketSession* session, BYTE* buffer)

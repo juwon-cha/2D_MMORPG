@@ -14,7 +14,7 @@ Session::~Session()
 	SocketUtils::Close(_socket);
 }
 
-void Session::Send(shared_ptr<SendBuffer> sendBuffer)
+void Session::Send(SendBufferRef sendBuffer)
 {
 	// 현재 RegisterSend가 걸리지 않은 상태라면 걸어준다
 	WRITE_LOCK;
@@ -27,10 +27,8 @@ void Session::Send(shared_ptr<SendBuffer> sendBuffer)
 	}
 }
 
-bool Session::Connect(NetAddress netAddr)
+bool Session::Connect()
 {
-	SetNetAddress(netAddr);
-
 	return RegisterConnect();
 }
 
@@ -80,13 +78,13 @@ bool Session::RegisterConnect()
 		return false;
 
 	// 서비스 타입이 클라이언트가 아니면 false 반환
-	//if (GetService()->GetServiceType() != ServiceType::Client)
-	//	return false;
+	if (GetService()->GetServiceType() != ServiceType::Client)
+		return false;
 
 	if (SocketUtils::SetReuseAddress(_socket, true) == false)
 		return false;
 
-	if (SocketUtils::Bind(_socket, _netAddress) == false)
+	if (SocketUtils::BindAnyAddress(_socket, 0) == false)
 		return false;
 
 	_connectEvent.Init();
