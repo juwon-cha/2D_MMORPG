@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{2ECC457B-661D-99FB-3556-F01DC903DA44}</ProjectGuid>
+    <ProjectGuid>{BC4956F9-F6E4-E62A-953F-C04FF496C851}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -69,20 +69,29 @@
     <Compile Include="Assets\Scripts\Managers\ObjectManager.cs" />
     <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\chest_open_on_contact\Scripts\ChestAnimationOnContact.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
     <Compile Include="Assets\Scripts\Controllers\MonsterController.cs" />
     <Compile Include="Assets\Scripts\Scene\LoginScene.cs" />
     <Compile Include="Assets\Scripts\Controllers\ObjectController.cs" />
+    <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
     <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\tall_grass_react_on_contact\Scripts\TallGrassAnimationOnContact.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SD_Test.cs" />
     <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\block_push_on_contact\Scripts\BlockPushOnContact.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\Managers\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_Test.cs" />
+    <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Scripts\Scene\GameScene.cs" />
     <Compile Include="Assets\Scripts\Managers\MapManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\D_Test.cs" />
     <Compile Include="Assets\Scripts\Utils\Define.cs" />
     <Compile Include="Assets\Resources\Art\UI\FantasyIconsPackFree\Demo\IconViewer.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
+    <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_Test.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUIController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +116,11 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\Resources\MapData\Map_002.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\DLL\ServerCore.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Resources\MapData\Map_005.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\DLL\Google.FlatBuffers.dll" />
     <None Include="Assets\UI Toolkit\Inventory\InventoryDocument.uxml" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\UI Toolkit\Login\LoginDocument.uxml" />
@@ -596,12 +607,28 @@
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ServerCore">
+      <HintPath>Assets\DLL\ServerCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Google.FlatBuffers">
+      <HintPath>Assets\DLL\Google.FlatBuffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Android.Types">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Android.Gradle">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

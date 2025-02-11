@@ -1,10 +1,19 @@
 using UnityEngine;
 
+public interface IManager
+{
+    public void Init();
+    public void Clear();
+}
 public class Manager : MonoBehaviour
 {
     #region Singleton
     static Manager _instance;
-    public static Manager Instance {  get { Init(); return _instance; } }
+    public static Manager Instance { get { Init(); return _instance; } }
+    NetworkManager _network = new NetworkManager();
+    public static NetworkManager Network { get { return _instance._network; } }
+    PacketManager _packet = new PacketManager();
+    public static PacketManager Packet { get { return _instance._packet; } }
     #endregion
 
     #region Contents
@@ -36,11 +45,15 @@ public class Manager : MonoBehaviour
 
             DontDestroyOnLoad(go);
             _instance = go.GetComponent<Manager>();
+            Network.Init();
         }
     }
-
     public static void Clear()
     {
         Scene.Clear();
+    }
+    private void Update()
+    {
+        Network.Update();
     }
 }
