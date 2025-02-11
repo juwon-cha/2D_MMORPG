@@ -3,6 +3,7 @@
 #include "PoolManager.h"
 #include "ThreadPool.h"
 #include "format.h"
+#include <Service.h>
 
 DbManager* DbManager::_instance = nullptr;
 
@@ -34,6 +35,7 @@ void DbManager::Init(json& j)
 	connectionStringW.assign(connectionString.begin(), connectionString.end());
 	const wchar_t* str = connectionStringW.c_str();
 
+	
 	// 환경 핸들 설정 및 sql 서버 접속
 	{
 		GPoolManager->CreatePool<SQLHDBC>(OPERATION_NUMBER, OPERATION_NUMBER);

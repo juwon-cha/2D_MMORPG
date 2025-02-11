@@ -5,6 +5,7 @@
 #include <sqlext.h>
 #include <functional>
 #include <memory>
+#include "PoolManager.h"
 
 #define CONNECTION_STRING "DRIVER={{0}};SERVER={1};DATABASE={2};UID={3};PWD={4};MULTI_HOST=1;"
 

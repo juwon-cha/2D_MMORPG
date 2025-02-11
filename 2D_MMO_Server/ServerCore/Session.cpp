@@ -14,7 +14,7 @@ Session::~Session()
 	SocketUtils::Close(_socket);
 }
 
-void Session::Send(shared_ptr<SendBuffer> sendBuffer)
+void Session::Send(SendBufferRef sendBuffer)
 {
 	// 현재 RegisterSend가 걸리지 않은 상태라면 걸어준다
 	WRITE_LOCK;
@@ -77,6 +77,7 @@ bool Session::RegisterConnect()
 	if (IsConnected())
 		return false;
 
+	// 서비스 타입이 클라이언트가 아니면 false 반환
 	if (GetService()->GetServiceType() != ServiceType::Client)
 		return false;
 

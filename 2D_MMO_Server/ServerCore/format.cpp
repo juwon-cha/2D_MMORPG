@@ -1,7 +1,4 @@
-#ifndef FORMAT_H
-#define FORMAT_H
-
-#include <initializer_list>
+#include "pch.h"
 
 namespace Utils {
 	namespace {
@@ -51,10 +48,38 @@ namespace Utils {
 			return result;
 		}
 	}
-	COREDLL string format(const string& input, const initializer_list<string>& args);
-	COREDLL wstring wformat(const wstring& input, const initializer_list<wstring>& args);
-	COREDLL wstring wformat(const string& input, const initializer_list<string>& args);
-	COREDLL wstring wformat(const string& input, const initializer_list<uint64>& args);
-	COREDLL wstring wformat(const string& input, const initializer_list<uint32>& args);
+	COREDLL string format(const string& input, const initializer_list<string>& args) {
+		string result = input;
+		uint32 i = 0;
+
+		for (auto& str : args)
+		{
+			ReplaceString(result, i, str);
+			i++;
+		}
+		return result;
+	}
+	COREDLL wstring wformat(const wstring& input, const initializer_list<wstring>& args) {
+		wstring result = input;
+		uint32 i = 0;
+
+		for (auto& str : args)
+		{
+			ReplacewString(result, i, str);
+			i++;
+		}
+		return result;
+	}
+	COREDLL wstring wformat(const string& input, const initializer_list<string>& args) {
+		wstring result;
+		string t = format(input, args);
+		result.assign(t.begin(), t.end());
+		return result;
+	}
+	COREDLL wstring wformat(const string& input, const initializer_list<uint64>& args) {
+		return wformatHandler(input, args);
+	}
+	COREDLL wstring wformat(const string& input, const initializer_list<uint32>& args) {
+		return wformatHandler(input, args);
+	}
 }
-#endif
