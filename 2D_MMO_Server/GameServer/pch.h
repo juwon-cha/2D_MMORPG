@@ -5,6 +5,7 @@
 // flatbuffers std::min,std::max error
 #define NOMINMAX
 
+
 #include "../Libraries/flatbuffers/flatbuffers.h"
 #include "Protocol_generated.h"
 using namespace flatbuffers;

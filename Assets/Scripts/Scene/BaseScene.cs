@@ -1,19 +1,23 @@
 using UnityEngine;
 using Define;
+using UnityEngine.SceneManagement;
 
 public class BaseScene : BaseMonobehaviour
 {
-    public SceneType SceneType { get; set; }
+    public SceneType SceneType { get; set; } = Define.SceneType.NONE;
     public BaseUIController[] UIControllers;
-    void Start()
+
+    void Awake()
     {
         Init();
     }
+
     protected virtual void Init()
     {
-        Manager.Scene.CurScene = this;
+
     }
-    protected virtual void Clear()
+
+    public virtual void Clear()
     {
     }
 }

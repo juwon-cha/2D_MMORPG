@@ -350,7 +350,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1101502415}
   - component: {fileID: 1101502414}
-  - component: {fileID: 1101502417}
   m_Layer: 0
   m_Name: GameScene
   m_TagString: Untagged
@@ -370,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd4bd45d4cc91a4891a17eff590eb1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIControllers: []
 --- !u!4 &1101502415
 Transform:
   m_ObjectHideFlags: 0
@@ -385,18 +385,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1101502417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101502413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60311d6a66bd97d4298c9bde29f038aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

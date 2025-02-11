@@ -10,5 +10,3 @@ void PacketHandler::C_TestHandler(PacketSession* session, ByteRef buffer)
 void PacketHandler::D_TestHandler(PacketSession* session, ByteRef buffer)
 {
 }
-
-

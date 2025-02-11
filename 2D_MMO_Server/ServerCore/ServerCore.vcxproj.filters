@@ -63,9 +63,6 @@
     <ClCompile Include="ThreadPool.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
-    <ClCompile Include="format.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
