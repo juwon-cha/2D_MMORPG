@@ -8,7 +8,7 @@
 
 int main()
 {
-	shared_ptr<ClientService> dbConnect = std::make_shared<ClientService>(
+	/*shared_ptr<ClientService> dbConnect = std::make_shared<ClientService>(
 		NetAddress(L"127.0.0.1", 8001),
 		std::make_shared<IocpCore>(),
 		[]() { return std::make_shared<DBSession>(); },
@@ -24,10 +24,10 @@ int main()
 					dbConnect->GetIocpCore()->Dispatch();
 				}
 			});
-	}
+	}*/
 
 	shared_ptr<ServerService> service = std::make_shared<ServerService>(
-		NetAddress(L"127.0.0.1", 8002),
+		NetAddress(L"127.0.0.1", 8080),
 		std::make_shared<IocpCore>(),
 		[]() { return std::make_shared<ClientSession>(); }, // TODO : SessionManager
 		1);

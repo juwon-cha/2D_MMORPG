@@ -5,6 +5,7 @@
 void ClientSession::OnConnected()
 {
 	GSessionManager.Add(static_pointer_cast<ClientSession>(shared_from_this()));
+	cout << "OnConnected!\n";
 }
 
 void ClientSession::OnDisconnected()
