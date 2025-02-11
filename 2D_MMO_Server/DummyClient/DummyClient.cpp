@@ -1,10 +1,9 @@
 #include "pch.h"
-#include "ThreadManager.h"
+#include "ThreadPool.h"
 #include "Service.h"
 #include "Session.h"
 
 #include "../Libraries/flatbuffers/flatbuffers.h"
-#include "PlayerInfo_generated.h"
 
 class ServerSession : public PacketSession
 {
@@ -26,18 +25,6 @@ public:
 		cout << "Packet ID : " << header.id << " Size : " << header.size << endl;
 
 		cout << "OnRecv Len = " << len << endl;
-
-		this_thread::sleep_for(1s);
-
-		char recvBuffer[4096];
-		uint8* flatbuffer = (uint8*)&buffer[4];
-		const PlayerInfo* player = GetPlayerInfo(flatbuffer);
-		cout << "Name: " << player->name()->c_str() << " Level: " << player->level() << endl;
-
-		shared_ptr<SendBuffer> sendBuffer = make_shared<SendBuffer>(4096);
-		sendBuffer->CopyBuffer(buffer, len);
-		Send(sendBuffer);
-
 		return len;
 	}
 
@@ -57,16 +44,16 @@ int main()
 	this_thread::sleep_for(1s);
 
 	shared_ptr<ClientService> service = std::make_shared<ClientService>(
-		NetAddress(L"127.0.0.1", 8888),
+		NetAddress(L"127.0.0.1", 8002),
 		std::make_shared<IocpCore>(),
-		std::make_shared<ServerSession>, // TODO : SessionManager µî
+		[]() { return std::make_shared<ServerSession>(); },
 		1);
 
 	ASSERT(service->Start(), "SERVICE_START_ERROR");
 
-	for (int32 i = 0; i < 2; i++)
+	for (int32 i = 0; i < 5; i++)
 	{
-		GThreadManager->Launch([=]()
+		GThreadManager->EnqueueJob([=]()
 			{
 				while (true)
 				{
@@ -75,5 +62,5 @@ int main()
 			});
 	}
 
-	GThreadManager->Join();
+	while (true){ }
 }

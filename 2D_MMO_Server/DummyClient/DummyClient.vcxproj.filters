@@ -10,6 +10,9 @@
     <Filter Include="Protocol">
       <UniqueIdentifier>{6287092c-d6a2-498e-96d9-4bf9ce2fa6ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{17b7fe0f-b0f9-4e2d-93a2-9ddcd3549623}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DummyClient.cpp">
@@ -18,12 +21,27 @@
     <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketManager.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerInfo_generated.h">
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketManager.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_generated.h">
       <Filter>Protocol</Filter>
     </ClInclude>
   </ItemGroup>

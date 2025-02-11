@@ -24,7 +24,7 @@ public:
 
 public:
 	// 외부에서 사용
-	void Send(shared_ptr<SendBuffer> sendBuffer);
+	void Send(SendBufferRef sendBuffer);
 	bool Connect();
 	void Disconnect(const WCHAR* cause);
 
