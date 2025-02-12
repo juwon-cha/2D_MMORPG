@@ -1,0 +1,75 @@
+VisualElement {
+}
+
+.Setting-Show {
+    flex-grow: 1;
+    background-color: rgba(119, 119, 119, 0.53);
+}
+
+.Setting-Hide {
+    display: none;
+}
+
+.unity-slider-int__label {
+    -unity-text-align: middle-center;
+}
+
+.Button-GameExit {
+    width: 80%;
+    height: 7%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    font-size: 48px;
+    background-color: rgba(188, 188, 188, 0);
+    color: rgb(255, 255, 255);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.Button-GameExit:hover {
+    width: 80%;
+    height: 7%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    font-size: 48px;
+    background-color: rgba(188, 188, 188, 0);
+    color: rgb(56, 56, 56);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.Button-GameExit:active {
+    width: 80%;
+    height: 7%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    font-size: 48px;
+    background-color: rgba(188, 188, 188, 0);
+    color: rgb(159, 159, 159);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
