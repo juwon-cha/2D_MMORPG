@@ -16,6 +16,9 @@
     <Filter Include="Session">
       <UniqueIdentifier>{6301bebd-d294-4b5f-877a-3e4bff8a5d23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ec8baaa4-0402-4687-8f7a-04324dd6677c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">

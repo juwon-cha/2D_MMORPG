@@ -24,7 +24,7 @@ public:
 
 public:
 	// 외부에서 사용
-	void Send(SendBufferRef sendBuffer);
+	void Send(shared_ptr<SendBuffer> sendBuffer);
 	bool Connect();
 	void Disconnect(const WCHAR* cause);
 
@@ -44,13 +44,14 @@ private:
 	virtual HANDLE GetHandle() override;
 	virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
-private:
+protected:
 	// 전송
 	bool RegisterConnect();
 	bool RegisterDisconnect();
 	void RegisterRecv();
 	void RegisterSend();
-		 
+
+private:
 	void ProcessConnect();
 	void ProcessDisconnect();
 	void ProcessRecv(int32 numOfBytes);

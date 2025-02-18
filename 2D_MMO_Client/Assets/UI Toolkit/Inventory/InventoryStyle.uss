@@ -1,0 +1,6 @@
+.Item-Edge {
+    flex-grow: 0;
+    width: 20%;
+    height: 14%;
+    position: absolute;
+}
