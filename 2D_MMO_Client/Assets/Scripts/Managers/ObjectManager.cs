@@ -1,0 +1,126 @@
+using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class ObjectManager
+{
+    public MyPlayerController MyPlayer { get; set; }
+    Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
+
+    public void Add(PlayerInfo info, bool myPlayer = false)
+    {
+        if(myPlayer) // 내가 조종할 플레이어
+        {
+            GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/MyPlayer");
+            GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
+            player.name = info.Name;
+            _objects.Add(info.PlayerId, player);
+
+            MyPlayer = player.GetComponent<MyPlayerController>();
+            MyPlayer.Id = info.PlayerId;
+            MyPlayer.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
+            MyPlayer.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
+            MyPlayer.State = (Define.ObjectState)info.PosInfo.Value.State;
+        }
+        else // 내가 아닌 다른 플레이어
+        {
+            GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/TestPlayer");
+            GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
+            player.name = info.Name;
+            _objects.Add(info.PlayerId, player);
+
+            PlayerController pc = player.GetComponent<PlayerController>();
+            pc.Id = info.PlayerId;
+            pc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
+            pc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
+            pc.State = (Define.ObjectState)info.PosInfo.Value.State;
+        }
+    }
+
+    public void Add(int id, GameObject obj)
+    {
+        _objects.Add(id, obj);
+    }
+
+    public GameObject FindById(int id)
+    {
+        GameObject go = null;
+
+        _objects.TryGetValue(id, out go);
+
+        return go;
+    }
+
+    // 해당 좌표에 게임오브젝트가 있는지 찾고 반환
+    public GameObject Find(Vector3Int cellPos)
+    {
+        foreach (GameObject obj in _objects.Values)
+        {
+            ObjectController controller = obj.GetComponent<ObjectController>();
+            if (controller == null)
+            {
+                continue;
+            }
+
+            if(controller.CellPos == cellPos)
+            {
+                return obj;
+            }
+        }
+
+        return null;
+    }
+
+    public GameObject Find(Func<GameObject, bool> condition)
+    {
+        foreach (GameObject obj in _objects.Values)
+        {
+            ObjectController controller = obj.GetComponent<ObjectController>();
+            if (controller == null)
+            {
+                continue;
+            }
+
+            if (condition.Invoke(obj))
+            {
+                return obj;
+            }
+        }
+
+        return null;
+    }
+
+    public void Remove(int id)
+    {
+        GameObject go = FindById(id);
+        if(go == null)
+        {
+            return;
+        }
+
+        _objects.Remove(id);
+        UnityEngine.Object.Destroy(go);
+    }
+
+    public void RemoveMyPlayer()
+    {
+        if (MyPlayer == null)
+        {
+            return;
+        }
+
+        Remove(MyPlayer.Id);
+        MyPlayer = null;
+    }
+
+    public void Clear(GameObject obj)
+    {
+        foreach (GameObject go in _objects.Values)
+        {
+            UnityEngine.Object.Destroy(go);
+        }
+
+        _objects.Clear();
+    }
+}

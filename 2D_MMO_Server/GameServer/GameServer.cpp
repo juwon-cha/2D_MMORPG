@@ -5,31 +5,35 @@
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 #include "DBSession.h"
+//#include "RoomManager.h"
 
 int main()
 {
-	shared_ptr<ClientService> dbConnect = std::make_shared<ClientService>(
-		NetAddress(L"127.0.0.1", 8001),
-		std::make_shared<IocpCore>(),
-		[]() { return std::make_shared<DBSession>(); },
-		1);
-	ASSERT(dbConnect->Start(), "SERVICE_START_ERROR");
+	//shared_ptr<ClientService> dbConnect = std::make_shared<ClientService>(
+	//	NetAddress(L"127.0.0.1", 8001),
+	//	std::make_shared<IocpCore>(),
+	//	std::make_shared<DBSession>},
+	//	1);
+	//ASSERT(dbConnect->Start(), "SERVICE_START_ERROR");
 
-	for (int32 i = 0; i < 5; i++)
-	{
-		GThreadManager->EnqueueJob([=]()
-			{
-				while (true)
-				{
-					dbConnect->GetIocpCore()->Dispatch();
-				}
-			});
-	}
+	//for (int32 i = 0; i < 5; i++)
+	//{
+	//	GThreadManager->EnqueueJob([=]()
+	//		{
+	//			while (true)
+	//			{
+	//				dbConnect->GetIocpCore()->Dispatch();
+	//			}
+	//		});
+	//}
+
+	// GameServer Listening
+	//RoomManager::Instance().Add();
 
 	shared_ptr<ServerService> service = std::make_shared<ServerService>(
 		NetAddress(L"127.0.0.1", 8002),
 		std::make_shared<IocpCore>(),
-		[]() { return std::make_shared<ClientSession>(); }, // TODO : SessionManager
+		std::make_shared<ClientSession>, // TODO : SessionManager
 		1);
 
 	ASSERT(service->Start(), "SERVICE_START_ERROR");
