@@ -20,7 +20,7 @@ namespace Define
 
     public enum MoveDir
     {
-        Idle,
+        None,
         Up,
         Down,
         Left,

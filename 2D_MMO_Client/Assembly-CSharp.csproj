@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\UI\LoginUIController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\Managers\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\MyPlayerController.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_LEAVE_GAME.cs" />
     <Compile Include="Assets\Scripts\Scene\GameScene.cs" />

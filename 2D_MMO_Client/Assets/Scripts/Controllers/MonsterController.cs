@@ -46,7 +46,7 @@ public class MonsterController : ObjectController
     {
         base.Init();
         State = Define.ObjectState.Idle;
-        MoveDir = Define.MoveDir.Idle;
+        MoveDir = Define.MoveDir.None;
     }
 
     protected override void UpdateAnim()
@@ -174,7 +174,7 @@ public class MonsterController : ObjectController
         }
         else
         {
-            MoveDir = Define.MoveDir.Idle;
+            MoveDir = Define.MoveDir.None;
         }
 
         if (Manager.Map.CanMove(nextPos) && Manager.Object.Find(nextPos) == null)
@@ -200,7 +200,7 @@ public class MonsterController : ObjectController
         GameObject.Destroy(deathEffect, 0.5f);
 
         // 몬스터 삭제
-        Manager.Object.Remove(gameObject);
+        Manager.Object.Remove(Id);
         GameObject.Destroy(gameObject);
     }
 
