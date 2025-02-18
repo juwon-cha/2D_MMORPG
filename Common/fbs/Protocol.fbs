@@ -1,8 +1,10 @@
-include "Test.fbs";
+include "InGame.fbs";
 
 union PacketType {
-	C_Test,
-	SD_Test,
-	D_Test,
-	SC_Test,
+	SC_ENTER_GAME,
+	SC_LEAVE_GAME,
+	SC_SPAWN,
+	SC_DESPAWN,
+	C_MOVE,
+	SC_MOVE
 }
