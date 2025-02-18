@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Experimental.Playables;
 using UnityEngine.Tilemaps;
 
 // 우선 샘플 게임 신에서 테스트(맵, 캐릭터 이동, 몬스터 이동, 전투)

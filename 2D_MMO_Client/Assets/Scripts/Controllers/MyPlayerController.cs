@@ -71,7 +71,7 @@ public class MyPlayerController : PlayerController
         if (_dir == Define.MoveDir.None)
         {
             State = Define.ObjectState.Idle;
-            
+            CheckUpdatedFlag();
             return;
         }
 
@@ -109,5 +109,20 @@ public class MyPlayerController : PlayerController
             }
         }
 
+        CheckUpdatedFlag();
+    }
+
+    void CheckUpdatedFlag()
+    {
+        if (_updated)
+        {
+            FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+
+            var posInfo = PositionInfo.CreatePositionInfo(builder, (ObjectState)State, (MoveDir)MoveDir, CellPos.x, CellPos.y);
+            var move = C_MOVE.CreateC_MOVE(builder, posInfo);
+            var movePkt = Manager.Packet.CreatePacket(move, builder, PacketType.C_MOVE);
+            Manager.Network.Send(movePkt);
+            _updated = false;
+        }
     }
 }

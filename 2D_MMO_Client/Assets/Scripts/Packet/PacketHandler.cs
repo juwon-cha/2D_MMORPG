@@ -53,6 +53,22 @@ public class PacketHandler
 
     public static void SC_MOVE_Handler(PacketSession session, ByteBuffer buffer)
     {
+        var move = SC_MOVE.GetRootAsSC_MOVE(buffer);
 
+        GameObject go = Manager.Object.FindById(move.PlayerId);
+        if (go == null)
+        {
+            return;
+        }
+
+        ObjectController objController = go.GetComponent<ObjectController>();
+        if (objController == null)
+        {
+            return;
+        }
+
+        objController.State = (Define.ObjectState)move.PosInfo.Value.State;
+        objController.MoveDir = (Define.MoveDir)move.PosInfo.Value.MoveDir;
+        objController.CellPos = new Vector3Int(move.PosInfo.Value.PosX, move.PosInfo.Value.PosY, 0);
     }
 }
