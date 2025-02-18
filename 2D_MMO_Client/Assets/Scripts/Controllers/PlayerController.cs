@@ -1,13 +1,9 @@
-using NUnit.Framework.Constraints;
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class PlayerController : ObjectController
 {
-    Coroutine _coSkill;
+    protected Coroutine _coSkill;
 
     protected override void Init()
     {
@@ -16,62 +12,16 @@ public class PlayerController : ObjectController
 
     protected override void UpdateController()
     {
-        switch(State)
-        {
-            case Define.ObjectState.Idle:
-                InputDirection();
-                break;
-
-            case Define.ObjectState.Moving:
-                InputDirection();
-                break;
-
-            default:
-                break;
-        }
-        
         base.UpdateController();
     }
 
     protected override void UpdateIdle()
     {
         // 이동 상태
-        if(MoveDir != Define.MoveDir.Idle)
+        if(MoveDir != Define.MoveDir.None)
         {
             State = Define.ObjectState.Moving;
             return;
-        }
-
-        // 스킬 상태
-        if (Input.GetKey(KeyCode.Space))
-        {
-            State = Define.ObjectState.Skill;
-            _coSkill = StartCoroutine("CoStartAttack");
-        }
-    }
-
-    // 키보드 입력 방향 설정
-    void InputDirection()
-    {
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            MoveDir = Define.MoveDir.Up;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            MoveDir = Define.MoveDir.Down;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            MoveDir = Define.MoveDir.Left;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            MoveDir = Define.MoveDir.Right;
-        }
-        else
-        {
-            MoveDir = Define.MoveDir.Idle;
         }
     }
 

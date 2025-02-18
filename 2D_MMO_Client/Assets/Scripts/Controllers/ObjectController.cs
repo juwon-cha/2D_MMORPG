@@ -1,12 +1,32 @@
-using System.Runtime.Serialization;
-using UnityEditor.Experimental.GraphView;
+using Google.FlatBuffers;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class ObjectController : MonoBehaviour
 {
+    public int Id { get; set; }
+
     public float _speed = 8.0f;
-    public Vector3Int CellPos { get; set; } = Vector3Int.zero;
+
+    protected bool _updated = false;
+
+    protected Vector3Int _cellPos = new Vector3Int();
+    public Vector3Int CellPos
+    {
+        get { return _cellPos; }
+        set
+        {
+            if(_cellPos == value)
+            {
+                return;
+            }
+
+            _cellPos.x = value.x;
+            _cellPos.y = value.y;
+            _cellPos.z = 0;
+            UpdateAnim();
+            _updated = true;
+        }
+    }
     protected Animator _animator;
 
     protected Define.ObjectState _state = Define.ObjectState.Idle;
@@ -25,10 +45,11 @@ public class ObjectController : MonoBehaviour
 
             _state = value;
             UpdateAnim();
+            _updated = true;
         }
     }
 
-    protected Define.MoveDir _dir = Define.MoveDir.Down;
+    protected Define.MoveDir _dir = Define.MoveDir.None;
     protected Define.MoveDir _lastFacingDir = Define.MoveDir.Down;
     public Define.MoveDir MoveDir
     {
@@ -44,15 +65,21 @@ public class ObjectController : MonoBehaviour
             }
 
             _dir = value;
-            if(value != Define.MoveDir.Idle)
+            if(value != Define.MoveDir.None)
             {
                 _lastFacingDir = value;
             }
 
             UpdateAnim();
+            _updated = true;
         }
     }
-    
+
+    void Awake()
+    {
+        Application.runInBackground = true;
+    }
+
     void Start()
     {
         Init();
@@ -68,6 +95,11 @@ public class ObjectController : MonoBehaviour
         _animator = GetComponent<Animator>();
         Vector3 position = Manager.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
         transform.position = position;
+
+        State = Define.ObjectState.Idle;
+        MoveDir = Define.MoveDir.None;
+        CellPos = new Vector3Int(0, 0, 0);
+        UpdateAnim();
     }
 
     protected virtual void UpdateAnim()
@@ -221,45 +253,7 @@ public class ObjectController : MonoBehaviour
 
     protected virtual void UpdateCoordinates()
     {
-        if(_dir == Define.MoveDir.Idle)
-        {
-            State = Define.ObjectState.Idle;
-            return;
-        }
 
-        // Idle 상태가 아니면 Moving 상태
-        Vector3Int destPos = CellPos;
-
-        switch (_dir)
-        {
-            case Define.MoveDir.Up:
-                destPos += Vector3Int.up;
-                break;
-
-            case Define.MoveDir.Down:
-                destPos += Vector3Int.down;
-                break;
-
-            case Define.MoveDir.Left:
-                destPos += Vector3Int.left;
-                break;
-
-            case Define.MoveDir.Right:
-                destPos += Vector3Int.right;
-                break;
-
-            default:
-                break;
-        }
-
-        if (Manager.Map.CanMove(destPos))
-        {
-            // 객체가 없으면 이동 가능
-            if (Manager.Object.Find(destPos) == null)
-            {
-                CellPos = destPos;
-            }
-        }
     }
 
     protected virtual void UpdateSkill()
