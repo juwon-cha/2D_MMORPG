@@ -67,9 +67,7 @@
     <Compile Include="Assets\Scripts\FlatBuffer\SC_SPAWN.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_DESPAWN.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
-    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\tall_grass_react_on_contact\Scripts\TallGrassAnimationOnContact.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\SC_MOVE.cs" />
-    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\block_push_on_contact\Scripts\BlockPushOnContact.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIController.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\FlatBuffer\C_MOVE.cs" />
@@ -82,7 +80,6 @@
     <Compile Include="Assets\Scripts\UI\InventoryUIController.cs" />
     <Compile Include="Assets\Scripts\Utils\Utils.cs" />
     <Compile Include="Assets\Scripts\Managers\ObjectManager.cs" />
-    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\chest_open_on_contact\Scripts\ChestAnimationOnContact.cs" />
     <Compile Include="Assets\Scripts\Managers\MapManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
@@ -118,7 +115,6 @@
     <None Include="Assets\DLL\Google.FlatBuffers.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\Resources\Art\Environment\Crops\README_HOW_TO_USE_CROPS.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />

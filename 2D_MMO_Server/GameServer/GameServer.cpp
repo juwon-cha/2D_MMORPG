@@ -5,7 +5,7 @@
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 #include "DBSession.h"
-//#include "RoomManager.h"
+#include "RoomManager.h"
 
 int main()
 {
@@ -28,7 +28,7 @@ int main()
 	//}
 
 	// GameServer Listening
-	//RoomManager::Instance().Add();
+	RoomManager::Instance().Add();
 
 	shared_ptr<ServerService> service = std::make_shared<ServerService>(
 		NetAddress(L"127.0.0.1", 8002),

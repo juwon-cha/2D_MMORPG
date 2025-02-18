@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
-//#include "Player.h"
-//#include "PlayerManager.h"
-//#include "GameRoom.h"
-//#include "RoomManager.h"
+#include "Player.h"
+#include "PlayerManager.h"
+#include "GameRoom.h"
+#include "RoomManager.h"
 #include "PacketManager.h"
 
 void ClientSession::OnConnected()
@@ -12,20 +12,20 @@ void ClientSession::OnConnected()
 	GSessionManager.Add(static_pointer_cast<ClientSession>(shared_from_this()));
 
 	// Temp Player Settings
-	//shared_ptr<Player> myPlayer = PlayerManager::Instance().Add();
-	//SetPlayer(myPlayer);
+	shared_ptr<Player> myPlayer = PlayerManager::Instance().Add();
+	SetPlayer(myPlayer);
 
-	//_player->SetPlayerInfo(myPlayer->GetPlayerId(), "Player " + to_string(myPlayer->GetPlayerId()), 0, 0, ObjectState_IDLE, MoveDir_NONE);
-	//_player->SetClientSession(static_pointer_cast<ClientSession>(shared_from_this()));
+	_player->SetPlayerInfo(myPlayer->GetPlayerId(), "Player " + to_string(myPlayer->GetPlayerId()), 0, 0, ObjectState_IDLE, MoveDir_NONE);
+	_player->SetClientSession(static_pointer_cast<ClientSession>(shared_from_this()));
 
-	//RoomManager::Instance().Find(1)->EnterGame(_player);
+	RoomManager::Instance().Find(1)->EnterGame(_player);
 }
 
 void ClientSession::OnDisconnected()
 {
-	//cout << "Disconnected: " << _player->GetPlayerName() << endl;
+	cout << "Disconnected: " << _player->GetPlayerName() << endl;
 
-	//RoomManager::Instance().Find(1)->LeaveGame(_player->GetPlayerId());
+	RoomManager::Instance().Find(1)->LeaveGame(_player->GetPlayerId());
 
 	GSessionManager.Remove(static_pointer_cast<ClientSession>(shared_from_this()));
 }
