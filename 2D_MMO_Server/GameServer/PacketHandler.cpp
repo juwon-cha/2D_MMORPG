@@ -9,5 +9,21 @@
 
 void PacketHandler::C_MOVEHandler(PacketSession* session, ByteRef buffer)
 {
+	ClientSession* clientSession = static_cast<ClientSession*>(session);
+	auto movePkt = GetRoot<C_MOVE>(buffer->operator BYTE * ());
+	cout << "C_MOVE (" << movePkt->posInfo()->posX() << ", " << movePkt->posInfo()->posY() << ")" << endl;
 
+	shared_ptr<Player> player = clientSession->GetPlayer();
+	if (player == nullptr)
+	{
+		return;
+	}
+
+	shared_ptr<GameRoom> room = player->GetGameRoom();
+	if (room == nullptr)
+	{
+		return;
+	}
+
+	room->HandleMove(player, movePkt);
 }
