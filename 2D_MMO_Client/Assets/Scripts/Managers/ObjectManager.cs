@@ -22,6 +22,7 @@ public class ObjectManager
             MyPlayer.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
             MyPlayer.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
             MyPlayer.State = (Define.ObjectState)info.PosInfo.Value.State;
+            MyPlayer.SyncPos();
         }
         else // 내가 아닌 다른 플레이어
         {
@@ -35,6 +36,7 @@ public class ObjectManager
             pc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
             pc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
             pc.State = (Define.ObjectState)info.PosInfo.Value.State;
+            pc.SyncPos();
         }
     }
 
