@@ -224,7 +224,6 @@ public class ObjectController : MonoBehaviour
         }  
     }
 
-    // 실제 좌표 이동
     protected virtual void UpdateIdle()
     {
 
