@@ -9,21 +9,30 @@
 
 void PacketHandler::C_MOVEHandler(PacketSession* session, ByteRef buffer)
 {
+	ClientSession* clientSession = static_cast<ClientSession*>(session);
 	auto movePkt = GetRoot<C_MOVE>(buffer->operator BYTE * ());
 	cout << "C_MOVE (" << movePkt->posInfo()->posX() << ", " << movePkt->posInfo()->posY() << ")" << endl;
 
-	ClientSession* clientSession = static_cast<ClientSession*>(session);
-	shared_ptr<Player> player = clientSession->GetPlayer();
+	Player* player = clientSession->GetPlayer().get();
 	if (player == nullptr)
 	{
 		return;
 	}
-
-	shared_ptr<GameRoom> room = player->GetGameRoom();
-	if (room == nullptr)
+	if (player->GetGameRoom() == nullptr)
 	{
 		return;
 	}
 
-	room->HandleMove(player, movePkt);
+	// 서버에서 좌표 저장(이동)
+	{
+		flatbuffers::FlatBufferBuilder builder;
+		auto name = builder.CreateString(player->GetPlayerName());
+		auto posInfo = CreatePositionInfo(builder, movePkt->posInfo()->state(), movePkt->posInfo()->moveDir(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY());
+
+		// 다른 플레이어들에게 알려줌
+		auto move = CreateSC_MOVE(builder, player->GetPlayerId(), posInfo);
+		auto respondMovePkt = PacketManager::Instance().CreatePacket(move, builder, PacketType_SC_MOVE);
+
+		player->GetGameRoom()->Broadcast(respondMovePkt);
+	}
 }

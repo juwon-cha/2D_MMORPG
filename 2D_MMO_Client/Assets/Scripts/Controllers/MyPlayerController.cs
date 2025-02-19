@@ -109,7 +109,7 @@ public class MyPlayerController : PlayerController
             }
         }
 
-        CheckUpdatedFlag();
+        //CheckUpdatedFlag();
     }
 
     void CheckUpdatedFlag()

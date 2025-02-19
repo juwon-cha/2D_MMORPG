@@ -143,27 +143,6 @@ void GameRoom::LeaveGame(int32 playerId)
 #pragma endregion
 }
 
-void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
-{
-    if (player == nullptr)
-    {
-        return;
-    }
-
-    WRITE_LOCK; // 서버에서 좌표 저장(이동)
-    {
-        flatbuffers::FlatBufferBuilder builder;
-        auto name = builder.CreateString(player->GetPlayerName());
-        auto posInfo = CreatePositionInfo(builder, movePkt->posInfo()->state(), movePkt->posInfo()->moveDir(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY());
-
-        // 다른 플레이어들에게 알려줌
-        auto move = CreateSC_MOVE(builder, player->GetPlayerId(), posInfo);
-        auto respondMovePkt = PacketManager::Instance().CreatePacket(move, builder, PacketType_SC_MOVE);
-
-        Broadcast(respondMovePkt);
-    }
-}
-
 void GameRoom::Broadcast(SendBufferRef buffer)
 {
     WRITE_LOCK;
