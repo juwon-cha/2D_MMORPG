@@ -13,26 +13,17 @@ void PacketHandler::C_MOVEHandler(PacketSession* session, ByteRef buffer)
 	auto movePkt = GetRoot<C_MOVE>(buffer->operator BYTE * ());
 	cout << "C_MOVE (" << movePkt->posInfo()->posX() << ", " << movePkt->posInfo()->posY() << ")" << endl;
 
-	Player* player = clientSession->GetPlayer().get();
+	shared_ptr<Player> player = clientSession->GetPlayer();
 	if (player == nullptr)
 	{
 		return;
 	}
-	if (player->GetGameRoom() == nullptr)
+
+	shared_ptr<GameRoom> room = player->GetGameRoom();
+	if (room == nullptr)
 	{
 		return;
 	}
 
-	// 서버에서 좌표 저장(이동)
-	{
-		flatbuffers::FlatBufferBuilder builder;
-		auto name = builder.CreateString(player->GetPlayerName());
-		auto posInfo = CreatePositionInfo(builder, movePkt->posInfo()->state(), movePkt->posInfo()->moveDir(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY());
-
-		// 다른 플레이어들에게 알려줌
-		auto move = CreateSC_MOVE(builder, player->GetPlayerId(), posInfo);
-		auto respondMovePkt = PacketManager::Instance().CreatePacket(move, builder, PacketType_SC_MOVE);
-
-		player->GetGameRoom()->Broadcast(respondMovePkt);
-	}
+	room->HandleMove(player, movePkt);
 }
