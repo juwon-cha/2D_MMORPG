@@ -1,0 +1,41 @@
+VisualElement {
+}
+
+.Chat-Show {
+    width: 600px;
+    height: 300px;
+    position: absolute;
+    bottom: 87px;
+}
+
+.Chat-Text {
+    font-size: 32px;
+    margin-left: 25px;
+    -unity-text-align: middle-left;
+}
+
+.Chat-Hide {
+    width: 600px;
+    height: 300px;
+    position: absolute;
+    bottom: 87px;
+    display: none;
+}
+
+.Chat-TextContainer {
+    flex-grow: 0;
+    flex-direction: row;
+    height: 50px;
+}
+
+.unity-base-text-field__label {
+    display: none;
+}
+
+.unity-base-text-field__input {
+    background-color:rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-top-width: 1;
+    border-right-width: 0;
+    border-bottom-width: 0;
+}
