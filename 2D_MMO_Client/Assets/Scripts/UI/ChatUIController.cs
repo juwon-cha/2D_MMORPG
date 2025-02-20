@@ -1,3 +1,4 @@
+using Google.FlatBuffers;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,7 +35,12 @@ public class ChatUIController : BaseUIController
                     container.AddToClassList("Chat-Hide");
                 else
                 {
-                    PushChat(text);
+                    FlatBufferBuilder builder = new FlatBufferBuilder(1);
+                    var chatText = builder.CreateString(text);
+                    var data = C_Chat.CreateC_Chat(builder, chatText);
+                    var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Chat);
+                    Manager.Network.Send(pkt);
+                    //PushChat(text);
                     inputTextField.value = "";
                     Invoke(() =>
                     {
@@ -44,8 +50,7 @@ public class ChatUIController : BaseUIController
             }
         }
     }
-    static int i = 0;
-    public void PushChat(string chat)
+    public void PushChat(int id, string text)
     {
         var chatContainer = new VisualElement();
 
@@ -59,9 +64,8 @@ public class ChatUIController : BaseUIController
         chatContainer.Add(textId);
         chatContainer.Add(textChat);
 
-        textId.text = i.ToString();
-        textChat.text = chat;
+        textId.text = id.ToString();
+        textChat.text = text;
         scrollView.Add(chatContainer);
-        i++;
     }
 }
