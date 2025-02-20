@@ -152,6 +152,11 @@ void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
 
     WRITE_LOCK; // 서버에서 좌표 저장(이동)
     {
+        // 스폰 위치 동기화를 위한 플레이어 정보 저장
+        // 클라이언트에서 이동한 플레이어의 정보를 저장하고,
+        // GameRoom.cpp에서 게임 룸 안의 플레이어 정보를 SC_SPAWN 패킷을 통해 내 플레이어에게 다른 플레이어의 좌표 전송
+        player->SetPlayerInfo(player->GetPlayerId(), player->GetPlayerName(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
+
         flatbuffers::FlatBufferBuilder builder;
         auto name = builder.CreateString(player->GetPlayerName());
         auto posInfo = CreatePositionInfo(builder, movePkt->posInfo()->state(), movePkt->posInfo()->moveDir(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY());
