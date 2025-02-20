@@ -23,7 +23,6 @@ public class ObjectController : MonoBehaviour
             _cellPos.x = value.x;
             _cellPos.y = value.y;
             _cellPos.z = 0;
-            UpdateAnim();
             _updated = true;
         }
     }
@@ -98,7 +97,6 @@ public class ObjectController : MonoBehaviour
 
         State = Define.ObjectState.Idle;
         MoveDir = Define.MoveDir.None;
-        CellPos = new Vector3Int(0, 0, 0);
         UpdateAnim();
     }
 
@@ -227,6 +225,12 @@ public class ObjectController : MonoBehaviour
     protected virtual void UpdateIdle()
     {
 
+    }
+
+    public void SyncPos()
+    {
+        Vector3 destPos = Manager.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
+        transform.position = destPos;
     }
 
     // 자연스러운 이동 처리
