@@ -1,4 +1,5 @@
 include "InGame.fbs";
+include "Chat.fbs";
 
 union PacketType {
 	SC_ENTER_GAME,
@@ -6,5 +7,7 @@ union PacketType {
 	SC_SPAWN,
 	SC_DESPAWN,
 	C_MOVE,
-	SC_MOVE
+	SC_MOVE,
+	C_Chat,
+	SC_Chat,
 }
