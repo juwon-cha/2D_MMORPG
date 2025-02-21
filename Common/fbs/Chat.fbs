@@ -1,0 +1,10 @@
+include "InGame.fbs";
+
+table C_Chat {
+	text:string;
+}
+
+table SC_Chat {
+	player:PlayerInfo;
+	text:string;
+}
