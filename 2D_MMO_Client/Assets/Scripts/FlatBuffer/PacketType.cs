@@ -11,6 +11,8 @@ public enum PacketType : byte
   SC_DESPAWN = 4,
   C_MOVE = 5,
   SC_MOVE = 6,
+  C_Chat = 7,
+  SC_Chat = 8,
 };
 
 
