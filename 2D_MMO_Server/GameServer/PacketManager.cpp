@@ -25,6 +25,7 @@ PacketManager::~PacketManager()
 void PacketManager::Register()
 {
     _handler[PacketType::PacketType_C_MOVE] = PacketHandler::C_MOVEHandler;
+		_handler[PacketType::PacketType_C_Chat] = PacketHandler::C_ChatHandler;
 		
 }
 
