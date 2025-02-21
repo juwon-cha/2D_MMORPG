@@ -1,3 +1,4 @@
+
 using Google.FlatBuffers;
 using ServerCore;
 using System;
@@ -12,11 +13,13 @@ public class PacketManager
     }
     void Register()
     {
-        _handler.Add((ushort)PacketType.SC_ENTER_GAME, PacketHandler.SC_ENTER_GAME_Handler);
-        _handler.Add((ushort)PacketType.SC_LEAVE_GAME, PacketHandler.SC_LEAVE_GAME_Handler);
-        _handler.Add((ushort)PacketType.SC_SPAWN, PacketHandler.SC_SPAWN_Handler);
-        _handler.Add((ushort)PacketType.SC_DESPAWN, PacketHandler.SC_DESPAWN_Handler);
-        _handler.Add((ushort)PacketType.SC_MOVE, PacketHandler.SC_MOVE_Handler);
+        _handler.Add((ushort)PacketType.SC_ENTER_GAME, PacketHandler.SC_ENTER_GAMEHandler);
+		_handler.Add((ushort)PacketType.SC_LEAVE_GAME, PacketHandler.SC_LEAVE_GAMEHandler);
+		_handler.Add((ushort)PacketType.SC_SPAWN, PacketHandler.SC_SPAWNHandler);
+		_handler.Add((ushort)PacketType.SC_DESPAWN, PacketHandler.SC_DESPAWNHandler);
+		_handler.Add((ushort)PacketType.SC_MOVE, PacketHandler.SC_MOVEHandler);
+		_handler.Add((ushort)PacketType.SC_Chat, PacketHandler.SC_ChatHandler);
+		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
     {
