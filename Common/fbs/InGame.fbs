@@ -26,6 +26,10 @@ table PositionInfo {
 	posY:int32;
 }
 
+table SkillInfo {
+	skillId:int32;
+}
+
 table SC_ENTER_GAME {
 	player:PlayerInfo;
 }
@@ -48,4 +52,13 @@ table C_MOVE {
 table SC_MOVE {
 	playerId:int32;
 	posInfo:PositionInfo;
+}
+
+table C_SKILL {
+	skillInfo:SkillInfo;
+}
+
+table SC_SKILL {
+	playerId:int32;
+	skillInfo:SkillInfo;
 }

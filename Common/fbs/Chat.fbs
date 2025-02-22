@@ -1,10 +1,10 @@
 include "InGame.fbs";
 
-table C_Chat {
+table C_CHAT {
 	text:string;
 }
 
-table SC_Chat {
+table SC_CHAT {
 	player:PlayerInfo;
 	text:string;
 }
