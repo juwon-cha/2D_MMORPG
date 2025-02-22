@@ -169,6 +169,39 @@ void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
     }
 }
 
+void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
+{
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    WRITE_LOCK;
+    {
+        if (player->GetPlayerState() != ObjectState_IDLE)
+        {
+            return;
+        }
+
+        // TODO: Using skills verification
+
+        // 플레이어 상태를 스킬 상태로 변경
+        player->SetPlayerInfo(player->GetPlayerId(), player->GetPlayerName(), player->GetPlayerPosX(), player->GetPlayerPosY(), ObjectState_SKILL, player->GetPlayerMoveDir());
+
+        flatbuffers::FlatBufferBuilder builder;
+        int32 skillId = 1; // TEMP
+        auto skillInfo = CreateSkillInfo(builder, skillId);
+
+        // 다른 플레이어들에게 알려줌
+        auto skill = CreateSC_SKILL(builder, player->GetPlayerId(), skillInfo);
+        auto respondSkillPkt = PacketManager::Instance().CreatePacket(skill, builder, PacketType_SC_SKILL);
+
+        Broadcast(respondSkillPkt);
+
+        // TODO: Damaged
+    }
+}
+
 void GameRoom::Broadcast(SendBufferRef buffer)
 {
     WRITE_LOCK;

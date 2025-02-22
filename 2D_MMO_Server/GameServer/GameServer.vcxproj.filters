@@ -74,12 +74,6 @@
     <ClInclude Include="DBSession.h">
       <Filter>Session</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol_generated.h">
-      <Filter>Protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="Test_generated.h">
-      <Filter>Protocol</Filter>
-    </ClInclude>
     <ClInclude Include="GameRoom.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -91,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="RoomManager.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Chat_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

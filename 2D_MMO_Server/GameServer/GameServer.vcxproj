@@ -193,10 +193,12 @@
     <ClCompile Include="RoomManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chat_generated.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="ClientSessionManager.h" />
     <ClInclude Include="DBSession.h" />
     <ClInclude Include="GameRoom.h" />
+    <ClInclude Include="InGame_generated.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="pch.h" />
@@ -204,7 +206,6 @@
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Protocol_generated.h" />
     <ClInclude Include="RoomManager.h" />
-    <ClInclude Include="Test_generated.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
