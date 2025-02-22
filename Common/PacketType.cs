@@ -11,10 +11,6 @@ public enum PacketType : byte
   SC_DESPAWN = 4,
   C_MOVE = 5,
   SC_MOVE = 6,
-  C_CHAT = 7,
-  SC_CHAT = 8,
-  C_SKILL = 9,
-  SC_SKILL = 10,
 };
 
 
@@ -43,18 +39,6 @@ static public class PacketTypeVerify
         break;
       case PacketType.SC_MOVE:
         result = SC_MOVEVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_CHAT:
-        result = C_CHATVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_CHAT:
-        result = SC_CHATVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.C_SKILL:
-        result = C_SKILLVerify.Verify(verifier, tablePos);
-        break;
-      case PacketType.SC_SKILL:
-        result = SC_SKILLVerify.Verify(verifier, tablePos);
         break;
       default: result = true;
         break;

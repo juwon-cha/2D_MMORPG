@@ -13,8 +13,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
               FLATBUFFERS_VERSION_REVISION == 23,
              "Non-compatible flatbuffers version included");
 
-#include "Chat_generated.h"
-#include "InGame_generated.h"
+#include "Test_generated.h"
 
 enum PacketType : uint8_t {
   PacketType_NONE = 0,
@@ -24,15 +23,11 @@ enum PacketType : uint8_t {
   PacketType_SC_DESPAWN = 4,
   PacketType_C_MOVE = 5,
   PacketType_SC_MOVE = 6,
-  PacketType_C_CHAT = 7,
-  PacketType_SC_CHAT = 8,
-  PacketType_C_SKILL = 9,
-  PacketType_SC_SKILL = 10,
   PacketType_MIN = PacketType_NONE,
-  PacketType_MAX = PacketType_SC_SKILL
+  PacketType_MAX = PacketType_SC_MOVE
 };
 
-inline const PacketType (&EnumValuesPacketType())[11] {
+inline const PacketType (&EnumValuesPacketType())[7] {
   static const PacketType values[] = {
     PacketType_NONE,
     PacketType_SC_ENTER_GAME,
@@ -40,17 +35,13 @@ inline const PacketType (&EnumValuesPacketType())[11] {
     PacketType_SC_SPAWN,
     PacketType_SC_DESPAWN,
     PacketType_C_MOVE,
-    PacketType_SC_MOVE,
-    PacketType_C_CHAT,
-    PacketType_SC_CHAT,
-    PacketType_C_SKILL,
-    PacketType_SC_SKILL
+    PacketType_SC_MOVE
   };
   return values;
 }
 
 inline const char * const *EnumNamesPacketType() {
-  static const char * const names[12] = {
+  static const char * const names[8] = {
     "NONE",
     "SC_ENTER_GAME",
     "SC_LEAVE_GAME",
@@ -58,17 +49,13 @@ inline const char * const *EnumNamesPacketType() {
     "SC_DESPAWN",
     "C_MOVE",
     "SC_MOVE",
-    "C_CHAT",
-    "SC_CHAT",
-    "C_SKILL",
-    "SC_SKILL",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamePacketType(PacketType e) {
-  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_SKILL)) return "";
+  if (::flatbuffers::IsOutRange(e, PacketType_NONE, PacketType_SC_MOVE)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesPacketType()[index];
 }
@@ -101,22 +88,6 @@ template<> struct PacketTypeTraits<SC_MOVE> {
   static const PacketType enum_value = PacketType_SC_MOVE;
 };
 
-template<> struct PacketTypeTraits<C_CHAT> {
-  static const PacketType enum_value = PacketType_C_CHAT;
-};
-
-template<> struct PacketTypeTraits<SC_CHAT> {
-  static const PacketType enum_value = PacketType_SC_CHAT;
-};
-
-template<> struct PacketTypeTraits<C_SKILL> {
-  static const PacketType enum_value = PacketType_C_SKILL;
-};
-
-template<> struct PacketTypeTraits<SC_SKILL> {
-  static const PacketType enum_value = PacketType_SC_SKILL;
-};
-
 bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj, PacketType type);
 bool VerifyPacketTypeVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
@@ -147,22 +118,6 @@ inline bool VerifyPacketType(::flatbuffers::Verifier &verifier, const void *obj,
     }
     case PacketType_SC_MOVE: {
       auto ptr = reinterpret_cast<const SC_MOVE *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_C_CHAT: {
-      auto ptr = reinterpret_cast<const C_CHAT *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_SC_CHAT: {
-      auto ptr = reinterpret_cast<const SC_CHAT *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_C_SKILL: {
-      auto ptr = reinterpret_cast<const C_SKILL *>(obj);
-      return verifier.VerifyTable(ptr);
-    }
-    case PacketType_SC_SKILL: {
-      auto ptr = reinterpret_cast<const SC_SKILL *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

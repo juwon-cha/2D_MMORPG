@@ -25,8 +25,8 @@ PacketManager::~PacketManager()
 void PacketManager::Register()
 {
     _handler[PacketType::PacketType_C_MOVE] = PacketHandler::C_MOVEHandler;
-	_handler[PacketType::PacketType_C_CHAT] = PacketHandler::C_CHATHandler;
-	_handler[PacketType::PacketType_C_SKILL] = PacketHandler::C_SKILLHandler;
+		_handler[PacketType::PacketType_C_Chat] = PacketHandler::C_ChatHandler;
+		
 }
 
 void PacketManager::OnRecvPacket(PacketSession* session, BYTE* buffer)

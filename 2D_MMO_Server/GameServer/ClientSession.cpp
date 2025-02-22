@@ -19,8 +19,6 @@ void ClientSession::OnConnected()
 	_player->SetClientSession(static_pointer_cast<ClientSession>(shared_from_this()));
 
 	RoomManager::Instance().Find(1)->EnterGame(_player);
-
-	cout << "Connected: " << _player->GetPlayerName() << endl;
 }
 
 void ClientSession::OnDisconnected()
