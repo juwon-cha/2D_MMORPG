@@ -28,7 +28,7 @@ void PacketHandler::C_MOVEHandler(PacketSession* session, ByteRef buffer)
 	room->HandleMove(player, movePkt);
 }
 
-void PacketHandler::C_ChatHandler(PacketSession* session, ByteRef buffer)
+void PacketHandler::C_CHATHandler(PacketSession* session, ByteRef buffer)
 {
 	try {
 		auto pkt = GetRoot<C_Chat>(buffer->operator unsigned char* ());
@@ -57,4 +57,24 @@ void PacketHandler::C_ChatHandler(PacketSession* session, ByteRef buffer)
 	catch (...) {
 		// 에러 로깅 필요
 	}
+}
+
+void PacketHandler::C_SKILLHandler(PacketSession* session, ByteRef buffer)
+{
+	ClientSession* clientSession = static_cast<ClientSession*>(session);
+	auto skillPkt = GetRoot<C_SKILL>(buffer->operator BYTE * ());
+
+	shared_ptr<Player> player = clientSession->GetPlayer();
+	if (player == nullptr)
+	{
+		return;
+	}
+
+	shared_ptr<GameRoom> room = player->GetGameRoom();
+	if (room == nullptr)
+	{
+		return;
+	}
+
+	room->HandleSkill(player, skillPkt);
 }
