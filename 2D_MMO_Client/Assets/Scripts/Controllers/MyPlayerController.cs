@@ -1,5 +1,8 @@
 using Google.FlatBuffers;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MyPlayerController : PlayerController
 {
@@ -60,10 +63,23 @@ public class MyPlayerController : PlayerController
         {
             MoveDir = Define.MoveDir.Right;
         }
+        else if(Input.GetKey(KeyCode.Escape))
+        {
+            ExitPlayMode();
+        }
         else
         {
             MoveDir = Define.MoveDir.None;
         }
+    }
+
+    // This script runs only in the Unity editor
+    private void ExitPlayMode()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+        Manager.Network.Disconnect();
+#endif
     }
 
     protected override void UpdateCoordinates()

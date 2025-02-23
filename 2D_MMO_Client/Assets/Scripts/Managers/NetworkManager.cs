@@ -42,4 +42,9 @@ public class NetworkManager : IManager
     {
         _session.Send(buffer);
     }
+
+    public void Disconnect()
+    {
+        _session.Disconnect();
+    }
 }
