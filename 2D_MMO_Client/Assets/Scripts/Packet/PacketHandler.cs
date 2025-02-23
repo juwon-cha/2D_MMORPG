@@ -85,4 +85,23 @@ public class PacketHandler
         var arr = GameObject.FindObjectsByType<ChatUIController>(FindObjectsSortMode.None);
         arr[0].PushChat(id, pkt.Text);
     }
+
+    public static void SC_SKILLHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var skill = SC_SKILL.GetRootAsSC_SKILL(buffer);
+
+        GameObject go = Manager.Object.FindById(skill.PlayerId);
+        if (go == null)
+        {
+            return;
+        }
+
+        PlayerController playerController = go.GetComponent<PlayerController>();
+        if (playerController == null)
+        {
+            return;
+        }
+
+        playerController.UseSkill(skill.SkillInfo.Value.SkillId);
+    }
 }

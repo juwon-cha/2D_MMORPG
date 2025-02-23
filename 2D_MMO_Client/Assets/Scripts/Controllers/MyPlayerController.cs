@@ -1,5 +1,7 @@
 using Google.FlatBuffers;
 using UnityEngine;
+using System.Collections;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -37,11 +39,25 @@ public class MyPlayerController : PlayerController
         }
 
         // 스킬 상태
-        if (Input.GetKey(KeyCode.Space))
+        if (_coSkillCooltime == null && Input.GetKey(KeyCode.Space))
         {
-            State = Define.ObjectState.Skill;
-            _coSkill = StartCoroutine("CoStartAttack");
+            Debug.Log("Skill!");
+
+            FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+            var skillInfo = SkillInfo.CreateSkillInfo(builder, 1);
+            var skill = C_SKILL.CreateC_SKILL(builder, skillInfo);
+            var skillPkt = Manager.Packet.CreatePacket(skill, builder, PacketType.C_SKILL);
+            Manager.Network.Send(skillPkt);
+
+            _coSkillCooltime = StartCoroutine("CoInputCooltime", 0.3f);
         }
+    }
+
+    Coroutine _coSkillCooltime;
+    IEnumerator CoInputCooltime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _coSkillCooltime = null;
     }
 
     // 키보드 입력 방향 설정
@@ -128,7 +144,7 @@ public class MyPlayerController : PlayerController
         CheckUpdatedFlag();
     }
 
-    void CheckUpdatedFlag()
+    protected override void CheckUpdatedFlag()
     {
         if (_updated)
         {
