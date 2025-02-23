@@ -25,25 +25,26 @@ public class PlayerController : ObjectController
         }
     }
 
-    IEnumerator CoStartAttack()
+    public void UseSkill(int skillId)
     {
-        // 피격 판정
-        GameObject gameObj = Manager.Object.Find(GetFacingCellPostition());
-        if(gameObj != null)
+        if (skillId == 1)
         {
-            Debug.Log(gameObj.name);
-            Debug.Log(gameObj.transform.position);
-
-            ObjectController objController = gameObj.GetComponent<ObjectController>();
-            if (objController != null)
-            {
-                objController.OnDamaged();
-            }
+            _coSkill = StartCoroutine("CoStartSwordAttack");
         }
+    }
 
+    IEnumerator CoStartSwordAttack()
+    {
         // 대기 시간
+        State = Define.ObjectState.Skill;
         yield return new WaitForSeconds(0.5f);
         State = Define.ObjectState.Idle;
         _coSkill = null;
+        CheckUpdatedFlag(); // 플레이어의 상태를 Idle로 변경하고 서버로 전송
+    }
+
+    protected virtual void CheckUpdatedFlag()
+    {
+
     }
 }

@@ -102,6 +102,11 @@ public class ObjectController : MonoBehaviour
 
     protected virtual void UpdateAnim()
     {
+        if(_animator == null)
+        {
+            return;
+        }
+
         if (State == Define.ObjectState.Idle)
         {
             // 마지막으로 바라보는 방향 Idle
@@ -162,7 +167,6 @@ public class ObjectController : MonoBehaviour
         }
         else if (State == Define.ObjectState.Skill)
         {
-            // TODO: skill anim
             // 마지막으로 바라본 방향 기준으로 스킬 시전
             switch (_lastFacingDir)
             {
