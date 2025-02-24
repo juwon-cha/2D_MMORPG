@@ -15,15 +15,6 @@ public class PlayerController : ObjectController
         base.UpdateController();
     }
 
-    protected override void UpdateIdle()
-    {
-        // 이동 상태
-        if(MoveDir != Define.MoveDir.None)
-        {
-            State = Define.ObjectState.Moving;
-            return;
-        }
-    }
 
     public void UseSkill(int skillId)
     {
