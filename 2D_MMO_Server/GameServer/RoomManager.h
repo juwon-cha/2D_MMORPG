@@ -11,7 +11,7 @@ public:
 	RoomManager& operator=(const RoomManager&) = delete;
 
 public:
-	shared_ptr<GameRoom> Add();
+	shared_ptr<GameRoom> Add(int32 mapId);
 	bool Remove(uint32 roomId);
 	shared_ptr<GameRoom> Find(uint32 roomId);
 

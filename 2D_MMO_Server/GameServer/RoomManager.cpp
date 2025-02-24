@@ -14,9 +14,10 @@ RoomManager& RoomManager::Instance()
 	return *_instance;
 }
 
-shared_ptr<GameRoom> RoomManager::Add()
+shared_ptr<GameRoom> RoomManager::Add(int32 mapId)
 {
 	shared_ptr<GameRoom> gameRoom = make_shared<GameRoom>();
+	gameRoom->Init(mapId);
 
 	WRITE_LOCK;
 	gameRoom->SetRoomId(_roomId);
