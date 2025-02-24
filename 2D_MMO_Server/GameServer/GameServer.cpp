@@ -28,7 +28,7 @@ int main()
 	//}
 
 	// GameServer Listening
-	RoomManager::Instance().Add();
+	RoomManager::Instance().Add(1); // Temp 1¹ø ¸Ê ·Îµå
 
 	shared_ptr<ServerService> service = std::make_shared<ServerService>(
 		NetAddress(L"127.0.0.1", 8002),

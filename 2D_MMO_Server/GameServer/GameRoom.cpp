@@ -4,15 +4,18 @@
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 #include "PacketManager.h"
+#include "Map.h"
 
-int32 GameRoom::GetRoomId() const
+GameRoom::GameRoom()
+    : _roomId(0)
+    , _map(nullptr)
 {
-    return _roomId;
+    _map = make_shared<Map>();
 }
 
-void GameRoom::SetRoomId(int32 roomId)
+void GameRoom::Init(int32 mapId)
 {
-    _roomId = roomId;
+    _map->LoadMap(mapId);
 }
 
 void GameRoom::EnterGame(shared_ptr<Player> newPlayer)
@@ -152,10 +155,21 @@ void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
 
     WRITE_LOCK; // 서버에서 좌표 저장(이동)
     {
-        // 스폰 위치 동기화를 위한 플레이어 정보 저장
-        // 클라이언트에서 이동한 플레이어의 정보를 저장하고,
-        // GameRoom.cpp에서 게임 룸 안의 플레이어 정보를 SC_SPAWN 패킷을 통해 내 플레이어에게 다른 플레이어의 좌표 전송
-        player->SetPlayerInfo(player->GetPlayerId(), player->GetPlayerName(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
+        // 클라이언트에서 받은 플레이어 정보 저장
+        player->SetPlayerInfo(player->GetPlayerId(), player->GetPlayerName(), player->GetPlayerPosX(), player->GetPlayerPosY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
+
+        // 이동 검증
+        // 다른 좌표로 이동할 경우, 갈 수 있는지 체크
+        if (movePkt->posInfo()->posX() != player->GetPlayerPosX() || movePkt->posInfo()->posY() != player->GetPlayerPosY())
+        {
+            if (_map->CanGo(Vector2Int(movePkt->posInfo()->posX(), movePkt->posInfo()->posY())) == false)
+            {
+                return;
+            }
+        }
+
+        // 검증 후 플레이어 이동
+        _map->ApplyMove(player, Vector2Int(movePkt->posInfo()->posX(), movePkt->posInfo()->posY()));
 
         flatbuffers::FlatBufferBuilder builder;
         auto name = builder.CreateString(player->GetPlayerName());
@@ -209,4 +223,14 @@ void GameRoom::Broadcast(SendBufferRef buffer)
     {
         pair.second->GetClientSession()->Send(buffer);
     }
+}
+
+int32 GameRoom::GetRoomId() const
+{
+    return _roomId;
+}
+
+void GameRoom::SetRoomId(int32 roomId)
+{
+    _roomId = roomId;
 }
