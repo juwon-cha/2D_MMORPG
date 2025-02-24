@@ -8,6 +8,8 @@ using UnityEditor;
 
 public class MyPlayerController : PlayerController
 {
+    bool _moveKeyPressed = false;
+
     protected override void Init()
     {
         base.Init();
@@ -32,7 +34,7 @@ public class MyPlayerController : PlayerController
     protected override void UpdateIdle()
     {
         // 이동 상태
-        if (MoveDir != Define.MoveDir.None)
+        if (_moveKeyPressed)
         {
             State = Define.ObjectState.Moving;
             return;
@@ -63,6 +65,8 @@ public class MyPlayerController : PlayerController
     // 키보드 입력 방향 설정
     void GetDirection()
     {
+        _moveKeyPressed = true;
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
             MoveDir = Define.MoveDir.Up;
@@ -85,7 +89,7 @@ public class MyPlayerController : PlayerController
         }
         else
         {
-            MoveDir = Define.MoveDir.None;
+            _moveKeyPressed = false;
         }
     }
 
@@ -100,7 +104,7 @@ public class MyPlayerController : PlayerController
 
     protected override void UpdateCoordinates()
     {
-        if (_dir == Define.MoveDir.None)
+        if (_moveKeyPressed == false)
         {
             State = Define.ObjectState.Idle;
             CheckUpdatedFlag();
@@ -110,7 +114,7 @@ public class MyPlayerController : PlayerController
         // Idle 상태가 아니면 Moving 상태
         Vector3Int destPos = CellPos;
 
-        switch (_dir)
+        switch (MoveDir)
         {
             case Define.MoveDir.Up:
                 destPos += Vector3Int.up;

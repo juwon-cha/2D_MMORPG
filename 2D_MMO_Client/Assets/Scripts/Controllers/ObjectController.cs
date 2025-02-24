@@ -49,7 +49,6 @@ public class ObjectController : MonoBehaviour
     }
 
     protected Define.MoveDir _dir = Define.MoveDir.None;
-    protected Define.MoveDir _lastFacingDir = Define.MoveDir.Down;
     public Define.MoveDir MoveDir
     {
         get
@@ -64,10 +63,6 @@ public class ObjectController : MonoBehaviour
             }
 
             _dir = value;
-            if(value != Define.MoveDir.None)
-            {
-                _lastFacingDir = value;
-            }
 
             UpdateAnim();
             _updated = true;
@@ -110,7 +105,7 @@ public class ObjectController : MonoBehaviour
         if (State == Define.ObjectState.Idle)
         {
             // 마지막으로 바라보는 방향 Idle
-            switch (_lastFacingDir)
+            switch (MoveDir)
             {
                 case Define.MoveDir.Up:
                     _animator.Play("IDLE_UP");
@@ -168,7 +163,7 @@ public class ObjectController : MonoBehaviour
         else if (State == Define.ObjectState.Skill)
         {
             // 마지막으로 바라본 방향 기준으로 스킬 시전
-            switch (_lastFacingDir)
+            switch (MoveDir)
             {
                 case Define.MoveDir.Up:
                     _animator.Play("ATTACK_UP");
@@ -277,7 +272,7 @@ public class ObjectController : MonoBehaviour
     {
         Vector3Int curCellPos = CellPos;
 
-        switch (_lastFacingDir)
+        switch (MoveDir)
         {
             case Define.MoveDir.Up:
                 curCellPos += Vector3Int.up;
