@@ -213,6 +213,12 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
         Broadcast(respondSkillPkt);
 
         // TODO: Damaged
+        Vector2Int skillPos = player->GetFrontCellPos(player->GetPlayerMoveDir());
+        shared_ptr<Player> target = _map->Find(skillPos);
+        if (target != nullptr)
+        {
+            cout << target->GetPlayerName() << " was hit by " << player->GetPlayerName() << "!" << endl;
+        }
     }
 }
 

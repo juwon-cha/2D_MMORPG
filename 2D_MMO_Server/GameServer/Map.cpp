@@ -43,6 +43,7 @@ bool Map::ApplyMove(shared_ptr<Player> player, Vector2Int dest)
 	}
 
 	// 서버가 가지고 있는 맵 정보(좌표)에 플레이어 저장
+	// 움직이기 전 좌표에 플레이어 정보 삭제
 	{
 		int32 x = player->GetPlayerPosX() - GetMinX();
 		int32 y = GetMaxY() - player->GetPlayerPosY();
@@ -51,6 +52,8 @@ bool Map::ApplyMove(shared_ptr<Player> player, Vector2Int dest)
 			_players[y][x] = nullptr;
 		}
 	}
+
+	// 이동할 좌표에 플레이어 정보 저장
 	{
 		int32 x = dest.X - GetMinX();
 		int32 y = GetMaxY() - dest.Y;
@@ -110,4 +113,21 @@ void Map::LoadMap(int32 mapId, string path)
 		CRASH();
 		return;
 	}
+}
+
+shared_ptr<Player> Map::Find(Vector2Int cellPos)
+{
+	if (cellPos.X < GetMinX() || cellPos.X > GetMaxX())
+	{
+		return nullptr;
+	}
+	if (cellPos.Y < GetMinY() || cellPos.Y > GetMaxY())
+	{
+		return nullptr;
+	}
+
+	int32 x = cellPos.X - GetMinX();
+	int32 y = GetMaxY() - cellPos.Y;
+
+	return _players[y][x];
 }
