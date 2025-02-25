@@ -35,6 +35,7 @@ public:
 	bool CanGo(Vector2Int cellPos, bool checkObjects = true);
 	bool ApplyMove(shared_ptr<Player> player, Vector2Int dest);
 	void LoadMap(int32 mapId, string path = "../../Common/MapData");
+	shared_ptr<Player> Find(Vector2Int cellPos);
 
 	template<typename T>
 	void InitMatrix(vector<vector<T>>& matrix, uint32 x, uint32 y)

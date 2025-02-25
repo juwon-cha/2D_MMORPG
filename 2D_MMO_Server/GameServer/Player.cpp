@@ -13,6 +13,29 @@ Player::Player()
 {
 }
 
+Vector2Int Player::GetFrontCellPos(MoveDir dir)
+{
+	Vector2Int cellPos = Vector2Int(_posX, _posY);
+
+	switch (dir)
+	{
+	case MoveDir_UP:
+		cellPos = cellPos + Vector2Int::Up();
+		break;
+	case MoveDir_DOWN:
+		cellPos = cellPos + Vector2Int::Down();
+		break;
+	case MoveDir_LEFT:
+		cellPos = cellPos + Vector2Int::Left();
+		break;
+	case MoveDir_RIGHT:
+		cellPos = cellPos + Vector2Int::Right();
+		break;
+	}
+
+	return cellPos;
+}
+
 shared_ptr<GameRoom> Player::GetGameRoom() const
 {
 	return _room;

@@ -11,6 +11,9 @@ public:
 	~Player() = default;
 
 public:
+	Vector2Int GetFrontCellPos(MoveDir dir);
+
+public:
 	int32 GetPlayerId() const { return _id; }
 	void SetPlayerId(int32 id) { _id = id; }
 
@@ -22,7 +25,6 @@ public:
 	std::string GetPlayerName() const { return _name; }
 	ObjectState GetPlayerState() const { return _state; }
 	MoveDir GetPlayerMoveDir() const { return _moveDir; }
-
 
 	void SetPlayerInfo(int32 id, std::string name, int32 posX, int32 posY, ObjectState state, MoveDir moveDir);
 
