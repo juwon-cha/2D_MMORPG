@@ -21,15 +21,15 @@ public:
 	shared_ptr<T> Add()
 	{
 		shared_ptr<T> gameObj = make_shared<T>();
+		if (gameObj == nullptr)
+		{
+			return nullptr;
+		}
+
 		gameObj->SetObjectId(GenerateId(gameObj->GetObjectType()));
 
 		WRITE_LOCK;
 		{
-			if (gameObj == nullptr)
-			{
-				return nullptr;
-			}
-
 			if (gameObj->GetObjectType() == ObjectType::PLAYER)
 			{
 				_players.insert(pair<int32, shared_ptr<Player>>(gameObj->GetObjectId(), static_pointer_cast<Player>(gameObj)));

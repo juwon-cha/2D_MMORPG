@@ -48,7 +48,7 @@ table SC_SPAWN {
 }
 
 table SC_DESPAWN {
-	playerIds:[int32];
+	objectIds:[int32];
 }
 
 table C_MOVE {
