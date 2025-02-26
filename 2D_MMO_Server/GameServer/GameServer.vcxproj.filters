@@ -22,6 +22,9 @@
     <Filter Include="Game\Object">
       <UniqueIdentifier>{408c148c-ea86-453a-ad3c-bd0a8cac61e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Room">
+      <UniqueIdentifier>{964b6b53-cc6e-4c08-8cf9-4ba4337ae717}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -45,15 +48,6 @@
     <ClCompile Include="DBSession.cpp">
       <Filter>Session</Filter>
     </ClCompile>
-    <ClCompile Include="GameRoom.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="RoomManager.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
@@ -65,6 +59,15 @@
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRoom.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>Game\Room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,15 +89,6 @@
     <ClInclude Include="DBSession.h">
       <Filter>Session</Filter>
     </ClInclude>
-    <ClInclude Include="GameRoom.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomManager.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
@@ -107,14 +101,14 @@
     <ClInclude Include="ObjectManager.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol_generated.h">
-      <Filter>Protocol</Filter>
+    <ClInclude Include="RoomManager.h">
+      <Filter>Game\Room</Filter>
     </ClInclude>
-    <ClInclude Include="Chat_generated.h">
-      <Filter>Protocol</Filter>
+    <ClInclude Include="GameRoom.h">
+      <Filter>Game\Room</Filter>
     </ClInclude>
-    <ClInclude Include="InGame_generated.h">
-      <Filter>Protocol</Filter>
+    <ClInclude Include="Map.h">
+      <Filter>Game\Room</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
