@@ -46,7 +46,7 @@ public class MonsterController : ObjectController
     {
         base.Init();
         State = Define.ObjectState.Idle;
-        MoveDir = Define.MoveDir.None;
+        MoveDir = Define.MoveDir.Down;
     }
 
     protected override void UpdateAnim()
@@ -54,7 +54,7 @@ public class MonsterController : ObjectController
         if (State == Define.ObjectState.Idle)
         {
             // 마지막으로 바라보는 방향 Idle
-            switch (_lastFacingDir)
+            switch (MoveDir)
             {
                 case Define.MoveDir.Up:
                     _animator.Play("SLIME01_IDLE");
@@ -82,7 +82,7 @@ public class MonsterController : ObjectController
         }
         else if (State == Define.ObjectState.Moving)
         {
-            switch (_dir)
+            switch (MoveDir)
             {
                 case Define.MoveDir.Up:
                     _animator.Play("SLIME01_IDLE");
@@ -171,10 +171,6 @@ public class MonsterController : ObjectController
         else if (moveDir.y < 0)
         {
             MoveDir = Define.MoveDir.Down;
-        }
-        else
-        {
-            MoveDir = Define.MoveDir.None;
         }
 
         if (Manager.Map.CanMove(nextPos) && Manager.Object.Find(nextPos) == null)

@@ -12,7 +12,7 @@ public class PacketHandler
         // 오브젝트 매니저에서 캐릭터 게임 오브젝트 생성
         Manager.Object.Add(enter.Player.Value, myPlayer: true);
         Debug.Log("SC_ENTER_GAMEHandler");
-        Debug.Log($"ID: {enter.Player.Value.PlayerId}, NAME: {enter.Player.Value.Name.ToString()}");
+        Debug.Log($"ID: {enter.Player.Value.ObjectId}, NAME: {enter.Player.Value.Name.ToString()}");
     }
 
     public static void SC_LEAVE_GAMEHandler(PacketSession session, ByteBuffer buffer)
@@ -27,15 +27,15 @@ public class PacketHandler
     {
         var spawn = SC_SPAWN.GetRootAsSC_SPAWN(buffer);
 
-        for (int i = 0; i < spawn.PlayersLength; ++i)
+        for (int i = 0; i < spawn.ObjectsLength; ++i)
         {
-            Manager.Object.Add(spawn.Players(i).Value, myPlayer: false);
+            Manager.Object.Add(spawn.Objects(i).Value, myPlayer: false);
         }
 
         Debug.Log("SC_SPAWNHandler");
-        for (int i = 0; i < spawn.PlayersLength; ++i)
+        for (int i = 0; i < spawn.ObjectsLength; ++i)
         {
-            Debug.Log($"ID: {spawn.Players(i).Value.PlayerId}, NAME: {spawn.Players(i).Value.Name.ToString()}");
+            Debug.Log($"ID: {spawn.Objects(i).Value.ObjectId}, NAME: {spawn.Objects(i).Value.Name.ToString()}");
         }
     }
 
@@ -43,9 +43,9 @@ public class PacketHandler
     {
         var despawn = SC_DESPAWN.GetRootAsSC_DESPAWN(buffer);
 
-        for (int i = 0; i < despawn.PlayerIdsLength; ++i)
+        for (int i = 0; i < despawn.ObjectIdsLength; ++i)
         {
-            Manager.Object.Remove(despawn.PlayerIds(i));
+            Manager.Object.Remove(despawn.ObjectIds(i));
         }
 
         Debug.Log("SC_DESPAWNHandler");
@@ -55,7 +55,7 @@ public class PacketHandler
     {
         var move = SC_MOVE.GetRootAsSC_MOVE(buffer);
 
-        GameObject go = Manager.Object.FindById(move.PlayerId);
+        GameObject go = Manager.Object.FindById(move.ObjectId);
         if (go == null)
         {
             return;
@@ -74,11 +74,11 @@ public class PacketHandler
 
     public static void SC_ChatHandler(PacketSession session, ByteBuffer buffer)
     {
-        var pkt = SC_Chat.GetRootAsSC_Chat(buffer);
+        var pkt = SC_CHAT.GetRootAsSC_CHAT(buffer);
 
         var playerInfo = pkt.Player.Value;
 
-        var id = playerInfo.PlayerId;
+        var id = playerInfo.ObjectId;
         var player = Manager.Object.FindById(id);
         if (player == null)
             return;
@@ -90,7 +90,7 @@ public class PacketHandler
     {
         var skill = SC_SKILL.GetRootAsSC_SKILL(buffer);
 
-        GameObject go = Manager.Object.FindById(skill.PlayerId);
+        GameObject go = Manager.Object.FindById(skill.ObjectId);
         if (go == null)
         {
             return;

@@ -8,35 +8,53 @@ public class ObjectManager
     public MyPlayerController MyPlayer { get; set; }
     Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
 
-    public void Add(PlayerInfo info, bool myPlayer = false)
+    public static GameObjectType GetObjectTypeById(int id)
     {
-        if(myPlayer) // 내가 조종할 플레이어
-        {
-            GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/MyPlayer");
-            GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
-            player.name = info.Name;
-            _objects.Add(info.PlayerId, player);
+        int type = (id >> 24) & 0x7F;
+        return (GameObjectType)type;
+    }
 
-            MyPlayer = player.GetComponent<MyPlayerController>();
-            MyPlayer.Id = info.PlayerId;
-            MyPlayer.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
-            MyPlayer.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
-            MyPlayer.State = (Define.ObjectState)info.PosInfo.Value.State;
-            MyPlayer.SyncPos();
+    public void Add(ObjectInfo info, bool myPlayer = false)
+    {
+        GameObjectType objType = GetObjectTypeById(info.ObjectId);
+        if (objType == GameObjectType.PLAYER)
+        {
+            if (myPlayer) // 내가 조종할 플레이어
+            {
+                GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/MyPlayer");
+                GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
+                player.name = info.Name;
+                _objects.Add(info.ObjectId, player);
+
+                MyPlayer = player.GetComponent<MyPlayerController>();
+                MyPlayer.Id = info.ObjectId;
+                MyPlayer.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
+                MyPlayer.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
+                MyPlayer.State = (Define.ObjectState)info.PosInfo.Value.State;
+                MyPlayer.SyncPos();
+            }
+            else // 내가 아닌 다른 플레이어
+            {
+                GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/TestPlayer");
+                GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
+                player.name = info.Name;
+                _objects.Add(info.ObjectId, player);
+
+                PlayerController pc = player.GetComponent<PlayerController>();
+                pc.Id = info.ObjectId;
+                pc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
+                pc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
+                pc.State = (Define.ObjectState)info.PosInfo.Value.State;
+                pc.SyncPos();
+            }
         }
-        else // 내가 아닌 다른 플레이어
+        else if (objType == GameObjectType.MONSTER)
         {
-            GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/TestPlayer");
-            GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
-            player.name = info.Name;
-            _objects.Add(info.PlayerId, player);
 
-            PlayerController pc = player.GetComponent<PlayerController>();
-            pc.Id = info.PlayerId;
-            pc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
-            pc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
-            pc.State = (Define.ObjectState)info.PosInfo.Value.State;
-            pc.SyncPos();
+        }
+        else if (objType == GameObjectType.PROJECTILE)
+        {
+
         }
     }
 

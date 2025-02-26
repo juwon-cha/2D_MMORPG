@@ -37,8 +37,8 @@ public class ChatUIController : BaseUIController
                 {
                     FlatBufferBuilder builder = new FlatBufferBuilder(1);
                     var chatText = builder.CreateString(text);
-                    var data = C_Chat.CreateC_Chat(builder, chatText);
-                    var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_Chat);
+                    var data = C_CHAT.CreateC_CHAT(builder, chatText);
+                    var pkt = Manager.Packet.CreatePacket(data, builder, PacketType.C_CHAT);
                     Manager.Network.Send(pkt);
                     //PushChat(text);
                     inputTextField.value = "";
