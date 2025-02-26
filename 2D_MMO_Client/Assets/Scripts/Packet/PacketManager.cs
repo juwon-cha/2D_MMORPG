@@ -18,7 +18,7 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_SPAWN, PacketHandler.SC_SPAWNHandler);
 		_handler.Add((ushort)PacketType.SC_DESPAWN, PacketHandler.SC_DESPAWNHandler);
 		_handler.Add((ushort)PacketType.SC_MOVE, PacketHandler.SC_MOVEHandler);
-		_handler.Add((ushort)PacketType.SC_Chat, PacketHandler.SC_ChatHandler);
+		_handler.Add((ushort)PacketType.SC_CHAT, PacketHandler.SC_ChatHandler);
         _handler.Add((ushort)PacketType.SC_SKILL, PacketHandler.SC_SKILLHandler);
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

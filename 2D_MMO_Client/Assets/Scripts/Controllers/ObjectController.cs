@@ -48,7 +48,7 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    protected Define.MoveDir _dir = Define.MoveDir.None;
+    protected Define.MoveDir _dir = Define.MoveDir.Down;
     public Define.MoveDir MoveDir
     {
         get
@@ -91,7 +91,7 @@ public class ObjectController : MonoBehaviour
         transform.position = position;
 
         State = Define.ObjectState.Idle;
-        MoveDir = Define.MoveDir.None;
+        MoveDir = Define.MoveDir.Down;
         UpdateAnim();
     }
 

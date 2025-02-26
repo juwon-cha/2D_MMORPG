@@ -6,15 +6,21 @@ enum ObjectState : byte {
 }
 
 enum MoveDir : byte {
-    NONE,
     UP,
     DOWN,
     LEFT,
     RIGHT
 }
 
-table PlayerInfo {
-	playerId:int32;
+enum GameObjectType : byte {
+    NONE,
+    PLAYER,
+    MONSTER,
+    PROJECTILE
+}
+
+table ObjectInfo {
+	objectId:int32;
 	name:string;
 	posInfo:PositionInfo;
 }
@@ -26,19 +32,23 @@ table PositionInfo {
 	posY:int32;
 }
 
+table SkillInfo {
+	skillId:int32;
+}
+
 table SC_ENTER_GAME {
-	player:PlayerInfo;
+	player:ObjectInfo;
 }
 
 table SC_LEAVE_GAME {
 }
 
 table SC_SPAWN {
-	players:[PlayerInfo];
+	objects:[ObjectInfo];
 }
 
 table SC_DESPAWN {
-	playerIds:[int32];
+	objectIds:[int32];
 }
 
 table C_MOVE {
@@ -46,6 +56,15 @@ table C_MOVE {
 }
 
 table SC_MOVE {
-	playerId:int32;
+	objectId:int32;
 	posInfo:PositionInfo;
+}
+
+table C_SKILL {
+	skillInfo:SkillInfo;
+}
+
+table SC_SKILL {
+	objectId:int32;
+	skillInfo:SkillInfo;
 }
