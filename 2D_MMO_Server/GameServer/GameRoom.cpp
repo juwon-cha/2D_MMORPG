@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "GameRoom.h"
-#include "Player.h"
 #include "ClientSession.h"
 #include "ClientSessionManager.h"
 #include "PacketManager.h"
 #include "Map.h"
+#include "ObjectManager.h"
+#include "GameObject.h"
+#include "Player.h"
+#include "Monster.h"
 
 GameRoom::GameRoom()
     : _roomId(0)
@@ -18,69 +21,83 @@ void GameRoom::Init(int32 mapId)
     _map->LoadMap(mapId);
 }
 
-void GameRoom::EnterGame(shared_ptr<Player> newPlayer)
+void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
 {
-    if (newPlayer == nullptr)
+    if (gameObj == nullptr)
     {
         return;
     }
 
+    ObjectType type = ObjectManager::GetObjectTypeById(gameObj->GetObjectId());
+
     WRITE_LOCK;
     {
-        _players.insert(pair<uint32, shared_ptr<Player>>(newPlayer->GetPlayerId(), newPlayer));
-        newPlayer->SetGameRoom(shared_from_this());
-
-#pragma region SC_ENTER_GAME
-        // 본인에게 정보 전송
+        if (type == ObjectType::PLAYER)
         {
-            flatbuffers::FlatBufferBuilder builder;
+            shared_ptr<Player> newPlayer = static_pointer_cast<Player>(gameObj);
+            _players.insert(pair<uint32, shared_ptr<Player>>(newPlayer->GetObjectId(), newPlayer));
+            newPlayer->SetGameRoom(shared_from_this());
 
-            // 전송할 본인 정보 만들기
-            auto playerName = builder.CreateString(newPlayer->GetPlayerName());
-            auto posInfo = CreatePositionInfo(builder, ObjectState_IDLE, MoveDir_NONE, newPlayer->GetPlayerPosX(), newPlayer->GetPlayerPosY());
-            auto playerInfo = CreatePlayerInfo(builder, newPlayer->GetPlayerId(), playerName, posInfo);
-
-            auto enter = CreateSC_ENTER_GAME(builder, playerInfo);
-            auto enterPkt = PacketManager::Instance().CreatePacket(enter, builder, PacketType_SC_ENTER_GAME);
-
-            newPlayer->GetClientSession()->Send(enterPkt);
-        }
-#pragma endregion
-
-#pragma region SC_SPAWN
-        // 본인에게 타인들의 정보 전송
-        {
-            flatbuffers::FlatBufferBuilder builder;
-            vector<flatbuffers::Offset<PlayerInfo>> infoArray;
-
-            // infoArray에 타인 정보 삽입
-            for (const auto& pair : _players)
+            // 본인에게 정보 전송
             {
-                // 자신의 정보 제외하고 타인 정보만 전송
-                if (newPlayer != pair.second)
-                {
-                    auto playerName = builder.CreateString(pair.second->GetPlayerName());
-                    auto posInfo = CreatePositionInfo(builder, pair.second->GetPlayerState(), pair.second->GetPlayerMoveDir(), pair.second->GetPlayerPosX(), pair.second->GetPlayerPosY());
-                    auto playerInfo = CreatePlayerInfo(builder, pair.second->GetPlayerId(), playerName, posInfo);
-                    infoArray.push_back(playerInfo);
-                }
+                flatbuffers::FlatBufferBuilder builder;
+
+                // 전송할 본인 정보 만들기
+                auto playerName = builder.CreateString(newPlayer->GetObjectName());
+                auto posInfo = CreatePositionInfo(builder, ObjectState_IDLE, MoveDir_DOWN, newPlayer->GetObjectPosX(), newPlayer->GetObjectPosY());
+                auto playerInfo = CreateObjectInfo(builder, newPlayer->GetObjectId(), playerName, posInfo);
+
+                auto enter = CreateSC_ENTER_GAME(builder, playerInfo);
+                auto enterPkt = PacketManager::Instance().CreatePacket(enter, builder, PacketType_SC_ENTER_GAME);
+
+                newPlayer->GetClientSession()->Send(enterPkt);
             }
 
-            auto data = builder.CreateVector(infoArray);
-            auto spawn = CreateSC_SPAWN(builder, data);
-            auto spawnPkt = PacketManager::Instance().CreatePacket(spawn, builder, PacketType_SC_SPAWN);
+            // 본인에게 타인들의 정보 전송
+            {
+                flatbuffers::FlatBufferBuilder builder;
+                vector<flatbuffers::Offset<ObjectInfo>> infoArray;
 
-            newPlayer->GetClientSession()->Send(spawnPkt);
+                // infoArray에 타인 정보 삽입
+                for (const auto& pair : _players)
+                {
+                    // 자신의 정보 제외하고 타인 정보만 전송
+                    if (newPlayer != pair.second)
+                    {
+                        auto playerName = builder.CreateString(pair.second->GetObjectName());
+                        auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
+                        auto playerInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), playerName, posInfo);
+                        infoArray.push_back(playerInfo);
+                    }
+                }
+
+                auto data = builder.CreateVector(infoArray);
+                auto spawn = CreateSC_SPAWN(builder, data);
+                auto spawnPkt = PacketManager::Instance().CreatePacket(spawn, builder, PacketType_SC_SPAWN);
+
+                newPlayer->GetClientSession()->Send(spawnPkt);
+            }
+        }
+        else if (type == ObjectType::MONSTER)
+        {
+            // TODO: Monster Enter Game
+            shared_ptr<Monster> monster = static_pointer_cast<Monster>(gameObj);
+            _monsters.insert(pair<uint32, shared_ptr<Monster>>(monster->GetObjectId(), monster));
+            monster->SetGameRoom(shared_from_this());
+        }
+        else if (type == ObjectType::PROJECTILE)
+        {
+
         }
 
         // 타인에게 내 정보 전송
         {
             flatbuffers::FlatBufferBuilder builder;
-            vector<flatbuffers::Offset<PlayerInfo>> InfoArray;
+            vector<flatbuffers::Offset<ObjectInfo>> InfoArray;
 
-            auto playerName = builder.CreateString(newPlayer->GetPlayerName());
-            auto posInfo = CreatePositionInfo(builder, newPlayer->GetPlayerState(), newPlayer->GetPlayerMoveDir(), newPlayer->GetPlayerPosX(), newPlayer->GetPlayerPosY());
-            auto playerInfo = CreatePlayerInfo(builder, newPlayer->GetPlayerId(), playerName, posInfo);
+            auto playerName = builder.CreateString(gameObj->GetObjectName());
+            auto posInfo = CreatePositionInfo(builder, gameObj->GetObjectState(), gameObj->GetObjectMoveDir(), gameObj->GetObjectPosX(), gameObj->GetObjectPosY());
+            auto playerInfo = CreateObjectInfo(builder, gameObj->GetObjectId(), playerName, posInfo);
             InfoArray.push_back(playerInfo);
 
             auto data = builder.CreateVector(InfoArray);
@@ -89,61 +106,82 @@ void GameRoom::EnterGame(shared_ptr<Player> newPlayer)
 
             for (const auto& pair : _players)
             {
-                if (newPlayer != pair.second)
+                if (pair.second->GetObjectId() != gameObj->GetObjectId())
                 {
                     pair.second->GetClientSession()->Send(spawnPkt);
                 }
             }
         }
-#pragma endregion
     }
 }
 
-void GameRoom::LeaveGame(int32 playerId)
+void GameRoom::LeaveGame(int32 objectId)
 {
+    ObjectType type = ObjectManager::GetObjectTypeById(objectId);
+
     WRITE_LOCK;
-    shared_ptr<Player> player;
-
-    auto iter = _players.find(playerId);
-    if (iter != _players.end())
     {
-        player = iter->second;
-        _players.erase(playerId);
-        player->SetGameRoom(nullptr);
-    }
-
-#pragma region SC_LEAVE_GAME
-    // 본인한테 전송
-    {
-        flatbuffers::FlatBufferBuilder builder;
-
-        auto leave = CreateSC_LEAVE_GAME(builder);
-        auto leavePkt = PacketManager::Instance().CreatePacket(leave, builder, PacketType_SC_LEAVE_GAME);
-        player->GetClientSession()->Send(leavePkt);
-    }
-#pragma endregion
-
-#pragma region SC_DESPAWN
-    // 타인한테 내 정보 전송
-    {
-        flatbuffers::FlatBufferBuilder builder;
-        vector<int32> idArray;
-        idArray.push_back(player->GetPlayerId());
-
-        flatbuffers::Offset<flatbuffers::Vector<int32>> data = builder.CreateVector(idArray);
-        auto despawn = CreateSC_DESPAWN(builder, data);
-        auto despawnPkt = PacketManager::Instance().CreatePacket(despawn, builder, PacketType_SC_DESPAWN);
-
-        for (const auto& pair : _players)
+        if (type == ObjectType::PLAYER)
         {
-            // 자신은 제외하고 타인에게만 정보 전송
-            if (player != pair.second)
+            shared_ptr<Player> player = nullptr;
+
+            auto iter = _players.find(objectId);
+            if (iter != _players.end())
             {
-                pair.second->GetClientSession()->Send(despawnPkt);
+                player = iter->second;
+                _players.erase(objectId);
+
+                player->SetGameRoom(nullptr);
+                _map->ApplyLeave(player);
+            }
+
+            // 본인한테 전송
+            {
+                flatbuffers::FlatBufferBuilder builder;
+
+                auto leave = CreateSC_LEAVE_GAME(builder);
+                auto leavePkt = PacketManager::Instance().CreatePacket(leave, builder, PacketType_SC_LEAVE_GAME);
+                player->GetClientSession()->Send(leavePkt);
+            }
+        }
+        else if (type == ObjectType::MONSTER)
+        {
+            shared_ptr<Monster> monster = nullptr;
+            auto iter = _monsters.find(objectId);
+            if (iter != _monsters.end())
+            {
+                monster = iter->second;
+                _monsters.erase(objectId);
+
+                monster->SetGameRoom(nullptr);
+                _map->ApplyLeave(monster);
+            }
+        }
+        else if (type == ObjectType::PROJECTILE)
+        {
+
+        }
+
+        // 타인한테 내 정보 전송
+        {
+            flatbuffers::FlatBufferBuilder builder;
+            vector<int32> idArray;
+            idArray.push_back(objectId);
+
+            flatbuffers::Offset<flatbuffers::Vector<int32>> data = builder.CreateVector(idArray);
+            auto despawn = CreateSC_DESPAWN(builder, data);
+            auto despawnPkt = PacketManager::Instance().CreatePacket(despawn, builder, PacketType_SC_DESPAWN);
+
+            for (const auto& pair : _players)
+            {
+                // 자신은 제외하고 타인에게만 정보 전송
+                if (objectId != pair.second->GetObjectId())
+                {
+                    pair.second->GetClientSession()->Send(despawnPkt);
+                }
             }
         }
     }
-#pragma endregion
 }
 
 void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
@@ -156,11 +194,11 @@ void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
     WRITE_LOCK; // 서버에서 좌표 저장(이동)
     {
         // 클라이언트에서 받은 플레이어 정보 저장
-        player->SetPlayerInfo(player->GetPlayerId(), player->GetPlayerName(), player->GetPlayerPosX(), player->GetPlayerPosY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
+        player->SetObjectInfo(player->GetObjectId(), player->GetObjectName(), player->GetObjectPosX(), player->GetObjectPosY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
 
         // 이동 검증
         // 다른 좌표로 이동할 경우, 갈 수 있는지 체크
-        if (movePkt->posInfo()->posX() != player->GetPlayerPosX() || movePkt->posInfo()->posY() != player->GetPlayerPosY())
+        if (movePkt->posInfo()->posX() != player->GetObjectPosX() || movePkt->posInfo()->posY() != player->GetObjectPosY())
         {
             if (_map->CanGo(Vector2Int(movePkt->posInfo()->posX(), movePkt->posInfo()->posY())) == false)
             {
@@ -168,15 +206,14 @@ void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
             }
         }
 
-        // 검증 후 플레이어 이동
         _map->ApplyMove(player, Vector2Int(movePkt->posInfo()->posX(), movePkt->posInfo()->posY()));
 
         flatbuffers::FlatBufferBuilder builder;
-        auto name = builder.CreateString(player->GetPlayerName());
+        auto name = builder.CreateString(player->GetObjectName());
         auto posInfo = CreatePositionInfo(builder, movePkt->posInfo()->state(), movePkt->posInfo()->moveDir(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY());
 
         // 다른 플레이어들에게 알려줌
-        auto move = CreateSC_MOVE(builder, player->GetPlayerId(), posInfo);
+        auto move = CreateSC_MOVE(builder, player->GetObjectId(), posInfo);
         auto respondMovePkt = PacketManager::Instance().CreatePacket(move, builder, PacketType_SC_MOVE);
 
         Broadcast(respondMovePkt);
@@ -192,7 +229,7 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
 
     WRITE_LOCK;
     {
-        if (player->GetPlayerState() != ObjectState_IDLE)
+        if (player->GetObjectState() != ObjectState_IDLE)
         {
             return;
         }
@@ -200,24 +237,32 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
         // TODO: Using skills verification
 
         // 플레이어 상태를 스킬 상태로 변경
-        player->SetPlayerInfo(player->GetPlayerId(), player->GetPlayerName(), player->GetPlayerPosX(), player->GetPlayerPosY(), ObjectState_SKILL, player->GetPlayerMoveDir());
+        player->SetObjectInfo(player->GetObjectId(), player->GetObjectName(), player->GetObjectPosX(), player->GetObjectPosY(), player->GetObjectState(), player->GetObjectMoveDir());
+        if (player->GetObjectState() != ObjectState_IDLE)
+        {
+            return;
+        }
+        player->SetObjectState(ObjectState_SKILL);
 
         flatbuffers::FlatBufferBuilder builder;
-        int32 skillId = 1; // TEMP
+        int32 skillId = skillPkt->skillInfo()->skillId();
         auto skillInfo = CreateSkillInfo(builder, skillId);
 
         // 다른 플레이어들에게 알려줌
-        auto skill = CreateSC_SKILL(builder, player->GetPlayerId(), skillInfo);
+        auto skill = CreateSC_SKILL(builder, player->GetObjectId(), skillInfo);
         auto respondSkillPkt = PacketManager::Instance().CreatePacket(skill, builder, PacketType_SC_SKILL);
 
         Broadcast(respondSkillPkt);
 
-        // TODO: Damaged
-        Vector2Int skillPos = player->GetFrontCellPos(player->GetPlayerMoveDir());
-        shared_ptr<Player> target = _map->Find(skillPos);
-        if (target != nullptr)
+        if (skillPkt->skillInfo()->skillId() == 1)
         {
-            cout << target->GetPlayerName() << " was hit by " << player->GetPlayerName() << "!" << endl;
+            // TODO: Damaged
+            Vector2Int skillPos = player->GetFrontCellPos(player->GetObjectMoveDir());
+            shared_ptr<GameObject> target = _map->Find(skillPos);
+            if (target != nullptr)
+            {
+                cout << target->GetObjectName() << " was hit by " << player->GetObjectName() << "!" << endl;
+            }
         }
     }
 }

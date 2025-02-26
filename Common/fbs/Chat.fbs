@@ -5,6 +5,6 @@ table C_CHAT {
 }
 
 table SC_CHAT {
-	player:PlayerInfo;
+	player:ObjectInfo;
 	text:string;
 }

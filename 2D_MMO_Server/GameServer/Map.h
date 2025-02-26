@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-class Player;
+class GameObject;
 
 struct Vector2Int
 {
@@ -33,9 +33,10 @@ public:
 
 public:
 	bool CanGo(Vector2Int cellPos, bool checkObjects = true);
-	bool ApplyMove(shared_ptr<Player> player, Vector2Int dest);
+	shared_ptr<GameObject> Find(Vector2Int cellPos);
+	bool ApplyMove(shared_ptr<GameObject> player, Vector2Int dest);
+	bool ApplyLeave(shared_ptr<GameObject> gameObj);
 	void LoadMap(int32 mapId, string path = "../../Common/MapData");
-	shared_ptr<Player> Find(Vector2Int cellPos);
 
 	template<typename T>
 	void InitMatrix(vector<vector<T>>& matrix, uint32 x, uint32 y)
@@ -62,5 +63,5 @@ private:
 	int32 _maxY;
 
 	vector<vector<bool>> _collision;
-	vector<vector<shared_ptr<Player>>> _players;
+	vector<vector<shared_ptr<GameObject>>> _objects;
 };
