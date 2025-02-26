@@ -31,7 +31,7 @@ void PacketHandler::C_MOVEHandler(PacketSession* session, ByteRef buffer)
 void PacketHandler::C_CHATHandler(PacketSession* session, ByteRef buffer)
 {
 	try {
-		auto pkt = GetRoot<C_Chat>(buffer->operator unsigned char* ());
+		auto pkt = GetRoot<C_CHAT>(buffer->operator unsigned char* ());
 
 		ClientSession* clientSession = static_cast<ClientSession*>(session);
 		auto player = clientSession->GetPlayer();
@@ -47,11 +47,11 @@ void PacketHandler::C_CHATHandler(PacketSession* session, ByteRef buffer)
 			return;
 		}
 		FlatBufferBuilder builder;
-		auto name = player->GetPlayerName();
+		auto name = player->GetObjectName();
 		auto text = pkt->text()->c_str();
-		auto playerInfo = CreatePlayerInfoDirect(builder, player->GetPlayerId(), name.c_str());
-		auto data = CreateSC_ChatDirect(builder, playerInfo, text);
-		auto packet = PacketManager::Instance().CreatePacket(data, builder, PacketType_SC_Chat);
+		auto playerInfo = CreateObjectInfoDirect(builder, player->GetObjectId(), name.c_str());
+		auto data = CreateSC_CHATDirect(builder, playerInfo, text);
+		auto packet = PacketManager::Instance().CreatePacket(data, builder, PacketType_SC_CHAT);
 		room->Broadcast(packet);
 	}
 	catch (...) {

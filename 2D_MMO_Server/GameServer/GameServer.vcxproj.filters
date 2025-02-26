@@ -19,6 +19,9 @@
     <Filter Include="Game">
       <UniqueIdentifier>{ec8baaa4-0402-4687-8f7a-04324dd6677c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object">
+      <UniqueIdentifier>{408c148c-ea86-453a-ad3c-bd0a8cac61e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -45,17 +48,23 @@
     <ClCompile Include="GameRoom.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerManager.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="RoomManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Game\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,25 +89,31 @@
     <ClInclude Include="GameRoom.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerManager.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="RoomManager.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="InGame_generated.h">
-      <Filter>Protocol</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Game\Object</Filter>
     </ClInclude>
     <ClInclude Include="Protocol_generated.h">
       <Filter>Protocol</Filter>
     </ClInclude>
     <ClInclude Include="Chat_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame_generated.h">
       <Filter>Protocol</Filter>
     </ClInclude>
   </ItemGroup>
