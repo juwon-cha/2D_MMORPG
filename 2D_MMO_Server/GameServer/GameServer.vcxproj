@@ -178,9 +178,12 @@
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="ClientSessionManager.cpp" />
     <ClCompile Include="DBSession.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameRoom.cpp" />
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="PacketManager.cpp" />
     <ClCompile Include="pch.cpp">
@@ -190,23 +193,21 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="RoomManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Chat_generated.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="ClientSessionManager.h" />
     <ClInclude Include="DBSession.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameRoom.h" />
-    <ClInclude Include="InGame_generated.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerManager.h" />
-    <ClInclude Include="Protocol_generated.h" />
     <ClInclude Include="RoomManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
