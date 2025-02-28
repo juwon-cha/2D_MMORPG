@@ -62,6 +62,7 @@ void Monster::UpdateIdle()
 {
 	Patrol();
 
+	SearchTarget();
 }
 
 void Monster::UpdateMoving()
@@ -78,6 +79,38 @@ void Monster::UpdateMoving()
 
 	Vector2Int monsterCellPos = Vector2Int(_posX, _posY);
 	Vector2Int targetCellPos = _destPos;
+	if (_target != nullptr)
+	{
+		targetCellPos = Vector2Int(_target->GetObjectPosX(), _target->GetObjectPosY());
+
+		// 타겟이 없거나 타겟의 방과 몬스터의 방이 다른 경우 이동 멈춤
+		if (_target == nullptr || _target->GetGameRoom() != _room)
+		{
+			_target = nullptr;
+			SetObjectState(ObjectState_IDLE);
+			BroadcastMove();
+			return;
+		}
+
+		Vector2Int dir = targetCellPos - monsterCellPos; // 방향 벡터
+		int32 distance = dir.CellDistance();
+		// 타겟이 멀리 있는 경우 이동 멈춤
+		if (distance == 0 || distance > _chaseCellDistance)
+		{
+			_target = nullptr;
+			SetObjectState(ObjectState_IDLE);
+			BroadcastMove();
+			return;
+		}
+
+		// 스킬 전환 체크
+		if (distance <= _skillRange && (dir.X == 0 || dir.Y == 0))
+		{
+			_skillCoolTick = 0;
+			SetObjectState(ObjectState_SKILL);
+			return;
+		}
+	}
 
 	vector<Vector2Int> path = _room->GetMap()->FindPathBFS(monsterCellPos, targetCellPos, /*temp*/true);
 	// 갈 수 있는 경로가 없거나 추적할 범위를 벗어나면 이동 멈춤
@@ -100,6 +133,8 @@ void Monster::UpdateSkill()
 {
 	// TODO: Hit
 	
+	// TEMP
+	SetObjectState(ObjectState_MOVING);
 }
 
 void Monster::UpdateDead()
@@ -131,4 +166,36 @@ void Monster::Patrol()
 		_destPos = randomPos;
 		SetObjectState(ObjectState_MOVING);
 	}
+}
+
+void Monster::SearchTarget()
+{
+	if (_nextSearchTick > GetTickCount64())
+	{
+		return;
+	}
+
+	_nextSearchTick = GetTickCount64() + 1000; // 1초 후 찾음
+
+	Vector2Int monsterCellPos = Vector2Int(_posX, _posY);
+
+	// 1초 마다 플레이어를 찾아서 움직임
+	shared_ptr<Player> target = _room->FindPlayer([=](shared_ptr<GameObject> p)
+		{
+			Vector2Int targetCellPos = Vector2Int(p->GetObjectPosX(), p->GetObjectPosY());
+			Vector2Int dir = targetCellPos - monsterCellPos; // 방향 벡터
+
+			// searchCellDistance 만큼 갈 수 있는 범위에 플레이어가 있으면 true 반환 -> 타겟을 따라감
+			return (dir.CellDistance() <= _searchCellDistance);
+		}
+	);
+
+	if (target == nullptr)
+	{
+		return;
+	}
+
+	_target = target;
+
+	SetObjectState(ObjectState_MOVING);
 }

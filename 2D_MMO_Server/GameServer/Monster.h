@@ -19,6 +19,7 @@ protected:
 	void virtual UpdateSkill();
 	void virtual UpdateDead();
 	void virtual Patrol();
+	void virtual SearchTarget();
 
 private:
 	enum class CellDistance
