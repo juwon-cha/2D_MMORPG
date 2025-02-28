@@ -50,7 +50,7 @@ public class ObjectManager
         }
         else if (objType == GameObjectType.MONSTER)
         {
-            GameObject monsterOriginal = Resources.Load<GameObject>("Prefabs/Creature/Monster/SLIME");
+            GameObject monsterOriginal = Resources.Load<GameObject>("Prefabs/Creature/Monster/Slime");
             GameObject monster = UnityEngine.Object.Instantiate(monsterOriginal);
             monster.name = info.Name;
             _objects.Add(info.ObjectId, monster);
