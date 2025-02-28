@@ -32,7 +32,8 @@ public:
 		{
 			if (gameObj->GetObjectType() == ObjectType::PLAYER)
 			{
-				_players.insert(pair<int32, shared_ptr<Player>>(gameObj->GetObjectId(), static_pointer_cast<Player>(gameObj)));
+				shared_ptr<GameObject> temp = static_pointer_cast<GameObject>(gameObj);
+				_players.insert(pair<int32, shared_ptr<Player>>(gameObj->GetObjectId(), static_pointer_cast<Player>(temp)));
 			}
 		}
 

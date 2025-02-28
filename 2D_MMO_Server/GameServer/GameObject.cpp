@@ -41,6 +41,30 @@ Vector2Int GameObject::GetFrontCellPos()
 	return GetFrontCellPos(_moveDir);
 }
 
+MoveDir GameObject::GetDirFromVector(Vector2Int vector)
+{
+	if (vector.X > 0)
+	{
+		return MoveDir_RIGHT;
+	}
+	else if (vector.X < 0)
+	{
+		return MoveDir_LEFT;
+	}
+	else if (vector.Y > 0)
+	{
+		return MoveDir_UP;
+	}
+	else
+	{
+		return MoveDir_DOWN;
+	}
+}
+
+void GameObject::Update()
+{
+}
+
 void GameObject::SetObjectInfo(int32 id, std::string name, int32 posX, int32 posY, ObjectState state, MoveDir moveDir)
 {
 	_id = id;
