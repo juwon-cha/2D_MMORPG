@@ -11,7 +11,7 @@ enum class ObjectType
 
 class GameRoom;
 
-class GameObject
+class GameObject : public enable_shared_from_this<GameObject>
 {
 public:
 	GameObject();
@@ -20,6 +20,8 @@ public:
 public:
 	Vector2Int GetFrontCellPos(MoveDir dir);
 	Vector2Int GetFrontCellPos();
+	static MoveDir GetDirFromVector(Vector2Int vector);
+	virtual void Update();
 
 public:
 	ObjectType GetObjectType() const { return _type; }
@@ -37,6 +39,7 @@ public:
 	ObjectState GetObjectState() const { return _state; }
 	void SetObjectState(ObjectState state) { _state = state; }
 	MoveDir GetObjectMoveDir() const { return _moveDir; }
+	void SetObjectMoveDir(MoveDir moveDir) { _moveDir = moveDir; }
 
 	void SetObjectInfo(int32 id, std::string name, int32 posX, int32 posY, ObjectState state, MoveDir moveDir);
 

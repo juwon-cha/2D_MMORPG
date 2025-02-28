@@ -19,10 +19,13 @@ public:
 	void HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt);
 	void HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt);
 	void Broadcast(SendBufferRef buffer);
+	void Update();
 
 public:
-	int32 GetRoomId() const;
-	void SetRoomId(int32 roomId);
+	int32 GetRoomId() const { return _roomId; }
+	void SetRoomId(int32 roomId) { _roomId = roomId; }
+
+	shared_ptr<Map> GetMap() const { return _map; }
 
 private:
 	USE_LOCK;

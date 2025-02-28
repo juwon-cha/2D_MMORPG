@@ -6,6 +6,7 @@
 #include "ClientSessionManager.h"
 #include "DBSession.h"
 #include "RoomManager.h"
+#include "GameRoom.h"
 
 int main()
 {
@@ -50,5 +51,10 @@ int main()
 	}
 	cout << "GameServer Listening..." << endl;
 
-	while (true){ }
+	while (true)
+	{
+		RoomManager::Instance().Find(1)->Update();
+
+		this_thread::sleep_for(250ms);
+	}
 }

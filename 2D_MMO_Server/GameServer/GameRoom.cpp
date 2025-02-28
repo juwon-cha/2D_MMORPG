@@ -19,6 +19,15 @@ GameRoom::GameRoom()
 void GameRoom::Init(int32 mapId)
 {
     _map->LoadMap(mapId);
+
+    // TEMP
+    int32 monsterCount = 1;
+    for (int32 i = 0; i < monsterCount; ++i)
+    {
+        shared_ptr<Monster> monster = ObjectManager::Instance().Add<Monster>();
+        monster->SetObjectInfo(monster->GetObjectId(), "MONSTER_" + to_string(monster->GetObjectId()), 9, -9, ObjectState_IDLE, MoveDir_DOWN);
+        EnterGame(monster);
+    }
 }
 
 void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
@@ -37,6 +46,8 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
             shared_ptr<Player> newPlayer = static_pointer_cast<Player>(gameObj);
             _players.insert(pair<uint32, shared_ptr<Player>>(newPlayer->GetObjectId(), newPlayer));
             newPlayer->SetGameRoom(shared_from_this());
+
+            GetMap()->ApplyMove(newPlayer, Vector2Int(newPlayer->GetObjectPosX(), newPlayer->GetObjectPosY()));
 
             // 본인에게 정보 전송
             {
@@ -71,6 +82,15 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                     }
                 }
 
+                // infoArray에 몬스터 정보 삽입
+                for (const auto& pair : _monsters)
+                {
+                    auto monsterName = builder.CreateString(pair.second->GetObjectName());
+                    auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
+                    auto monsterInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), monsterName, posInfo);
+                    infoArray.push_back(monsterInfo);
+                }
+
                 auto data = builder.CreateVector(infoArray);
                 auto spawn = CreateSC_SPAWN(builder, data);
                 auto spawnPkt = PacketManager::Instance().CreatePacket(spawn, builder, PacketType_SC_SPAWN);
@@ -84,6 +104,8 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
             shared_ptr<Monster> monster = static_pointer_cast<Monster>(gameObj);
             _monsters.insert(pair<uint32, shared_ptr<Monster>>(monster->GetObjectId(), monster));
             monster->SetGameRoom(shared_from_this());
+
+            GetMap()->ApplyMove(monster, Vector2Int(monster->GetObjectPosX(), monster->GetObjectPosY()));
         }
         else if (type == ObjectType::PROJECTILE)
         {
@@ -95,10 +117,10 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
             flatbuffers::FlatBufferBuilder builder;
             vector<flatbuffers::Offset<ObjectInfo>> InfoArray;
 
-            auto playerName = builder.CreateString(gameObj->GetObjectName());
+            auto objectName = builder.CreateString(gameObj->GetObjectName());
             auto posInfo = CreatePositionInfo(builder, gameObj->GetObjectState(), gameObj->GetObjectMoveDir(), gameObj->GetObjectPosX(), gameObj->GetObjectPosY());
-            auto playerInfo = CreateObjectInfo(builder, gameObj->GetObjectId(), playerName, posInfo);
-            InfoArray.push_back(playerInfo);
+            auto objectInfo = CreateObjectInfo(builder, gameObj->GetObjectId(), objectName, posInfo);
+            InfoArray.push_back(objectInfo);
 
             auto data = builder.CreateVector(InfoArray);
             auto spawn = CreateSC_SPAWN(builder, data);
@@ -269,19 +291,18 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
 
 void GameRoom::Broadcast(SendBufferRef buffer)
 {
-    WRITE_LOCK;
+    //WRITE_LOCK;
     for (const auto& pair : _players)
     {
         pair.second->GetClientSession()->Send(buffer);
     }
 }
 
-int32 GameRoom::GetRoomId() const
+void GameRoom::Update()
 {
-    return _roomId;
-}
-
-void GameRoom::SetRoomId(int32 roomId)
-{
-    _roomId = roomId;
+    //WRITE_LOCK;
+    for (const auto& pair : _monsters)
+    {
+        pair.second->Update();
+    }
 }
