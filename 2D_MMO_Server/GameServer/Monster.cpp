@@ -99,66 +99,7 @@ void Monster::UpdateMoving()
 void Monster::UpdateSkill()
 {
 	// TODO: Hit
-	if (_skillCoolTick == 0)
-	{
-		// 타겟이 있는지 체크
-		if (_target == nullptr || _target->GetGameRoom() != _room)
-		{
-			_target = nullptr;
-			SetObjectState(ObjectState_MOVING);
-			BroadcastMove();
-			return;
-		}
-
-		// 스킬 사용 가능한 시간인지 체크
-		Vector2Int monsterCellPos = Vector2Int(_posX, _posY);
-		Vector2Int targetCellPos = Vector2Int(_target->GetObjectPosX(), _target->GetObjectPosY());
-
-		Vector2Int dir = targetCellPos - monsterCellPos; // 방향 벡터
-		int32 distance = dir.CellDistance();
-		bool canUseSkill = (distance <= _skillRange && (dir.X == 0 || dir.Y == 0));
-		if (canUseSkill == false)
-		{
-			SetObjectState(ObjectState_MOVING);
-			BroadcastMove();
-			return;
-		}
-
-		// 타겟팅 방향 주시
-		MoveDir lookDir = GetDirFromVector(dir);
-		if (_moveDir != lookDir) // 현재 방향이 타겟팅 방향이 아니면 타겟팅을 향하도록 방향 변경
-		{
-			SetObjectMoveDir(lookDir);
-			BroadcastMove();
-		}
-
-		// 데미지
-		cout << _target->GetObjectName() << " was hit by " << _name << "!" << endl;
-
-		// 스킬 사용 Broadcast
-		SetObjectInfo(_id, _name, _posX, _posY, ObjectState_SKILL, _moveDir);
-
-		flatbuffers::FlatBufferBuilder builder;
-		int32 skillId = 1; // TEMP
-		auto skillInfo = CreateSkillInfo(builder, skillId);
-
-		// 다른 플레이어들에게 알려줌
-		auto skill = CreateSC_SKILL(builder, _id, skillInfo);
-		auto respondSkillPkt = PacketManager::Instance().CreatePacket(skill, builder, PacketType_SC_SKILL);
-
-		_room->Broadcast(respondSkillPkt);
-
-		// 스킬 쿨타임 적용
-		uint64 coolTick = 1000; // TEMP
-		_skillCoolTick = GetTickCount64() + coolTick;
-	}
-
-	if (_skillCoolTick > GetTickCount64())
-	{
-		return;
-	}
-
-	_skillCoolTick = 0;
+	
 }
 
 void Monster::UpdateDead()
