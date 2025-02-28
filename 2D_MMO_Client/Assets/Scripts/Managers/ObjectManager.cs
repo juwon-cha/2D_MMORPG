@@ -21,7 +21,7 @@ public class ObjectManager
         {
             if (myPlayer) // 내가 조종할 플레이어
             {
-                GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/MyPlayer");
+                GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Creature/Player/MyPlayer");
                 GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
                 player.name = info.Name;
                 _objects.Add(info.ObjectId, player);
@@ -35,7 +35,7 @@ public class ObjectManager
             }
             else // 내가 아닌 다른 플레이어
             {
-                GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Character/Player/TestPlayer");
+                GameObject playerOriginal = Resources.Load<GameObject>("Prefabs/Creature/Player/Player");
                 GameObject player = UnityEngine.Object.Instantiate(playerOriginal);
                 player.name = info.Name;
                 _objects.Add(info.ObjectId, player);
@@ -50,7 +50,17 @@ public class ObjectManager
         }
         else if (objType == GameObjectType.MONSTER)
         {
+            GameObject monsterOriginal = Resources.Load<GameObject>("Prefabs/Creature/Monster/Slime");
+            GameObject monster = UnityEngine.Object.Instantiate(monsterOriginal);
+            monster.name = info.Name;
+            _objects.Add(info.ObjectId, monster);
 
+            MonsterController mc = monster.GetComponent<MonsterController>();
+            mc.Id = info.ObjectId;
+            mc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
+            mc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
+            mc.State = (Define.ObjectState)info.PosInfo.Value.State;
+            mc.SyncPos();
         }
         else if (objType == GameObjectType.PROJECTILE)
         {
