@@ -289,6 +289,19 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
     }
 }
 
+shared_ptr<Player> GameRoom::FindPlayer(function<bool(shared_ptr<GameObject>)> condition)
+{
+    for (const auto& pair : _players)
+    {
+        if (condition(pair.second))
+        {
+            return pair.second;
+        }
+    }
+
+    return nullptr;
+}
+
 void GameRoom::Broadcast(SendBufferRef buffer)
 {
     //WRITE_LOCK;

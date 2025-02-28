@@ -18,6 +18,7 @@ public:
 	void LeaveGame(int32 objectId);
 	void HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt);
 	void HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt);
+	shared_ptr<Player> FindPlayer(function<bool(shared_ptr<GameObject>)> condition);
 	void Broadcast(SendBufferRef buffer);
 	void Update();
 
