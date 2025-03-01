@@ -297,5 +297,10 @@ public class ObjectController : MonoBehaviour
         return curCellPos;
     }
 
+    public virtual void UseSkill(int skillId)
+    {
+
+    }
+
     public virtual void OnDamaged() { }
 }

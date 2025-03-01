@@ -109,6 +109,14 @@ public class MonsterController : ObjectController
 
     }
 
+    public override void UseSkill(int skillId)
+    {
+        if (skillId == 1)
+        {
+            State = Define.ObjectState.Skill;
+        }
+    }
+
     public override void OnDamaged()
     {
 

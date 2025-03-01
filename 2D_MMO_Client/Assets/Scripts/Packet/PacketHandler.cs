@@ -96,12 +96,12 @@ public class PacketHandler
             return;
         }
 
-        PlayerController playerController = go.GetComponent<PlayerController>();
-        if (playerController == null)
+        ObjectController objController = go.GetComponent<ObjectController>();
+        if (objController == null)
         {
             return;
         }
 
-        playerController.UseSkill(skill.SkillInfo.Value.SkillId);
+        objController.UseSkill(skill.SkillInfo.Value.SkillId);
     }
 }
