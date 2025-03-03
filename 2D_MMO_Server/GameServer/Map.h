@@ -50,7 +50,7 @@ public:
 	shared_ptr<GameObject> Find(Vector2Int cellPos);
 	bool ApplyMove(shared_ptr<GameObject> gameObj, Vector2Int dest);
 	bool ApplyLeave(shared_ptr<GameObject> gameObj);
-	void LoadMap(int32 mapId, string path = "../../Common/MapData");
+	void LoadMap(int32 mapId, string path = "../../Common/Data/MapData");
 	vector<Vector2Int> FindPathBFS(Vector2Int start, Vector2Int dest, bool checkObjects = true);
 
 	template<typename T>
