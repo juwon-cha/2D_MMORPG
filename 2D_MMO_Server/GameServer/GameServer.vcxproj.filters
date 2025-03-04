@@ -25,6 +25,9 @@
     <Filter Include="Game\Room">
       <UniqueIdentifier>{964b6b53-cc6e-4c08-8cf9-4ba4337ae717}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Data">
+      <UniqueIdentifier>{c7967488-0e4c-4523-b9be-f7ab77cffa91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -69,6 +72,12 @@
     <ClCompile Include="RoomManager.cpp">
       <Filter>Game\Room</Filter>
     </ClCompile>
+    <ClCompile Include="ConfigManager.cpp">
+      <Filter>Game\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="StringConverter.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -109,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Game\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigManager.h">
+      <Filter>Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="StringConverter.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

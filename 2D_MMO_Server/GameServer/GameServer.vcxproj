@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="ClientSessionManager.cpp" />
+    <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="DBSession.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameRoom.cpp" />
@@ -194,10 +195,12 @@
     </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RoomManager.cpp" />
+    <ClCompile Include="StringConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="ClientSessionManager.h" />
+    <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="DBSession.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameRoom.h" />
@@ -209,6 +212,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RoomManager.h" />
+    <ClInclude Include="StringConverter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
