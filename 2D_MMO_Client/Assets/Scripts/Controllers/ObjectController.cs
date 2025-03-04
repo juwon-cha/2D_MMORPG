@@ -1,7 +1,7 @@
 using Google.FlatBuffers;
 using UnityEngine;
 
-public class ObjectController : MonoBehaviour
+public abstract class ObjectController : MonoBehaviour
 {
     public int Id { get; set; }
 
@@ -221,10 +221,7 @@ public class ObjectController : MonoBehaviour
         }  
     }
 
-    protected virtual void UpdateIdle()
-    {
-
-    }
+    protected abstract void UpdateIdle();
 
     public void SyncPos()
     {
@@ -253,20 +250,9 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    protected virtual void UpdateCoordinates()
-    {
-
-    }
-
-    protected virtual void UpdateSkill()
-    {
-
-    }
-
-    protected virtual void UpdateDead()
-    {
-
-    }
+    protected abstract void UpdateCoordinates();
+    protected abstract void UpdateSkill();
+    protected abstract void UpdateDead();
 
     public Vector3Int GetFacingCellPostition()
     {
@@ -297,5 +283,6 @@ public class ObjectController : MonoBehaviour
         return curCellPos;
     }
 
-    public virtual void OnDamaged() { }
+    public abstract void UseSkill(int skillId);
+    public abstract void OnDamaged();
 }
