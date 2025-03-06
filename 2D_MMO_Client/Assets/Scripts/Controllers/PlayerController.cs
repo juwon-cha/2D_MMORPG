@@ -36,6 +36,25 @@ public class PlayerController : ObjectController
 
     protected virtual void CheckUpdatedFlag()
     {
+    }
 
+    protected override void UpdateIdle()
+    {
+    }
+
+    protected override void UpdateCoordinates()
+    {
+    }
+
+    protected override void UpdateSkill()
+    {
+    }
+
+    protected override void UpdateDead()
+    {
+    }
+
+    public override void OnDamaged()
+    {
     }
 }

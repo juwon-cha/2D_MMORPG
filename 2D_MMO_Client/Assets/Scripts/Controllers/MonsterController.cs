@@ -105,8 +105,6 @@ public class MonsterController : ObjectController
 
     protected override void UpdateIdle()
     {
-        base.UpdateIdle();
-
     }
 
     public override void UseSkill(int skillId)
@@ -119,6 +117,17 @@ public class MonsterController : ObjectController
 
     public override void OnDamaged()
     {
+    }
 
+    protected override void UpdateCoordinates()
+    {
+    }
+
+    protected override void UpdateSkill()
+    {
+    }
+
+    protected override void UpdateDead()
+    {
     }
 }

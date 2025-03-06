@@ -23,6 +23,7 @@ table ObjectInfo {
 	objectId:int32;
 	name:string;
 	posInfo:PositionInfo;
+	statInfo:StatInfo;
 }
 
 table PositionInfo {
@@ -30,6 +31,12 @@ table PositionInfo {
 	moveDir:MoveDir;
 	posX:int32;
 	posY:int32;
+}
+
+table StatInfo {
+	hp:int32;
+	maxHp:int32;
+	speed:float;
 }
 
 table SkillInfo {
