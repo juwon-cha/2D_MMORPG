@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 
 class ServerConfig
 {
@@ -12,7 +13,7 @@ public:
 public:
 	string GetIpAddr() const { return _ipAddr; }
 	string GetPort() const { return _port; }
-	string GetdataPath() const { return _dataPath; }
+	string GetDataPath() const { return _dataPath; }
 
 private:
 	string _ipAddr;
@@ -29,8 +30,9 @@ public:
 public:
 	static ConfigManager LoadConfig();
 
-public:
 	ServerConfig GetServerConfig() const { return _config; }
+
+private:
 	void SetServerConfig(ServerConfig config) { _config = config; }
 
 private:

@@ -8,6 +8,8 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Monster.h"
+#include "DataManager.h"
+#include "ContentsData.h"
 
 GameRoom::GameRoom()
     : _roomId(0)
@@ -25,7 +27,9 @@ void GameRoom::Init(int32 mapId)
     for (int32 i = 0; i < monsterCount; ++i)
     {
         shared_ptr<Monster> monster = ObjectManager::Instance().Add<Monster>();
-        monster->SetObjectInfo(monster->GetObjectId(), "MONSTER_" + to_string(monster->GetObjectId()), 9, -9, ObjectState_IDLE, MoveDir_DOWN);
+        monster->SetObjectInfo(monster->GetObjectId(), "MONSTER_" + to_string(monster->GetObjectId()));
+        monster->SetPosInfo(9, -9, ObjectState_IDLE, MoveDir_DOWN);
+        monster->SetStatInfo(monster->GetObjectHP(), monster->GetObjectMaxHP(), monster->GetObjectSpeed());
         EnterGame(monster);
     }
 }
@@ -56,7 +60,8 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                 // 전송할 본인 정보 만들기
                 auto playerName = builder.CreateString(newPlayer->GetObjectName());
                 auto posInfo = CreatePositionInfo(builder, ObjectState_IDLE, MoveDir_DOWN, newPlayer->GetObjectPosX(), newPlayer->GetObjectPosY());
-                auto playerInfo = CreateObjectInfo(builder, newPlayer->GetObjectId(), playerName, posInfo);
+                auto statInfo = CreateStatInfo(builder, newPlayer->GetObjectHP(), newPlayer->GetObjectMaxHP(), newPlayer->GetObjectSpeed());
+                auto playerInfo = CreateObjectInfo(builder, newPlayer->GetObjectId(), playerName, posInfo, statInfo);
 
                 auto enter = CreateSC_ENTER_GAME(builder, playerInfo);
                 auto enterPkt = PacketManager::Instance().CreatePacket(enter, builder, PacketType_SC_ENTER_GAME);
@@ -77,7 +82,8 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                     {
                         auto playerName = builder.CreateString(pair.second->GetObjectName());
                         auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
-                        auto playerInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), playerName, posInfo);
+                        auto statInfo = CreateStatInfo(builder, pair.second->GetObjectHP(), pair.second->GetObjectMaxHP(), pair.second->GetObjectSpeed());
+                        auto playerInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), playerName, posInfo, statInfo);
                         infoArray.push_back(playerInfo);
                     }
                 }
@@ -87,7 +93,8 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                 {
                     auto monsterName = builder.CreateString(pair.second->GetObjectName());
                     auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
-                    auto monsterInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), monsterName, posInfo);
+                    auto statInfo = CreateStatInfo(builder, pair.second->GetObjectHP(), pair.second->GetObjectMaxHP(), pair.second->GetObjectSpeed());
+                    auto monsterInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), monsterName, posInfo, statInfo);
                     infoArray.push_back(monsterInfo);
                 }
 
@@ -119,7 +126,8 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
 
             auto objectName = builder.CreateString(gameObj->GetObjectName());
             auto posInfo = CreatePositionInfo(builder, gameObj->GetObjectState(), gameObj->GetObjectMoveDir(), gameObj->GetObjectPosX(), gameObj->GetObjectPosY());
-            auto objectInfo = CreateObjectInfo(builder, gameObj->GetObjectId(), objectName, posInfo);
+            auto statInfo = CreateStatInfo(builder, gameObj->GetObjectHP(), gameObj->GetObjectMaxHP(), gameObj->GetObjectSpeed());
+            auto objectInfo = CreateObjectInfo(builder, gameObj->GetObjectId(), objectName, posInfo, statInfo);
             InfoArray.push_back(objectInfo);
 
             auto data = builder.CreateVector(InfoArray);
@@ -216,7 +224,8 @@ void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
     WRITE_LOCK; // 서버에서 좌표 저장(이동)
     {
         // 클라이언트에서 받은 플레이어 정보 저장
-        player->SetObjectInfo(player->GetObjectId(), player->GetObjectName(), player->GetObjectPosX(), player->GetObjectPosY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
+        player->SetObjectInfo(player->GetObjectId(), player->GetObjectName());
+        player->SetPosInfo(player->GetObjectPosX(), player->GetObjectPosY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
 
         // 이동 검증
         // 다른 좌표로 이동할 경우, 갈 수 있는지 체크
@@ -259,7 +268,8 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
         // TODO: Using skills verification
 
         // 플레이어 상태를 스킬 상태로 변경
-        player->SetObjectInfo(player->GetObjectId(), player->GetObjectName(), player->GetObjectPosX(), player->GetObjectPosY(), player->GetObjectState(), player->GetObjectMoveDir());
+        player->SetObjectInfo(player->GetObjectId(), player->GetObjectName());
+        player->SetPosInfo(player->GetObjectPosX(), player->GetObjectPosY(), player->GetObjectState(), player->GetObjectMoveDir());
         if (player->GetObjectState() != ObjectState_IDLE)
         {
             return;
@@ -276,15 +286,40 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
 
         Broadcast(respondSkillPkt);
 
-        if (skillPkt->skillInfo()->skillId() == 1)
+        // json으로부터 파싱한 스킬 정보에 따라 스킬 처리
+        Skill skillData;
+        auto iter = DataManager::Skills.find(skillPkt->skillInfo()->skillId());
+        if (iter != DataManager::Skills.end())
         {
-            // TODO: Damaged
+            skillData = iter->second;
+        }
+
+        switch (skillData.SkillType)
+        {
+        case SKILL_AUTO:
+        {
             Vector2Int skillPos = player->GetFrontCellPos(player->GetObjectMoveDir());
             shared_ptr<GameObject> target = _map->Find(skillPos);
             if (target != nullptr)
             {
+                // NON PVP
+                if (target->GetObjectType() == ObjectType::PLAYER)
+                {
+                    return;
+                }
+
                 cout << target->GetObjectName() << " was hit by " << player->GetObjectName() << "!" << endl;
+                target->OnDamaged(player, skillData.Damage);
             }
+        }
+        break;
+
+        case SKILL_PROJECTILE:
+            // TODO: Arrow Attack
+            break;
+
+        case SKILL_NONE:
+            return;
         }
     }
 }
@@ -305,6 +340,7 @@ shared_ptr<Player> GameRoom::FindPlayer(function<bool(shared_ptr<GameObject>)> c
 void GameRoom::Broadcast(SendBufferRef buffer)
 {
     //WRITE_LOCK;
+
     for (const auto& pair : _players)
     {
         pair.second->GetClientSession()->Send(buffer);
@@ -314,6 +350,7 @@ void GameRoom::Broadcast(SendBufferRef buffer)
 void GameRoom::Update()
 {
     //WRITE_LOCK;
+
     for (const auto& pair : _monsters)
     {
         pair.second->Update();

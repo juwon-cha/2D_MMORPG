@@ -9,6 +9,9 @@ GameObject::GameObject()
 	, _state(ObjectState_IDLE)
 	, _moveDir(MoveDir_DOWN)
 	, _cellPos(0, 0)
+	, _hp(0)
+	, _maxHp(0)
+	, _speed(0)
 	, _room(nullptr)
 {
 }
@@ -65,12 +68,23 @@ void GameObject::Update()
 {
 }
 
-void GameObject::SetObjectInfo(int32 id, std::string name, int32 posX, int32 posY, ObjectState state, MoveDir moveDir)
+void GameObject::SetObjectInfo(int32 id, std::string name)
 {
 	_id = id;
 	_name = name;
+}
+
+void GameObject::SetPosInfo(int32 posX, int32 posY, ObjectState state, MoveDir moveDir)
+{
 	_posX = posX;
 	_posY = posY;
 	_state = state;
 	_moveDir = moveDir;
+}
+
+void GameObject::SetStatInfo(int32 hp, int32 maxHp, float speed)
+{
+	_hp = hp;
+	_maxHp = maxHp;
+	_speed = speed;
 }
