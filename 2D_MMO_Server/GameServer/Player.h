@@ -13,6 +13,7 @@ public:
 
 public:
 	void OnDamaged(shared_ptr<GameObject> attacker, int32 damage) override;
+	void OnDead(shared_ptr<GameObject> attacker) override;
 
 public:
 	shared_ptr<ClientSession> GetClientSession() const { return _session; };

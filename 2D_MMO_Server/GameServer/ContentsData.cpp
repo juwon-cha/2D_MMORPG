@@ -3,9 +3,9 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-map<uint32, Stat> StatData::MakeData()
+map<int32, Stat> StatData::MakeData()
 {
-    map<uint32, Stat> statData;
+    map<int32, Stat> statData;
 
     for (Stat stat : _stats)
     {
@@ -22,10 +22,12 @@ StatData StatData::fromJson(const json& json)
 
     for (auto iter = json["stats"].begin(); iter != json["stats"].end(); ++iter)
     {
-        stat.Level = iter->at("Level").get<uint32>();
-        stat.MaxHp = iter->at("MaxHp").get<uint32>();
-        stat.Attack = iter->at("Attack").get<uint32>();
-        stat.TotalExp = iter->at("TotalExp").get<uint32>();
+        stat.Level = iter->at("Level").get<int32>();
+        stat.Speed = iter->at("Speed").get<float>();
+        stat.MaxHp = iter->at("MaxHp").get<int32>();
+        stat.Hp = stat.MaxHp;
+        stat.Attack = iter->at("Attack").get<int32>();
+        stat.TotalExp = iter->at("TotalExp").get<int32>();
         statData._stats.push_back(stat);
     }
 

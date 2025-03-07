@@ -22,7 +22,8 @@ public:
 	Vector2Int GetFrontCellPos();
 	static MoveDir GetDirFromVector(Vector2Int vector);
 	virtual void Update();
-	virtual void OnDamaged(shared_ptr<GameObject> attacker, int32 damage) = 0;
+	virtual void OnDamaged(shared_ptr<GameObject> attacker, int32 damage);
+	virtual void OnDead(shared_ptr<GameObject> attacker);
 
 public:
 	ObjectType GetObjectType() const { return _type; }
@@ -42,14 +43,17 @@ public:
 	MoveDir GetObjectMoveDir() const { return _moveDir; }
 	void SetObjectMoveDir(MoveDir moveDir) { _moveDir = moveDir; }
 
+	int32 GetOjbectLevel() const { return _level; }
 	int32 GetObjectHP() const { return _hp; }
 	int32 GetObjectMaxHP() const { return _maxHp; }
+	int32 GetObjectAttack() const { return _attack; }
+	int32 GetObjectTotalExp() const { return _totalExp; }
 	float GetObjectSpeed() const { return _speed; }
 	void SetObjectSpeed(float speed) { _speed = speed; }
 
 	void SetObjectInfo(int32 id, std::string name);
 	void SetPosInfo(int32 posX, int32 posY, ObjectState state, MoveDir moveDir);
-	void SetStatInfo(int32 hp, int32 maxHp, float speed);
+	void SetStatInfo(int32 level, float speed, int32 hp, int32 maxHp, int32 attack, int32 totalExp);
 
 	shared_ptr<GameRoom> GetGameRoom() const { return _room; }
 	void SetGameRoom(shared_ptr<GameRoom> room) { _room = room; }
@@ -64,9 +68,12 @@ protected:
 	MoveDir _moveDir;
 	Vector2Int _cellPos;
 
+	int32 _level;
+	float _speed;
 	int32 _hp;
 	int32 _maxHp;
-	float _speed;
+	int32 _attack;
+	int32 _totalExp;
 
 	shared_ptr<GameRoom> _room;
 };

@@ -5,16 +5,18 @@
 class Stat
 {
 public:
-	uint32 Level = 0;
-	uint32 MaxHp = 0;
-	uint32 Attack = 0;
-	uint32 TotalExp = 0;
+	int32 Level = 0;
+	float Speed = 0;
+	int32 Hp = 0;
+	int32 MaxHp = 0;
+	int32 Attack = 0;
+	int32 TotalExp = 0;
 };
 
-class StatData : public ILoader<uint32, Stat>
+class StatData : public ILoader<int32, Stat>
 {
 public:
-	map<uint32, Stat> MakeData() override;
+	map<int32, Stat> MakeData() override;
 
 	static StatData fromJson(const json& json);
 
@@ -24,17 +26,17 @@ private:
 #pragma endregion
 
 #pragma region Skill
-enum SkillType
-{
-	SKILL_NONE,
-	SKILL_AUTO,
-	SKILL_PROJECTILE
-};
+//enum SkillType
+//{
+//	SKILL_NONE,
+//	SKILL_AUTO,
+//	SKILL_PROJECTILE
+//};
 
 NLOHMANN_JSON_SERIALIZE_ENUM(SkillType, {
-	{SKILL_NONE, nullptr},
-	{SKILL_AUTO, "SkillAuto"},
-	{SKILL_PROJECTILE, "SkillProjectile"}
+	{SkillType_SKILL_NONE, nullptr},
+	{SkillType_SKILL_AUTO, "SKILL_AUTO"},
+	{SkillType_SKILL_PROJECTILE, "SKILL_PROJECTILE"}
 	})
 
 	class ProjectileInfo
@@ -53,7 +55,7 @@ public:
 	string Name;
 	float CoolTime = 0;
 	uint32 Damage = 0;
-	SkillType SkillType = SkillType::SKILL_NONE;
+	SkillType SkillType = SkillType_SKILL_NONE;
 	ProjectileInfo Projectile;
 };
 

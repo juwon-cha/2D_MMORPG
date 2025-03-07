@@ -12,4 +12,5 @@ union PacketType {
 	SC_CHAT,
 	C_SKILL,
 	SC_SKILL,
+	SC_CHANGE_HP
 }
