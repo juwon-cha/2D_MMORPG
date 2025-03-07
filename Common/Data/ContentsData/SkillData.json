@@ -1,0 +1,24 @@
+{
+    "skills": [
+        {
+            "ID": 1,
+            "Name": "AutoAttack",
+            "CoolTime": 0.3,
+            "Damage": 20,
+            "SkillType": "SkillAuto"
+        },
+        {
+            "ID": 2,
+            "Name": "ArrowAttack",
+            "CoolTime": 0.2,
+            "Damage": 5,
+            "SkillType": "SkillProjectile",
+            "Projectile": {
+                "Name": "Arrow",
+                "Speed": 20.0,
+                "Range": 10,
+                "Prefab": "Arrow"
+            }
+        }
+    ]
+}

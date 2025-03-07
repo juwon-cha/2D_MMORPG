@@ -15,7 +15,9 @@ void ClientSession::OnConnected()
 	shared_ptr<Player> myPlayer = ObjectManager::Instance().Add<Player>();
 	SetPlayer(myPlayer);
 
-	_player->SetObjectInfo(myPlayer->GetObjectId(), "Player " + to_string(myPlayer->GetObjectId()), 0, 0, ObjectState_IDLE, MoveDir_DOWN);
+	_player->SetObjectInfo(myPlayer->GetObjectId(), "Player " + to_string(myPlayer->GetObjectId()));
+	_player->SetPosInfo(0, 0, ObjectState_IDLE, MoveDir_DOWN);
+	_player->SetStatInfo(_player->GetObjectHP(), _player->GetObjectMaxHP(), _player->GetObjectSpeed());
 	_player->SetClientSession(static_pointer_cast<ClientSession>(shared_from_this()));
 
 	RoomManager::Instance().Find(1)->EnterGame(_player);

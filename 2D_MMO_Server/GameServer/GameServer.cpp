@@ -9,6 +9,7 @@
 #include "GameRoom.h"
 #include "ConfigManager.h"
 #include "StringConverter.h"
+#include "DataManager.h"
 
 int main()
 {
@@ -32,6 +33,8 @@ int main()
 
 	// GameServer Listening
 	ConfigManager config = ConfigManager::LoadConfig();
+	DataManager::LoadData();
+
 	RoomManager::Instance().Add(1); // Temp 1¹ø ¸Ê ·Îµå
 
 	wstring ipAddr = StringConverter::ConvertStringToWString(config.GetServerConfig().GetIpAddr().c_str(), config.GetServerConfig().GetIpAddr().size());

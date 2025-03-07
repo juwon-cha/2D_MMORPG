@@ -11,6 +11,7 @@ public:
 
 public:
 	void Update() override;
+	void OnDamaged(shared_ptr<GameObject> attacker, int32 damage) override;
 	void BroadcastMove();
 
 protected:

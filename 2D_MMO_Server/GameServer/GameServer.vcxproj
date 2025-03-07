@@ -178,6 +178,8 @@
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="ClientSessionManager.cpp" />
     <ClCompile Include="ConfigManager.cpp" />
+    <ClCompile Include="ContentsData.cpp" />
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DBSession.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameRoom.cpp" />
@@ -201,6 +203,8 @@
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="ClientSessionManager.h" />
     <ClInclude Include="ConfigManager.h" />
+    <ClInclude Include="ContentsData.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="DBSession.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameRoom.h" />

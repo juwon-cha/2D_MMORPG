@@ -18,6 +18,9 @@ Monster::Monster()
 
 	// TEMP
 	_state = ObjectState_IDLE;
+	_hp = 10;
+	_maxHp = 10;
+	_speed = 5.0f;
 
 	_searchCellDistance = static_cast<int32>(CellDistance::DEFAULT_SEARCH_DIST);
 	_chaseCellDistance = static_cast<int32>(CellDistance::DEFAULT_CHASE_DIST);
@@ -45,6 +48,11 @@ void Monster::Update()
 		UpdateDead();
 		break;
 	}
+}
+
+void Monster::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
+{
+	cout << "Damaged " << damage << "! From " << attacker->GetObjectName() << endl;
 }
 
 void Monster::BroadcastMove()
@@ -166,9 +174,12 @@ void Monster::UpdateSkill()
 
 		// TODO: 데미지
 		cout << _target->GetObjectName() << " was hit by " << _name << "!" << endl;
+		_target->OnDamaged(shared_from_this(), 10/*temp*/);
 
 		// 스킬 사용 Broadcast
-		SetObjectInfo(_id, _name, _posX, _posY, ObjectState_SKILL, _moveDir);
+		SetObjectInfo(_id, _name);
+		SetPosInfo(_posX, _posY, ObjectState_SKILL, _moveDir);
+		SetStatInfo(_hp, _maxHp, _speed);
 
 		flatbuffers::FlatBufferBuilder builder;
 		int32 skillId = 1; // TEMP

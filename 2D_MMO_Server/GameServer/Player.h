@@ -12,6 +12,9 @@ public:
 	~Player() = default;
 
 public:
+	void OnDamaged(shared_ptr<GameObject> attacker, int32 damage) override;
+
+public:
 	shared_ptr<ClientSession> GetClientSession() const { return _session; };
 	void SetClientSession(shared_ptr<ClientSession> session) { _session = session; }
 

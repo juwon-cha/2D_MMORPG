@@ -78,6 +78,12 @@
     <ClCompile Include="StringConverter.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsData.cpp">
+      <Filter>Game\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Game\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -124,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="StringConverter.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsData.h">
+      <Filter>Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Game\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

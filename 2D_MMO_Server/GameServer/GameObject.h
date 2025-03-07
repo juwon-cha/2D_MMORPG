@@ -22,6 +22,7 @@ public:
 	Vector2Int GetFrontCellPos();
 	static MoveDir GetDirFromVector(Vector2Int vector);
 	virtual void Update();
+	virtual void OnDamaged(shared_ptr<GameObject> attacker, int32 damage) = 0;
 
 public:
 	ObjectType GetObjectType() const { return _type; }
@@ -41,7 +42,14 @@ public:
 	MoveDir GetObjectMoveDir() const { return _moveDir; }
 	void SetObjectMoveDir(MoveDir moveDir) { _moveDir = moveDir; }
 
-	void SetObjectInfo(int32 id, std::string name, int32 posX, int32 posY, ObjectState state, MoveDir moveDir);
+	int32 GetObjectHP() const { return _hp; }
+	int32 GetObjectMaxHP() const { return _maxHp; }
+	float GetObjectSpeed() const { return _speed; }
+	void SetObjectSpeed(float speed) { _speed = speed; }
+
+	void SetObjectInfo(int32 id, std::string name);
+	void SetPosInfo(int32 posX, int32 posY, ObjectState state, MoveDir moveDir);
+	void SetStatInfo(int32 hp, int32 maxHp, float speed);
 
 	shared_ptr<GameRoom> GetGameRoom() const { return _room; }
 	void SetGameRoom(shared_ptr<GameRoom> room) { _room = room; }
@@ -55,6 +63,10 @@ protected:
 	ObjectState _state;
 	MoveDir _moveDir;
 	Vector2Int _cellPos;
+
+	int32 _hp;
+	int32 _maxHp;
+	float _speed;
 
 	shared_ptr<GameRoom> _room;
 };
