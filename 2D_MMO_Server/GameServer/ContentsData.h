@@ -26,13 +26,6 @@ private:
 #pragma endregion
 
 #pragma region Skill
-//enum SkillType
-//{
-//	SKILL_NONE,
-//	SKILL_AUTO,
-//	SKILL_PROJECTILE
-//};
-
 NLOHMANN_JSON_SERIALIZE_ENUM(SkillType, {
 	{SkillType_SKILL_NONE, nullptr},
 	{SkillType_SKILL_AUTO, "SKILL_AUTO"},
