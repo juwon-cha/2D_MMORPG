@@ -24,8 +24,9 @@ PacketManager::~PacketManager()
 
 void PacketManager::Register()
 {
-    _handler[PacketType::PacketType_C_Test] = PacketHandler::C_TestHandler;
-		_handler[PacketType::PacketType_D_Test] = PacketHandler::D_TestHandler;
+    _handler[PacketType::PacketType_C_MOVE] = PacketHandler::C_MOVEHandler;
+		_handler[PacketType::PacketType_C_CHAT] = PacketHandler::C_CHATHandler;
+		_handler[PacketType::PacketType_C_SKILL] = PacketHandler::C_SKILLHandler;
 		
 }
 

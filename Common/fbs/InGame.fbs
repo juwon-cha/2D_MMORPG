@@ -19,6 +19,12 @@ enum GameObjectType : byte {
     PROJECTILE
 }
 
+enum SkillType : byte {
+    SKILL_NONE,
+    SKILL_AUTO,
+    SKILL_PROJECTILE
+}
+
 table ObjectInfo {
 	objectId:int32;
 	name:string;
@@ -74,4 +80,9 @@ table C_SKILL {
 table SC_SKILL {
 	objectId:int32;
 	skillInfo:SkillInfo;
+}
+
+table SC_CHANGE_HP {
+	objectId:int32;
+	hp:int32;
 }

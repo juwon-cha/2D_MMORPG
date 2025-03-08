@@ -1,6 +1,8 @@
 using Google.FlatBuffers;
 using UnityEngine;
 using System.Collections;
+using Data;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -43,15 +45,22 @@ public class MyPlayerController : PlayerController
         // 스킬 상태
         if (_coSkillCooltime == null && Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("Skill!");
+            int skillId = 1; // TEMP
+
+            Data.Skill skillData = null;
+            if (DataManager.SkillData.TryGetValue(skillId, out skillData) == false)
+            {
+                return;
+            }
 
             FlatBufferBuilder builder = new FlatBufferBuilder(1024);
-            var skillInfo = SkillInfo.CreateSkillInfo(builder, 1);
+            
+            var skillInfo = SkillInfo.CreateSkillInfo(builder, skillId);
             var skill = C_SKILL.CreateC_SKILL(builder, skillInfo);
             var skillPkt = Manager.Packet.CreatePacket(skill, builder, PacketType.C_SKILL);
             Manager.Network.Send(skillPkt);
 
-            _coSkillCooltime = StartCoroutine("CoInputCooltime", 0.3f);
+            _coSkillCooltime = StartCoroutine("CoInputCooltime", skillData.CoolTime);
         }
     }
 

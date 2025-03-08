@@ -46,6 +46,7 @@ public class Manager : MonoBehaviour
             DontDestroyOnLoad(go);
             _instance = go.GetComponent<Manager>();
             Network.Init();
+            DataManager.LoadData();
         }
     }
     public static void Clear()

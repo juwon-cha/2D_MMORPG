@@ -22,6 +22,10 @@ public class PlayerController : ObjectController
         {
             _coSkill = StartCoroutine("CoStartSwordAttack");
         }
+        else if(skillId == 2)
+        {
+            // TODO: projectile skill
+        }
     }
 
     IEnumerator CoStartSwordAttack()

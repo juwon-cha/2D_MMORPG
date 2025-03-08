@@ -113,6 +113,10 @@ public class MonsterController : ObjectController
         {
             State = Define.ObjectState.Skill;
         }
+        else if (skillId == 2)
+        {
+            // TODO: projectile skill
+        }
     }
 
     public override void OnDamaged()

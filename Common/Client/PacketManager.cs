@@ -13,7 +13,14 @@ public class PacketManager
     }
     void Register()
     {
-        _handler.Add((ushort)PacketType.SC_Test, PacketHandler.SC_TestHandler);
+        _handler.Add((ushort)PacketType.SC_ENTER_GAME, PacketHandler.SC_ENTER_GAMEHandler);
+		_handler.Add((ushort)PacketType.SC_LEAVE_GAME, PacketHandler.SC_LEAVE_GAMEHandler);
+		_handler.Add((ushort)PacketType.SC_SPAWN, PacketHandler.SC_SPAWNHandler);
+		_handler.Add((ushort)PacketType.SC_DESPAWN, PacketHandler.SC_DESPAWNHandler);
+		_handler.Add((ushort)PacketType.SC_MOVE, PacketHandler.SC_MOVEHandler);
+		_handler.Add((ushort)PacketType.SC_CHAT, PacketHandler.SC_CHATHandler);
+		_handler.Add((ushort)PacketType.SC_SKILL, PacketHandler.SC_SKILLHandler);
+		_handler.Add((ushort)PacketType.SC_CHANGE_H, PacketHandler.SC_CHANGE_HHandler);
 		
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
