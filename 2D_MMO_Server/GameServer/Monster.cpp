@@ -9,18 +9,23 @@ Monster::Monster()
 	: _nextPatrolTick(0)
 	, _nextSearchTick(0)
 	, _nextMoveTick(0)
-	, _skillCoolTick(0)
 	, _searchCellDistance(0)
 	, _chaseCellDistance(0)
 	, _skillRange(0)
+	, _skillCoolTick(0)
 {
 	_type = ObjectType::MONSTER;
 
 	// TEMP
 	_state = ObjectState_IDLE;
-	_hp = 10;
-	_maxHp = 10;
+
+	// TODO: MonsterStat
+	_level = 1;
 	_speed = 5.0f;
+	_maxHp = 50;
+	_attack = 10;
+	_hp = _maxHp;
+	_totalExp = 0;
 
 	_searchCellDistance = static_cast<int32>(CellDistance::DEFAULT_SEARCH_DIST);
 	_chaseCellDistance = static_cast<int32>(CellDistance::DEFAULT_CHASE_DIST);
@@ -52,7 +57,12 @@ void Monster::Update()
 
 void Monster::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
 {
-	cout << "Damaged " << damage << "! From " << attacker->GetObjectName() << endl;
+	GameObject::OnDamaged(attacker, damage);
+
+}
+
+void Monster::OnDead(shared_ptr<GameObject> attacker)
+{
 }
 
 void Monster::BroadcastMove()
@@ -172,14 +182,14 @@ void Monster::UpdateSkill()
 			BroadcastMove();
 		}
 
-		// TODO: 데미지
-		cout << _target->GetObjectName() << " was hit by " << _name << "!" << endl;
-		_target->OnDamaged(shared_from_this(), 10/*temp*/);
+		// 데미지
+		cout << _target->GetObjectName() << " was hit!" << endl;
+		_target->OnDamaged(shared_from_this(), _attack/*temp*/);
 
 		// 스킬 사용 Broadcast
 		SetObjectInfo(_id, _name);
 		SetPosInfo(_posX, _posY, ObjectState_SKILL, _moveDir);
-		SetStatInfo(_hp, _maxHp, _speed);
+		SetStatInfo(_level, _speed, _hp, _maxHp, _attack, _totalExp);
 
 		flatbuffers::FlatBufferBuilder builder;
 		int32 skillId = 1; // TEMP
@@ -192,7 +202,7 @@ void Monster::UpdateSkill()
 		_room->Broadcast(respondSkillPkt);
 
 		// 스킬 쿨타임 적용
-		int32 coolTick = 1000; // TEMP 1초
+		int32 coolTick = 1000; // TEMP
 		_skillCoolTick = GetTickCount64() + coolTick;
 	}
 
@@ -222,7 +232,7 @@ void Monster::Patrol()
 
 	Vector2Int monsterCellPos = Vector2Int(_posX, _posY);
 
-	std::uniform_int_distribution<int32> randCoordinates(-5, 5);
+	std::uniform_int_distribution<int64> randCoordinates(-5, 5);
 	int32 x = randCoordinates(gen);
 	int32 y = randCoordinates(gen);
 

@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "PacketManager.h"
+#include "GameRoom.h"
 
 GameObject::GameObject()
 	: _type(ObjectType::NONE)
@@ -9,9 +11,12 @@ GameObject::GameObject()
 	, _state(ObjectState_IDLE)
 	, _moveDir(MoveDir_DOWN)
 	, _cellPos(0, 0)
+	, _level(1)
+	, _speed(0)
 	, _hp(0)
 	, _maxHp(0)
-	, _speed(0)
+	, _attack(0)
+	, _totalExp(0)
 	, _room(nullptr)
 {
 }
@@ -68,6 +73,35 @@ void GameObject::Update()
 {
 }
 
+void GameObject::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
+{
+	if (_room == nullptr)
+	{
+		CRASH();
+	}
+
+	// hp가 음수가 되지 못하도록 함
+	_hp = std::max(_hp - damage, 0);
+
+	// Broadcast
+	{
+		flatbuffers::FlatBufferBuilder builder;
+		auto changeHp = CreateSC_CHANGE_HP(builder, _id, _hp);
+		auto changeHpPkt = PacketManager::Instance().CreatePacket(changeHp, builder, PacketType_SC_CHANGE_HP);
+		_room->Broadcast(changeHpPkt);
+	}
+
+	if (_hp <= 0)
+	{
+		OnDead(attacker);
+	}
+}
+
+void GameObject::OnDead(shared_ptr<GameObject> attacker)
+{
+
+}
+
 void GameObject::SetObjectInfo(int32 id, std::string name)
 {
 	_id = id;
@@ -82,9 +116,12 @@ void GameObject::SetPosInfo(int32 posX, int32 posY, ObjectState state, MoveDir m
 	_moveDir = moveDir;
 }
 
-void GameObject::SetStatInfo(int32 hp, int32 maxHp, float speed)
+void GameObject::SetStatInfo(int32 level, float speed, int32 hp, int32 maxHp, int32 attack, int32 totalExp)
 {
+	_level = level;
+	_speed = speed;
 	_hp = hp;
 	_maxHp = maxHp;
-	_speed = speed;
+	_attack = attack;
+	_totalExp = totalExp;
 }

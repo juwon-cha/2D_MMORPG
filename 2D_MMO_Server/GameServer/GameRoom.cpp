@@ -29,7 +29,7 @@ void GameRoom::Init(int32 mapId)
         shared_ptr<Monster> monster = ObjectManager::Instance().Add<Monster>();
         monster->SetObjectInfo(monster->GetObjectId(), "MONSTER_" + to_string(monster->GetObjectId()));
         monster->SetPosInfo(9, -9, ObjectState_IDLE, MoveDir_DOWN);
-        monster->SetStatInfo(monster->GetObjectHP(), monster->GetObjectMaxHP(), monster->GetObjectSpeed());
+        monster->SetStatInfo(monster->GetOjbectLevel(), monster->GetObjectSpeed(), monster->GetObjectHP(), monster->GetObjectMaxHP(), monster->GetObjectAttack(), monster->GetObjectTotalExp());
         EnterGame(monster);
     }
 }
@@ -286,7 +286,6 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
 
         Broadcast(respondSkillPkt);
 
-        // json으로부터 파싱한 스킬 정보에 따라 스킬 처리
         Skill skillData;
         auto iter = DataManager::Skills.find(skillPkt->skillInfo()->skillId());
         if (iter != DataManager::Skills.end())
@@ -296,7 +295,7 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
 
         switch (skillData.SkillType)
         {
-        case SKILL_AUTO:
+        case SkillType_SKILL_AUTO:
         {
             Vector2Int skillPos = player->GetFrontCellPos(player->GetObjectMoveDir());
             shared_ptr<GameObject> target = _map->Find(skillPos);
@@ -308,17 +307,17 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
                     return;
                 }
 
-                cout << target->GetObjectName() << " was hit by " << player->GetObjectName() << "!" << endl;
-                target->OnDamaged(player, skillData.Damage);
+                cout << target->GetObjectName() << " was hit!" << endl;
+                target->OnDamaged(player, skillData.Damage + player->GetObjectAttack()/*스킬 공격력 + 플레이어 공격력*/);
             }
         }
         break;
 
-        case SKILL_PROJECTILE:
+        case SkillType_SKILL_PROJECTILE:
             // TODO: Arrow Attack
             break;
 
-        case SKILL_NONE:
+        case SkillType_SKILL_NONE:
             return;
         }
     }

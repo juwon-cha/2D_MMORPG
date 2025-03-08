@@ -6,6 +6,7 @@
 #include "GameRoom.h"
 #include "RoomManager.h"
 #include "PacketManager.h"
+#include "ContentsData.h"
 
 void ClientSession::OnConnected()
 {
@@ -15,9 +16,16 @@ void ClientSession::OnConnected()
 	shared_ptr<Player> myPlayer = ObjectManager::Instance().Add<Player>();
 	SetPlayer(myPlayer);
 
+	Stat statData;
+	auto iter = DataManager::Stats.find(1); // 레벨 1 시작
+	if (iter != DataManager::Stats.end())
+	{
+		statData = iter->second;
+	}
+
 	_player->SetObjectInfo(myPlayer->GetObjectId(), "Player " + to_string(myPlayer->GetObjectId()));
 	_player->SetPosInfo(0, 0, ObjectState_IDLE, MoveDir_DOWN);
-	_player->SetStatInfo(_player->GetObjectHP(), _player->GetObjectMaxHP(), _player->GetObjectSpeed());
+	_player->SetStatInfo(statData.Level, statData.Speed, statData.Hp, statData.MaxHp, statData.Attack, statData.TotalExp);
 	_player->SetClientSession(static_pointer_cast<ClientSession>(shared_from_this()));
 
 	RoomManager::Instance().Find(1)->EnterGame(_player);
