@@ -24,8 +24,7 @@ PacketManager::~PacketManager()
 
 void PacketManager::Register()
 {
-    _handler[PacketType::PacketType_SD_Test] = PacketHandler::SD_TestHandler;
-		
+    
 }
 
 void PacketManager::OnRecvPacket(PacketSession* session, BYTE* buffer)

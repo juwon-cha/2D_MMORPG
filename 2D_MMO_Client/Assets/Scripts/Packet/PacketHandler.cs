@@ -72,7 +72,7 @@ public class PacketHandler
         objController.CellPos = new Vector3Int(move.PosInfo.Value.PosX, move.PosInfo.Value.PosY, 0);
     }
 
-    public static void SC_ChatHandler(PacketSession session, ByteBuffer buffer)
+    public static void SC_CHATHandler(PacketSession session, ByteBuffer buffer)
     {
         var pkt = SC_CHAT.GetRootAsSC_CHAT(buffer);
 
@@ -103,5 +103,26 @@ public class PacketHandler
         }
 
         objController.UseSkill(skill.SkillInfo.Value.SkillId);
+    }
+
+    public static void SC_CHANGE_HPHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var changeHpPkt = SC_CHANGE_HP.GetRootAsSC_CHANGE_HP(buffer);
+
+        GameObject go = Manager.Object.FindById(changeHpPkt.ObjectId);
+        if (go == null)
+        {
+            return;
+        }
+
+        ObjectController objController = go.GetComponent<ObjectController>();
+        if (objController == null)
+        {
+            return;
+        }
+
+        objController.HP = changeHpPkt.Hp;
+        // TODO: Ã¼·Â¹Ù UI
+        Debug.Log($"{go.name} HP: {changeHpPkt.Hp}");
     }
 }

@@ -1,11 +1,13 @@
 using Google.FlatBuffers;
 using UnityEngine;
 
-public abstract class ObjectController : MonoBehaviour
+public class ObjectController : MonoBehaviour
 {
     public int Id { get; set; }
 
-    public float _speed = 8.0f;
+    public float Speed { get; set; }
+    public int HP { get; set; }
+    public int MaxHP { get; set; }
 
     protected bool _updated = false;
 
@@ -15,7 +17,7 @@ public abstract class ObjectController : MonoBehaviour
         get { return _cellPos; }
         set
         {
-            if(_cellPos == value)
+            if (_cellPos == value)
             {
                 return;
             }
@@ -97,7 +99,7 @@ public abstract class ObjectController : MonoBehaviour
 
     protected virtual void UpdateAnim()
     {
-        if(_animator == null)
+        if (_animator == null)
         {
             return;
         }
@@ -133,7 +135,7 @@ public abstract class ObjectController : MonoBehaviour
         }
         else if (State == Define.ObjectState.Moving)
         {
-            switch (_dir)
+            switch (MoveDir)
             {
                 case Define.MoveDir.Up:
                     _animator.Play("WALK_UP");
@@ -198,7 +200,7 @@ public abstract class ObjectController : MonoBehaviour
 
     protected virtual void UpdateController()
     {
-        switch(State)
+        switch (State)
         {
             case Define.ObjectState.Idle:
                 UpdateIdle();
@@ -218,10 +220,14 @@ public abstract class ObjectController : MonoBehaviour
 
             default:
                 break;
-        }  
+        }
     }
 
-    protected abstract void UpdateIdle();
+    // 실제 좌표 이동
+    protected virtual void UpdateIdle()
+    {
+
+    }
 
     public void SyncPos()
     {
@@ -237,7 +243,7 @@ public abstract class ObjectController : MonoBehaviour
 
         // 도착 여부 체크
         float dist = moveDir.magnitude; // 방향 벡터 크기
-        if (dist < _speed * Time.deltaTime)
+        if (dist < Speed * Time.deltaTime)
         {
             transform.position = destPos;
             UpdateCoordinates();
@@ -245,14 +251,25 @@ public abstract class ObjectController : MonoBehaviour
         else
         {
             // 자연스러운 움직임
-            transform.position += moveDir.normalized * _speed * Time.deltaTime;
+            transform.position += moveDir.normalized * Speed * Time.deltaTime;
             State = Define.ObjectState.Moving;
         }
     }
 
-    protected abstract void UpdateCoordinates();
-    protected abstract void UpdateSkill();
-    protected abstract void UpdateDead();
+    protected virtual void UpdateCoordinates()
+    {
+
+    }
+
+    protected virtual void UpdateSkill()
+    {
+
+    }
+
+    protected virtual void UpdateDead()
+    {
+
+    }
 
     public Vector3Int GetFacingCellPostition()
     {
@@ -283,6 +300,10 @@ public abstract class ObjectController : MonoBehaviour
         return curCellPos;
     }
 
-    public abstract void UseSkill(int skillId);
-    public abstract void OnDamaged();
+    public virtual void UseSkill(int skillId)
+    {
+
+    }
+
+    public virtual void OnDamaged() { }
 }

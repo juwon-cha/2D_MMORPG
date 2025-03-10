@@ -31,6 +31,10 @@ public class ObjectManager
                 MyPlayer.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
                 MyPlayer.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
                 MyPlayer.State = (Define.ObjectState)info.PosInfo.Value.State;
+                MyPlayer.HP = info.StatInfo.Value.Hp;
+                MyPlayer.MaxHP = info.StatInfo.Value.MaxHp;
+                MyPlayer.Speed = info.StatInfo.Value.Speed;
+
                 MyPlayer.SyncPos();
             }
             else // 내가 아닌 다른 플레이어
@@ -45,12 +49,16 @@ public class ObjectManager
                 pc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
                 pc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
                 pc.State = (Define.ObjectState)info.PosInfo.Value.State;
+                pc.HP = info.StatInfo.Value.Hp;
+                pc.MaxHP = info.StatInfo.Value.MaxHp;
+                pc.Speed = info.StatInfo.Value.Speed;
+
                 pc.SyncPos();
             }
         }
         else if (objType == GameObjectType.MONSTER)
         {
-            GameObject monsterOriginal = Resources.Load<GameObject>("Prefabs/Creature/Monster/Slime");
+            GameObject monsterOriginal = Resources.Load<GameObject>("Prefabs/Creature/Monster/SLIME");
             GameObject monster = UnityEngine.Object.Instantiate(monsterOriginal);
             monster.name = info.Name;
             _objects.Add(info.ObjectId, monster);
@@ -60,6 +68,10 @@ public class ObjectManager
             mc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
             mc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
             mc.State = (Define.ObjectState)info.PosInfo.Value.State;
+            mc.HP = info.StatInfo.Value.Hp;
+            mc.MaxHP = info.StatInfo.Value.MaxHp;
+            mc.Speed = info.StatInfo.Value.Speed;
+
             mc.SyncPos();
         }
         else if (objType == GameObjectType.PROJECTILE)
@@ -93,7 +105,7 @@ public class ObjectManager
                 continue;
             }
 
-            if(controller.CellPos == cellPos)
+            if (controller.CellPos == cellPos)
             {
                 return obj;
             }
@@ -124,7 +136,7 @@ public class ObjectManager
     public void Remove(int id)
     {
         GameObject go = FindById(id);
-        if(go == null)
+        if (go == null)
         {
             return;
         }
