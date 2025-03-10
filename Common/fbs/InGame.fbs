@@ -86,3 +86,8 @@ table SC_CHANGE_HP {
 	objectId:int32;
 	hp:int32;
 }
+
+table SC_DIE {
+	objectId:int32;
+	attackerId:int32;
+}

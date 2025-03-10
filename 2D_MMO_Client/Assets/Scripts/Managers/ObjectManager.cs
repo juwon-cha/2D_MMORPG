@@ -156,7 +156,7 @@ public class ObjectManager
         MyPlayer = null;
     }
 
-    public void Clear(GameObject obj)
+    public void Clear()
     {
         foreach (GameObject go in _objects.Values)
         {
@@ -164,5 +164,6 @@ public class ObjectManager
         }
 
         _objects.Clear();
+        MyPlayer = null;
     }
 }

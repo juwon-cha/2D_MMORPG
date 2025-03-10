@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Managers\DataManager.cs" />
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
+    <Compile Include="Assets\Scripts\UI\HpBar.cs" />
     <Compile Include="Assets\Scripts\UI\ChatUIController.cs" />
     <Compile Include="Assets\Scripts\UI\BaseUIController.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryUIController.cs" />
@@ -615,12 +616,12 @@
       <HintPath>Assets\DLL\Google.FlatBuffers.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

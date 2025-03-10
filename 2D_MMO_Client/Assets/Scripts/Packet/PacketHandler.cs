@@ -1,6 +1,5 @@
 using Google.FlatBuffers;
 using ServerCore;
-using System;
 using UnityEngine;
 
 public class PacketHandler
@@ -19,7 +18,7 @@ public class PacketHandler
     {
         var leave = SC_LEAVE_GAME.GetRootAsSC_LEAVE_GAME(buffer);
 
-        Manager.Object.RemoveMyPlayer();
+        Manager.Object.Clear();
         Debug.Log("SC_LEAVE_GAMEHandler");
     }
 
@@ -122,7 +121,25 @@ public class PacketHandler
         }
 
         objController.HP = changeHpPkt.Hp;
-        // TODO: Ã¼·Â¹Ù UI
-        Debug.Log($"{go.name} HP: {changeHpPkt.Hp}");
+    }
+
+    public static void SC_DIEHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var diePkt = SC_DIE.GetRootAsSC_DIE(buffer);
+
+        GameObject go = Manager.Object.FindById(diePkt.ObjectId);
+        if (go == null)
+        {
+            return;
+        }
+
+        ObjectController objController = go.GetComponent<ObjectController>();
+        if (objController == null)
+        {
+            return;
+        }
+
+        objController.HP = 0;
+        objController.OnDead();
     }
 }

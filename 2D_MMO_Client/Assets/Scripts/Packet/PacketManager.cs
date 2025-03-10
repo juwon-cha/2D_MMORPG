@@ -21,6 +21,7 @@ public class PacketManager
 		_handler.Add((ushort)PacketType.SC_CHAT, PacketHandler.SC_CHATHandler);
 		_handler.Add((ushort)PacketType.SC_SKILL, PacketHandler.SC_SKILLHandler);
 		_handler.Add((ushort)PacketType.SC_CHANGE_HP, PacketHandler.SC_CHANGE_HPHandler);
+		_handler.Add((ushort)PacketType.SC_DIE, PacketHandler.SC_DIEHandler);
     }
     public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
     {
