@@ -24,13 +24,15 @@ public class MonsterController : ObjectController
     protected override void Init()
     {
         base.Init();
+        AddHpBar();
+
         State = Define.ObjectState.Idle;
         MoveDir = Define.MoveDir.Down;
     }
 
     protected override void UpdateAnim()
     {
-        if(_animator == null)
+        if (_animator == null && _sprite == null)
         {
             return;
         }
@@ -42,22 +44,22 @@ public class MonsterController : ObjectController
             {
                 case Define.MoveDir.Up:
                     _animator.Play("SLIME01_IDLE");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = false;
                     break;
 
                 case Define.MoveDir.Down:
                     _animator.Play("SLIME01_IDLE");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = false;
                     break;
 
                 case Define.MoveDir.Left:
                     _animator.Play("SLIME01_IDLE");
-                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = true;
                     break;
 
                 case Define.MoveDir.Right:
                     _animator.Play("SLIME01_IDLE");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = false;
                     break;
 
                 default:
@@ -70,23 +72,23 @@ public class MonsterController : ObjectController
             {
                 case Define.MoveDir.Up:
                     _animator.Play("SLIME01_IDLE");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = false;
                     break;
 
                 case Define.MoveDir.Down:
                     _animator.Play("SLIME01_IDLE");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = false;
                     break;
 
                 // 오른쪽 애니메이션 반전
                 case Define.MoveDir.Left:
                     _animator.Play("SLIME01_WALK_RIGHT");
-                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = true;
                     break;
 
                 case Define.MoveDir.Right:
                     _animator.Play("SLIME01_WALK_RIGHT");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    _sprite.flipX = false;
                     break;
 
                 default:
@@ -99,7 +101,13 @@ public class MonsterController : ObjectController
         }
         else if (State == Define.ObjectState.Dead)
         {
-            // TODO: Death anim
+            GameObject effectOriginal = Resources.Load<GameObject>("Prefabs/Effect/MonsterDeathEffect");
+            GameObject deathEffect = Object.Instantiate(effectOriginal);
+            deathEffect.transform.position = transform.position;
+            deathEffect.name = "DeathEffect";
+
+            deathEffect.GetComponent<Animator>().Play("MonsterDeathEffectAnim");
+            Destroy(deathEffect, 0.5f);
         }
     }
 
@@ -119,10 +127,6 @@ public class MonsterController : ObjectController
         }
     }
 
-    public override void OnDamaged()
-    {
-    }
-
     protected override void UpdateCoordinates()
     {
     }
@@ -133,5 +137,11 @@ public class MonsterController : ObjectController
 
     protected override void UpdateDead()
     {
+    }
+
+    public override void OnDead()
+    {
+        base.OnDead();
+
     }
 }

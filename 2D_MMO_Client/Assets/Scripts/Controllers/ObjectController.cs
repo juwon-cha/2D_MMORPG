@@ -4,12 +4,24 @@ using UnityEngine;
 public class ObjectController : MonoBehaviour
 {
     public int Id { get; set; }
-
+    public int SkillId { get; set; }
     public float Speed { get; set; }
-    public int HP { get; set; }
     public int MaxHP { get; set; }
 
+    int _hp;
+    public int HP
+    {
+        get { return _hp; }
+        set
+        {
+            _hp = value;
+            UpdateHpBar();
+        }
+    }
+
     protected bool _updated = false;
+
+    private HpBar _hpBar;
 
     protected Vector3Int _cellPos = new Vector3Int();
     public Vector3Int CellPos
@@ -28,7 +40,10 @@ public class ObjectController : MonoBehaviour
             _updated = true;
         }
     }
+
     protected Animator _animator;
+    // localscale로 캐릭터를 뒤집으면 UI도 뒤집혀서 캐릭터의 sprite만 flip시킴
+    protected SpriteRenderer _sprite;
 
     protected Define.ObjectState _state = Define.ObjectState.Idle;
     public virtual Define.ObjectState State
@@ -89,6 +104,7 @@ public class ObjectController : MonoBehaviour
     protected virtual void Init()
     {
         _animator = GetComponent<Animator>();
+        _sprite = GetComponent<SpriteRenderer>();
         Vector3 position = Manager.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f, 0);
         transform.position = position;
 
@@ -99,103 +115,7 @@ public class ObjectController : MonoBehaviour
 
     protected virtual void UpdateAnim()
     {
-        if (_animator == null)
-        {
-            return;
-        }
 
-        if (State == Define.ObjectState.Idle)
-        {
-            // 마지막으로 바라보는 방향 Idle
-            switch (MoveDir)
-            {
-                case Define.MoveDir.Up:
-                    _animator.Play("IDLE_UP");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                case Define.MoveDir.Down:
-                    _animator.Play("IDLE_DOWN");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                case Define.MoveDir.Left:
-                    _animator.Play("IDLE_RIGHT");
-                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-                    break;
-
-                case Define.MoveDir.Right:
-                    _animator.Play("IDLE_RIGHT");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        else if (State == Define.ObjectState.Moving)
-        {
-            switch (MoveDir)
-            {
-                case Define.MoveDir.Up:
-                    _animator.Play("WALK_UP");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                case Define.MoveDir.Down:
-                    _animator.Play("WALK_DOWN");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                // 오른쪽 애니메이션 반전
-                case Define.MoveDir.Left:
-                    _animator.Play("WALK_RIGHT");
-                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-                    break;
-
-                case Define.MoveDir.Right:
-                    _animator.Play("WALK_RIGHT");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        else if (State == Define.ObjectState.Skill)
-        {
-            // 마지막으로 바라본 방향 기준으로 스킬 시전
-            switch (MoveDir)
-            {
-                case Define.MoveDir.Up:
-                    _animator.Play("ATTACK_UP");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                case Define.MoveDir.Down:
-                    _animator.Play("ATTACK_DOWN");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                // 오른쪽 애니메이션 반전
-                case Define.MoveDir.Left:
-                    _animator.Play("ATTACK_RIGHT");
-                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-                    break;
-
-                case Define.MoveDir.Right:
-                    _animator.Play("ATTACK_RIGHT");
-                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        else if (State == Define.ObjectState.Dead)
-        {
-            // TODO: Death anim
-        }
     }
 
     protected virtual void UpdateController()
@@ -305,5 +225,37 @@ public class ObjectController : MonoBehaviour
 
     }
 
-    public virtual void OnDamaged() { }
+    public virtual void OnDead()
+    {
+        State = Define.ObjectState.Dead;
+
+        UpdateAnim();
+    }
+
+    protected void AddHpBar()
+    {
+        GameObject HpBarOriginal = Resources.Load<GameObject>("Prefabs/UI/HP_Bar");
+        GameObject HpBar = UnityEngine.Object.Instantiate(HpBarOriginal, transform);
+        HpBar.transform.localPosition = new Vector3(0, 0.8f, 1);
+        HpBar.name = "HpBar";
+        _hpBar = HpBar.GetComponent<HpBar>();
+
+        UpdateHpBar();
+    }
+
+    void UpdateHpBar()
+    {
+        if (_hpBar == null)
+        {
+            return;
+        }
+
+        float hp = 0.0f;
+        if (MaxHP > 0)
+        {
+            hp = ((float)HP / MaxHP);
+        }
+
+        _hpBar.SetHpBar(hp);
+    }
 }
