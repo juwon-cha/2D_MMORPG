@@ -63,6 +63,22 @@ void Monster::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
 
 void Monster::OnDead(shared_ptr<GameObject> attacker)
 {
+	GameObject::OnDead(attacker);
+
+	shared_ptr<GameRoom> room = _room;
+	room->LeaveGame(_id);
+
+	// 일정 시간 후 리스폰
+	// 애니메이션 재생 후 바로 몬스터가 사라져야해서 LeaveGame() 과 EnterGame() 사이에 위치
+	this_thread::sleep_for(1.5s);
+
+	// 몬스터 정보 리셋
+	SetObjectInfo(_id, "Monster " + to_string(_id));
+	_hp = _maxHp;
+	SetPosInfo(9, -9, ObjectState_IDLE, MoveDir_DOWN);
+	SetStatInfo(_level, _speed, _hp, _maxHp, _attack, _totalExp);
+
+	room->EnterGame(shared_from_this());
 }
 
 void Monster::BroadcastMove()

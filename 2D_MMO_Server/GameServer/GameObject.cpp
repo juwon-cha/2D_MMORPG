@@ -99,7 +99,10 @@ void GameObject::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
 
 void GameObject::OnDead(shared_ptr<GameObject> attacker)
 {
-
+	flatbuffers::FlatBufferBuilder builder;
+	auto die = CreateSC_DIE(builder, _id, attacker->GetObjectId());
+	auto diePkt = PacketManager::Instance().CreatePacket(die, builder, PacketType_SC_DIE);
+	_room->Broadcast(diePkt);
 }
 
 void GameObject::SetObjectInfo(int32 id, std::string name)
