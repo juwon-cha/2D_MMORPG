@@ -51,6 +51,12 @@ void Projectile::Update()
 		shared_ptr<GameObject> target = _room->GetMap()->Find(destPos);
 		if (target != nullptr)
 		{
+			// NON PVP
+			if (target->GetObjectType() == GameObjectType_PLAYER)
+			{
+				return;
+			}
+
 			cout << "Arrow Hit!" << endl;
 			target->OnDamaged(shared_from_this(), _skillData.Damage + _owner->GetObjectAttack());
 		}
