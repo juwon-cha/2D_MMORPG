@@ -14,8 +14,8 @@ public:
 public:
 	bool Remove(int32 objectId);
 	shared_ptr<GameObject> Find(int32 objectId);
-	int32 GenerateId(ObjectType type);
-	static ObjectType GetObjectTypeById(int32 id);
+	int32 GenerateId(GameObjectType type);
+	static GameObjectType GetObjectTypeById(int32 id);
 
 	template<typename T>
 	shared_ptr<T> Add()
@@ -30,7 +30,7 @@ public:
 
 		WRITE_LOCK;
 		{
-			if (gameObj->GetObjectType() == ObjectType::PLAYER)
+			if (gameObj->GetObjectType() == GameObjectType_PLAYER)
 			{
 				shared_ptr<GameObject> temp = static_pointer_cast<GameObject>(gameObj);
 				_players.insert(pair<int32, shared_ptr<Player>>(gameObj->GetObjectId(), static_pointer_cast<Player>(temp)));

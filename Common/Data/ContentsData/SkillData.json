@@ -15,9 +15,9 @@
             "SkillType": "SKILL_PROJECTILE",
             "Projectile": {
                 "Name": "Arrow",
-                "Speed": 20.0,
-                "Range": 10,
-                "Prefab": "Arrow"
+                "Speed": 50.0,
+                "Range": 7,
+                "Prefab": "Prefabs/Items/Arrow"
             }
         }
     ]

@@ -64,6 +64,6 @@ int main()
 	{
 		RoomManager::Instance().Find(1)->Update();
 
-		this_thread::sleep_for(250ms);
+		this_thread::sleep_for(100ms);
 	}
 }
