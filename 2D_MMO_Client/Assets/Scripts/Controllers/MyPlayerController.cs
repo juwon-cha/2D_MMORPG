@@ -45,7 +45,7 @@ public class MyPlayerController : PlayerController
         // 스킬 상태
         if (_coSkillCooltime == null && Input.GetKey(KeyCode.Space))
         {
-            int skillId = 1; // TEMP
+            int skillId = 2; // TEMP
 
             Data.Skill skillData = null;
             if (DataManager.SkillData.TryGetValue(skillId, out skillData) == false)
@@ -54,7 +54,7 @@ public class MyPlayerController : PlayerController
             }
 
             FlatBufferBuilder builder = new FlatBufferBuilder(1024);
-            
+
             var skillInfo = SkillInfo.CreateSkillInfo(builder, skillId);
             var skill = C_SKILL.CreateC_SKILL(builder, skillInfo);
             var skillPkt = Manager.Packet.CreatePacket(skill, builder, PacketType.C_SKILL);
@@ -92,7 +92,7 @@ public class MyPlayerController : PlayerController
         {
             MoveDir = Define.MoveDir.Right;
         }
-        else if(Input.GetKey(KeyCode.Escape))
+        else if (Input.GetKey(KeyCode.Escape))
         {
             ExitPlayMode();
         }

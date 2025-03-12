@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerController : ObjectController
 {
     protected Coroutine _coSkill;
+    protected bool _rangedSkill = false;
 
     protected override void Init()
     {
@@ -82,23 +83,23 @@ public class PlayerController : ObjectController
             switch (MoveDir)
             {
                 case Define.MoveDir.Up:
-                    _animator.Play("ATTACK_UP");
+                    _animator.Play(_rangedSkill ? "BOW_UP" : "ATTACK_UP");
                     _sprite.flipX = false;
                     break;
 
                 case Define.MoveDir.Down:
-                    _animator.Play("ATTACK_DOWN");
+                    _animator.Play(_rangedSkill ? "BOW_DOWN" : "ATTACK_DOWN");
                     _sprite.flipX = false;
                     break;
 
                 // 오른쪽 애니메이션 반전
                 case Define.MoveDir.Left:
-                    _animator.Play("ATTACK_RIGHT");
+                    _animator.Play(_rangedSkill ? "BOW_RIGHT" : "ATTACK_RIGHT");
                     _sprite.flipX = true;
                     break;
 
                 case Define.MoveDir.Right:
-                    _animator.Play("ATTACK_RIGHT");
+                    _animator.Play(_rangedSkill ? "BOW_RIGHT" : "ATTACK_RIGHT");
                     _sprite.flipX = false;
                     break;
 
@@ -123,40 +124,40 @@ public class PlayerController : ObjectController
         {
             _coSkill = StartCoroutine("CoStartSwordAttack");
         }
-        else if(skillId == 2)
+        else if (skillId == 2)
         {
-            // TODO: projectile skill
+            _coSkill = StartCoroutine("CoStartBowAttack");
         }
     }
 
     IEnumerator CoStartSwordAttack()
     {
         // 대기 시간
+        _rangedSkill = false;
         State = Define.ObjectState.Skill;
         yield return new WaitForSeconds(0.5f);
         State = Define.ObjectState.Idle;
         _coSkill = null;
-        CheckUpdatedFlag(); // 플레이어의 상태를 Idle로 변경하고 서버로 전송
+
+        // 스킬 사용 후플레이어의 상태를 Idle로 변경하고 서버로 전송
+        CheckUpdatedFlag();
+    }
+
+    IEnumerator CoStartBowAttack()
+    {
+        // 대기 시간
+        _rangedSkill = true;
+        State = Define.ObjectState.Skill;
+        yield return new WaitForSeconds(0.3f);
+        State = Define.ObjectState.Idle;
+        _coSkill = null;
+
+        CheckUpdatedFlag();
     }
 
     protected virtual void CheckUpdatedFlag()
     {
-    }
 
-    protected override void UpdateIdle()
-    {
-    }
-
-    protected override void UpdateCoordinates()
-    {
-    }
-
-    protected override void UpdateSkill()
-    {
-    }
-
-    protected override void UpdateDead()
-    {
     }
 
     public override void OnDead()

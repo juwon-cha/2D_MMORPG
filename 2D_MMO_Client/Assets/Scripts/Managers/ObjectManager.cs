@@ -76,7 +76,19 @@ public class ObjectManager
         }
         else if (objType == GameObjectType.PROJECTILE)
         {
+            GameObject projectileOriginal = Resources.Load<GameObject>("Prefabs/Items/Arrow");
+            GameObject projectile = UnityEngine.Object.Instantiate(projectileOriginal);
+            projectile.name = info.Name;
+            _objects.Add(info.ObjectId, projectile);
 
+            ProjectileController pc = projectile.GetComponent<ProjectileController>();
+            pc.Id = info.ObjectId;
+            pc.CellPos = new Vector3Int(info.PosInfo.Value.PosX, info.PosInfo.Value.PosY, 0);
+            pc.MoveDir = (Define.MoveDir)info.PosInfo.Value.MoveDir;
+            pc.State = (Define.ObjectState)info.PosInfo.Value.State;
+            pc.Speed = info.StatInfo.Value.Speed;
+
+            pc.SyncPos();
         }
     }
 

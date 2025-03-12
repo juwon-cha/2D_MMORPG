@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\Managers\SceneManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\MyPlayerController.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\ProjectileController.cs" />
     <Compile Include="Assets\Scripts\Scene\GameScene.cs" />
     <Compile Include="Assets\Scripts\Managers\MapManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
