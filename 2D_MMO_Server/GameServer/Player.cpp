@@ -6,7 +6,7 @@
 Player::Player()
 	: _session(nullptr)
 {
-	_type = ObjectType::PLAYER;
+	_type = GameObjectType_PLAYER;
 }
 
 void Player::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)

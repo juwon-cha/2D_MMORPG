@@ -14,7 +14,7 @@ Monster::Monster()
 	, _skillRange(0)
 	, _skillCoolTick(0)
 {
-	_type = ObjectType::MONSTER;
+	_type = GameObjectType_MONSTER;
 
 	// TEMP
 	_state = ObjectState_IDLE;
@@ -70,7 +70,8 @@ void Monster::OnDead(shared_ptr<GameObject> attacker)
 
 	// 일정 시간 후 리스폰
 	// 애니메이션 재생 후 바로 몬스터가 사라져야해서 LeaveGame() 과 EnterGame() 사이에 위치
-	this_thread::sleep_for(1.5s);
+	// TODO: 비동기 일시정지
+	//this_thread::sleep_for(1.5s);
 
 	// 몬스터 정보 리셋
 	SetObjectInfo(_id, "Monster " + to_string(_id));
@@ -218,7 +219,7 @@ void Monster::UpdateSkill()
 		_room->Broadcast(respondSkillPkt);
 
 		// 스킬 쿨타임 적용
-		int32 coolTick = 1000; // TEMP
+		uint64 coolTick = 1000; // TEMP
 		_skillCoolTick = GetTickCount64() + coolTick;
 	}
 

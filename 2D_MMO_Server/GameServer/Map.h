@@ -32,8 +32,8 @@ struct Vector2Int
 	}
 
 	float magnitude() { return static_cast<float>(std::sqrt(squareMagnitude())); }
-	int squareMagnitude() { return (X * X + Y * Y); }
-	int CellDistance() { return std::abs(X) + std::abs(Y); } // 가고자 하는 좌표까지 거리
+	int32 squareMagnitude() { return (X * X + Y * Y); }
+	int32 CellDistance() { return std::abs(X) + std::abs(Y); } // 가고자 하는 좌표까지 거리
 
 	int32 X;
 	int32 Y;

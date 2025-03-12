@@ -7,6 +7,7 @@
 #include "ObjectManager.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "Projectile.h"
 #include "Monster.h"
 #include "DataManager.h"
 #include "ContentsData.h"
@@ -29,7 +30,7 @@ void GameRoom::Init(int32 mapId)
         shared_ptr<Monster> monster = ObjectManager::Instance().Add<Monster>();
         monster->SetObjectInfo(monster->GetObjectId(), "MONSTER_" + to_string(monster->GetObjectId()));
         monster->SetPosInfo(9, -9, ObjectState_IDLE, MoveDir_DOWN);
-        monster->SetStatInfo(monster->GetOjbectLevel(), monster->GetObjectSpeed(), monster->GetObjectHP(), monster->GetObjectMaxHP(), monster->GetObjectAttack(), monster->GetObjectTotalExp());
+        monster->SetStatInfo(monster->GetObjectLevel(), monster->GetObjectSpeed(), monster->GetObjectHP(), monster->GetObjectMaxHP(), monster->GetObjectAttack(), monster->GetObjectTotalExp());
         EnterGame(monster);
     }
 }
@@ -41,14 +42,14 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
         return;
     }
 
-    ObjectType type = ObjectManager::GetObjectTypeById(gameObj->GetObjectId());
+    GameObjectType type = ObjectManager::GetObjectTypeById(gameObj->GetObjectId());
 
     WRITE_LOCK;
     {
-        if (type == ObjectType::PLAYER)
+        if (type == GameObjectType_PLAYER)
         {
             shared_ptr<Player> newPlayer = static_pointer_cast<Player>(gameObj);
-            _players.insert(pair<uint32, shared_ptr<Player>>(newPlayer->GetObjectId(), newPlayer));
+            _players.insert(pair<int32, shared_ptr<Player>>(newPlayer->GetObjectId(), newPlayer));
             newPlayer->SetGameRoom(shared_from_this());
 
             GetMap()->ApplyMove(newPlayer, Vector2Int(newPlayer->GetObjectPosX(), newPlayer->GetObjectPosY()));
@@ -98,6 +99,16 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                     infoArray.push_back(monsterInfo);
                 }
 
+                // infoArray에 투사체 정보 삽입
+                for (const auto& pair : _projectiles)
+                {
+                    auto projectileName = builder.CreateString(pair.second->GetObjectName());
+                    auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
+                    auto statInfo = CreateStatInfo(builder, pair.second->GetObjectHP(), pair.second->GetObjectMaxHP(), pair.second->GetObjectSpeed());
+                    auto projectileInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), projectileName, posInfo, statInfo);
+                    infoArray.push_back(projectileInfo);
+                }
+
                 auto data = builder.CreateVector(infoArray);
                 auto spawn = CreateSC_SPAWN(builder, data);
                 auto spawnPkt = PacketManager::Instance().CreatePacket(spawn, builder, PacketType_SC_SPAWN);
@@ -105,18 +116,21 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                 newPlayer->GetClientSession()->Send(spawnPkt);
             }
         }
-        else if (type == ObjectType::MONSTER)
+        else if (type == GameObjectType_MONSTER)
         {
-            // TODO: Monster Enter Game
+            // Monster Enter Game
             shared_ptr<Monster> monster = static_pointer_cast<Monster>(gameObj);
-            _monsters.insert(pair<uint32, shared_ptr<Monster>>(monster->GetObjectId(), monster));
+            _monsters.insert(pair<int32, shared_ptr<Monster>>(monster->GetObjectId(), monster));
             monster->SetGameRoom(shared_from_this());
 
             GetMap()->ApplyMove(monster, Vector2Int(monster->GetObjectPosX(), monster->GetObjectPosY()));
         }
-        else if (type == ObjectType::PROJECTILE)
+        else if (type == GameObjectType_PROJECTILE)
         {
-
+            // Projectile Enter Game
+            shared_ptr<Projectile> projectile = static_pointer_cast<Projectile>(gameObj);
+            _projectiles.insert(pair<int32, shared_ptr<Projectile>>(projectile->GetObjectId(), projectile));
+            projectile->SetGameRoom(shared_from_this());
         }
 
         // 타인에게 내 정보 전송
@@ -147,11 +161,11 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
 
 void GameRoom::LeaveGame(int32 objectId)
 {
-    ObjectType type = ObjectManager::GetObjectTypeById(objectId);
+    GameObjectType type = ObjectManager::GetObjectTypeById(objectId);
 
     WRITE_LOCK;
     {
-        if (type == ObjectType::PLAYER)
+        if (type == GameObjectType_PLAYER)
         {
             shared_ptr<Player> player = nullptr;
 
@@ -159,7 +173,10 @@ void GameRoom::LeaveGame(int32 objectId)
             if (iter != _players.end())
             {
                 player = iter->second;
-                _players.erase(objectId);
+                if (_players.erase(objectId) <= 0)
+                {
+                    return;
+                }
 
                 player->SetGameRoom(nullptr);
                 _map->ApplyLeave(player);
@@ -174,22 +191,37 @@ void GameRoom::LeaveGame(int32 objectId)
                 player->GetClientSession()->Send(leavePkt);
             }
         }
-        else if (type == ObjectType::MONSTER)
+        else if (type == GameObjectType_MONSTER)
         {
             shared_ptr<Monster> monster = nullptr;
             auto iter = _monsters.find(objectId);
             if (iter != _monsters.end())
             {
                 monster = iter->second;
-                _monsters.erase(objectId);
+                if (_monsters.erase(objectId) <= 0)
+                {
+                    return;
+                }
 
                 monster->SetGameRoom(nullptr);
                 _map->ApplyLeave(monster);
             }
         }
-        else if (type == ObjectType::PROJECTILE)
+        else if (type == GameObjectType_PROJECTILE)
         {
+            shared_ptr<Projectile> projectile = nullptr;
+            auto iter = _projectiles.find(objectId);
+            if (iter != _projectiles.end())
+            {
+                projectile = iter->second;
+                if (_projectiles.erase(objectId) <= 0)
+                {
+                    return;
+                }
 
+                projectile->SetGameRoom(nullptr);
+                _map->ApplyLeave(projectile);
+            }
         }
 
         // 타인한테 내 정보 전송
@@ -302,7 +334,7 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
             if (target != nullptr)
             {
                 // NON PVP
-                if (target->GetObjectType() == ObjectType::PLAYER)
+                if (target->GetObjectType() == GameObjectType_PLAYER)
                 {
                     return;
                 }
@@ -314,8 +346,24 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
         break;
 
         case SkillType_SKILL_PROJECTILE:
-            // TODO: Arrow Attack
-            break;
+        {
+            shared_ptr<Projectile> projectile = ObjectManager::Instance().Add<Projectile>();
+            if (projectile == nullptr)
+            {
+                return;
+            }
+
+            // 플레이어 앞에 화살 생성
+            Vector2Int FrontCell = player->GetFrontCellPos();
+            projectile->SetOwner(player);
+            projectile->SetOwnerPos(player->GetObjectPosX(), player->GetObjectPosY());
+            projectile->SetSkillData(skillData);
+            projectile->SetObjectInfo(projectile->GetObjectId(), "Projectile" + to_string(projectile->GetObjectId()));
+            projectile->SetPosInfo(FrontCell.X, FrontCell.Y, ObjectState_MOVING, player->GetObjectMoveDir());
+            projectile->SetObjectSpeed(skillData.Projectile.Speed);
+            EnterGame(projectile);
+        }
+        break;
 
         case SkillType_SKILL_NONE:
             return;
@@ -339,19 +387,34 @@ shared_ptr<Player> GameRoom::FindPlayer(function<bool(shared_ptr<GameObject>)> c
 void GameRoom::Broadcast(SendBufferRef buffer)
 {
     //WRITE_LOCK;
-
-    for (const auto& pair : _players)
     {
-        pair.second->GetClientSession()->Send(buffer);
+        for (const auto& pair : _players)
+        {
+            pair.second->GetClientSession()->Send(buffer);
+        }
     }
 }
 
 void GameRoom::Update()
 {
     //WRITE_LOCK;
-
-    for (const auto& pair : _monsters)
     {
-        pair.second->Update();
+        for (const auto& pair : _monsters)
+        {
+            pair.second->Update();
+        }
+
+        // std::map 순환문에서 원소 삭제 후 begin()부터 접근하면 문제
+        // 지워진 iterator를 가리키고 있어서 런타임 에러
+        // 맵의 앞에서 원소를 지우고 뒤에서부터 순회해서 투사체 업데이트
+        for (auto iter = _projectiles.rbegin(); iter != _projectiles.rend(); ++iter)
+        {
+            iter->second->Update();
+
+            if (_projectiles.size() == 0)
+            {
+                return;
+            }
+        }
     }
 }

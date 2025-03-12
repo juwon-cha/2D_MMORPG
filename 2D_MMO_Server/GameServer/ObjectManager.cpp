@@ -17,11 +17,11 @@ ObjectManager& ObjectManager::Instance()
 
 bool ObjectManager::Remove(int32 objectId)
 {
-	ObjectType objType = GetObjectTypeById(objectId);
+	GameObjectType objType = GetObjectTypeById(objectId);
 
 	WRITE_LOCK;
 	{
-		if (objType == ObjectType::PLAYER)
+		if (objType == GameObjectType_PLAYER)
 		{
 			return _players.erase(objectId);
 		}
@@ -32,11 +32,11 @@ bool ObjectManager::Remove(int32 objectId)
 
 shared_ptr<GameObject> ObjectManager::Find(int32 objectId)
 {
-	ObjectType objType = GetObjectTypeById(objectId);
+	GameObjectType objType = GetObjectTypeById(objectId);
 
 	WRITE_LOCK;
 	{
-		if (objType == ObjectType::PLAYER)
+		if (objType == GameObjectType_PLAYER)
 		{
 			shared_ptr<Player> player = nullptr;
 
@@ -52,7 +52,7 @@ shared_ptr<GameObject> ObjectManager::Find(int32 objectId)
 	return nullptr;
 }
 
-int32 ObjectManager::GenerateId(ObjectType type)
+int32 ObjectManager::GenerateId(GameObjectType type)
 {
 	WRITE_LOCK;
 	{
@@ -61,10 +61,10 @@ int32 ObjectManager::GenerateId(ObjectType type)
 	}
 }
 
-ObjectType ObjectManager::GetObjectTypeById(int32 id)
+GameObjectType ObjectManager::GetObjectTypeById(int32 id)
 {
 	// 아이디에 해당하는 24 비트만큼 오른쪽 시프트하고 0111 1111로 비트마스크해서 타입 얻어옴
 	int32 type = (id >> 24) & 0x7F/*127의 16진수*/;
 
-	return static_cast<ObjectType>(type);
+	return static_cast<GameObjectType>(type);
 }

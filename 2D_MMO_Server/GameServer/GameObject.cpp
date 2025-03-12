@@ -4,7 +4,7 @@
 #include "GameRoom.h"
 
 GameObject::GameObject()
-	: _type(ObjectType::NONE)
+	: _type(GameObjectType_NONE)
 	, _id(0)
 	, _posX(0)
 	, _posY(0)
@@ -99,6 +99,8 @@ void GameObject::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
 
 void GameObject::OnDead(shared_ptr<GameObject> attacker)
 {
+	SetObjectState(ObjectState_DEAD);
+
 	flatbuffers::FlatBufferBuilder builder;
 	auto die = CreateSC_DIE(builder, _id, attacker->GetObjectId());
 	auto diePkt = PacketManager::Instance().CreatePacket(die, builder, PacketType_SC_DIE);

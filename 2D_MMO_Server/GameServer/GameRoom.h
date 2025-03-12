@@ -5,6 +5,7 @@ class Map;
 class GameObject;
 class Player;
 class Monster;
+class Projectile;
 
 class GameRoom : public enable_shared_from_this<GameRoom>
 {
@@ -31,7 +32,8 @@ public:
 private:
 	USE_LOCK;
 	int32 _roomId;
-	map<uint32, shared_ptr<Player>> _players;
-	map<uint32, shared_ptr<Monster>> _monsters;
+	map<int32, shared_ptr<Player>> _players;
+	map<int32, shared_ptr<Monster>> _monsters;
+	map<int32, shared_ptr<Projectile>> _projectiles;
 	shared_ptr<Map> _map;
 };

@@ -84,6 +84,9 @@
     <ClCompile Include="DataManager.cpp">
       <Filter>Game\Data</Filter>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="DataManager.h">
       <Filter>Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Game\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

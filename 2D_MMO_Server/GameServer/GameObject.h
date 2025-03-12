@@ -1,14 +1,6 @@
 #pragma once
 #include "Map.h"
 
-enum class ObjectType
-{
-	NONE,
-	PLAYER,
-	MONSTER,
-	PROJECTILE
-};
-
 class GameRoom;
 
 class GameObject : public enable_shared_from_this<GameObject>
@@ -26,8 +18,7 @@ public:
 	virtual void OnDead(shared_ptr<GameObject> attacker);
 
 public:
-	ObjectType GetObjectType() const { return _type; }
-	void SetObjectType(ObjectType type) { _type = type; }
+	GameObjectType GetObjectType() const { return _type; }
 
 	int32 GetObjectId() const { return _id; }
 	void SetObjectId(int32 id) { _id = id; }
@@ -43,7 +34,7 @@ public:
 	MoveDir GetObjectMoveDir() const { return _moveDir; }
 	void SetObjectMoveDir(MoveDir moveDir) { _moveDir = moveDir; }
 
-	int32 GetOjbectLevel() const { return _level; }
+	int32 GetObjectLevel() const { return _level; }
 	int32 GetObjectHP() const { return _hp; }
 	int32 GetObjectMaxHP() const { return _maxHp; }
 	int32 GetObjectAttack() const { return _attack; }
@@ -59,7 +50,7 @@ public:
 	void SetGameRoom(shared_ptr<GameRoom> room) { _room = room; }
 
 protected:
-	ObjectType _type;
+	GameObjectType _type;
 	int32 _id;
 	int32 _posX;
 	int32 _posY;
