@@ -24,7 +24,8 @@ PacketManager::~PacketManager()
 
 void PacketManager::Register()
 {
-    _handler[PacketType::PacketType_SD_Test] = PacketHandler::SD_TestHandler;
+    _handler[PacketType::PacketType_SD_SIGNUP] = PacketHandler::SD_SIGNUPHandler;
+		_handler[PacketType::PacketType_SD_SIGNIN] = PacketHandler::SD_SIGNINHandler;
 		
 }
 
