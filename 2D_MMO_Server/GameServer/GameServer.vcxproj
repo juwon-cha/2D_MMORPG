@@ -81,7 +81,7 @@
     <OutDir>$(SolutionDir)Binary\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath);$(SolutionDir)Libraries;</IncludePath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Libraries;$(SolutionDir)Libraries\json\include;</IncludePath>
     <LibraryPath>$(LibraryPath);</LibraryPath>
     <OutDir>$(SolutionDir)Binary\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -184,6 +184,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameRoom.cpp" />
     <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="ObjectManager.cpp" />

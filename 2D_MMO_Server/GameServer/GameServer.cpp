@@ -10,26 +10,28 @@
 #include "ConfigManager.h"
 #include "StringConverter.h"
 #include "DataManager.h"
+#include "ClientSessionManager.h"
 
 int main()
 {
-	//shared_ptr<ClientService> dbConnect = std::make_shared<ClientService>(
-	//	NetAddress(L"127.0.0.1", 8001),
-	//	std::make_shared<IocpCore>(),
-	//	std::make_shared<DBSession>},
-	//	1);
-	//ASSERT(dbConnect->Start(), "SERVICE_START_ERROR");
-
-	//for (int32 i = 0; i < 5; i++)
-	//{
-	//	GThreadManager->EnqueueJob([=]()
-	//		{
-	//			while (true)
-	//			{
-	//				dbConnect->GetIocpCore()->Dispatch();
-	//			}
-	//		});
-	//}
+#pragma region DB 서버 연결
+	shared_ptr<ClientService> dbConnect = std::make_shared<ClientService>(
+		NetAddress(L"127.0.0.1", 8001),
+		std::make_shared<IocpCore>(),
+		[]() {return GSessionManager.DB; },
+		1);
+	ASSERT(dbConnect->Start(), "SERVICE_START_ERROR");
+	for (int32 i = 0; i < 5; i++)
+	{
+		GThreadManager->EnqueueJob([=]()
+			{
+				while (true)
+				{
+					dbConnect->GetIocpCore()->Dispatch();
+				}
+			});
+	}
+#pragma endregion
 
 	// GameServer Listening
 	ConfigManager config = ConfigManager::LoadConfig();
@@ -51,7 +53,7 @@ int main()
 	for (int32 i = 0; i < 5; i++)
 	{
 		GThreadManager->EnqueueJob([=]()
-			{ 
+			{
 				while (true)
 				{
 					service->GetIocpCore()->Dispatch();

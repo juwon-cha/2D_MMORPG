@@ -28,7 +28,6 @@ void ClientSession::OnConnected()
 	_player->SetStatInfo(statData.Level, statData.Speed, statData.Hp, statData.MaxHp, statData.Attack, statData.TotalExp);
 	_player->SetClientSession(static_pointer_cast<ClientSession>(shared_from_this()));
 
-	RoomManager::Instance().Find(1)->EnterGame(_player);
 
 	cout << "Connected: " << _player->GetObjectName() << endl;
 }

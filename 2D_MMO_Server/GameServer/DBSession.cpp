@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "DBSession.h"
+#include "PacketManager.h"
 
 void DBSession::OnConnected()
 {
@@ -13,6 +14,8 @@ void DBSession::OnDisconnected()
 
 int32 DBSession::OnRecvPacket(BYTE* buffer, int32 len)
 {
+	PacketManager::Instance().OnRecvPacket(this, buffer);
+
 	return len;
 }
 
