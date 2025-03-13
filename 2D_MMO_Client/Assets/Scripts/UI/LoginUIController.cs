@@ -1,9 +1,11 @@
+using Google.FlatBuffers;
 using UnityEngine;
 using UnityEngine.UIElements;
 public class LoginUIController : BaseUIController
 {
     VisualElement root;
     VisualElement Popup;
+    public VisualElement ErrorPopup;
 
     bool _signIn = false;
     bool signIn
@@ -35,6 +37,9 @@ public class LoginUIController : BaseUIController
     Label PopupTitle;
     TextField id;
     TextField password;
+
+    public Label ErrorResult;
+    Button ErrorPopupClose;
     protected override void Init()
     {
         base.Init();
@@ -46,7 +51,16 @@ public class LoginUIController : BaseUIController
         SignUp = root.Q<Button>("Button-SignUp");
         SignUp.RegisterCallback<ClickEvent>((e) => { signIn = false; });
         GameExit = root.Q<Button>("Button-GameExit");
-        GameExit.RegisterCallback<ClickEvent>((e) => {
+        ErrorPopup = root.Q<VisualElement>("Container-ErrorPopup");
+        ErrorResult = ErrorPopup.Q<Label>();
+        ErrorPopupClose = ErrorPopup.Q<Button>();
+
+        ErrorPopupClose.RegisterCallback<ClickEvent>((e) => {
+            ErrorPopup.AddToClassList("Hide-ErrorPopup");
+        });
+
+        GameExit.RegisterCallback<ClickEvent>((e) =>
+        {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -55,8 +69,24 @@ public class LoginUIController : BaseUIController
         });
 
         PopupSubmit = root.Q<Button>("Button-PopupSubmit");
-        PopupSubmit.RegisterCallback<ClickEvent>((e) => {
-            // todo
+        PopupSubmit.RegisterCallback<ClickEvent>((e) =>
+        {
+            if (id.text.Length == 0 || password.text.Length == 0)
+                return;
+            FlatBufferBuilder builder = new FlatBufferBuilder(50);
+
+            if (signIn == true)
+            {
+                var data = C_SIGNIN.CreateC_SIGNIN(builder, builder.CreateString(id.text), builder.CreateString(password.text));
+                var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_SIGNIN);
+                Manager.Network.Send(packet);
+            }
+            else
+            {
+                var data = C_SIGNUP.CreateC_SIGNUP(builder, builder.CreateString(id.text), builder.CreateString(password.text));
+                var packet = Manager.Packet.CreatePacket(data, builder, PacketType.C_SIGNUP);
+                Manager.Network.Send(packet);
+            }
         });
         PopupTitle = root.Q<Label>("Text-PopupTitle");
         PopupClose = root.Q<Button>("Button-PopupClose");

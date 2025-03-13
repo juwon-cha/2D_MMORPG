@@ -1,4 +1,5 @@
 using Define;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +23,10 @@ public class SceneManagerEx
 
         SceneManager.LoadScene(GetSceneName(sceneType));
     }
-
+    public void LoadSceneAsync(string sceneName, Action action = null)
+    {
+        SceneManager.LoadSceneAsync(sceneName).completed += (a) => { action?.Invoke(); };
+    }
     string GetSceneName(Define.SceneType sceneType)
     {
         string sceneName = System.Enum.GetName(typeof(Define.SceneType), sceneType);
