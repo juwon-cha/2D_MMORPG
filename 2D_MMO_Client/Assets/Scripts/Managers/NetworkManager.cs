@@ -23,7 +23,7 @@ public class NetworkManager : IManager
 
     public void Push(ArraySegment<byte> packet)
     {
-        lock (_lock) 
+        //lock (_lock) 
         {
             _packetQueue.Enqueue(packet);
         }
@@ -31,7 +31,7 @@ public class NetworkManager : IManager
 
     public void Update()
     {
-        lock (_lock)
+        //lock (_lock)
         {
             while (_packetQueue.Count > 0) 
                 Manager.Packet.OnRecvPacket(_session, _packetQueue.Dequeue());
