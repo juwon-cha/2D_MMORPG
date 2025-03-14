@@ -2,7 +2,7 @@ using Google.FlatBuffers;
 using ServerCore;
 using UnityEngine;
 
-public class PacketHandler
+public partial class PacketHandler
 {
     public static void SC_ENTER_GAMEHandler(PacketSession session, ByteBuffer buffer)
     {

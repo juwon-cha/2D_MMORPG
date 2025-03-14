@@ -41,3 +41,22 @@
     -unity-background-image-tint-color: rgb(203, 130, 0);
     background-color: rgb(82, 82, 82);
 }
+
+.Show-ErrorPopup {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 25%;
+    top: 25%;
+    background-color: rgb(255, 255, 255);
+}
+
+.Hide-ErrorPopup {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 25%;
+    top: 25%;
+    background-color: rgb(255, 255, 255);
+    display: none;
+}
