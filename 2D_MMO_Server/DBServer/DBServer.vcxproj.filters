@@ -16,10 +16,10 @@
     <ClCompile Include="pch.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
+    <ClCompile Include="PacketManager.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
-    <ClCompile Include="PacketManager.cpp">
+    <ClCompile Include="Login.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
   </ItemGroup>
