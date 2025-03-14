@@ -6,6 +6,9 @@ class Player;
 class ClientSession : public PacketSession
 {
 public:
+	uint64 SessionId;
+	uint64 DbId = 0;
+public:
 	~ClientSession()
 	{
 		cout << "~ClientSession" << endl;
