@@ -49,6 +49,9 @@ table SkillInfo {
 	skillId:int32;
 }
 
+table C_ENTER_GAME {
+}
+
 table SC_ENTER_GAME {
 	player:ObjectInfo;
 }

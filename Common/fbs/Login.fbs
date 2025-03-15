@@ -1,0 +1,54 @@
+table C_SIGNUP {
+	id:string;
+	password:string;
+}
+
+table SD_SIGNUP {
+	session_id:uint64;
+	id:string;
+	password:string;
+}
+
+enum SignUpError : uint8 {
+	SUCCESS,
+	OVERLAP_ID,
+	UNKNOWN,
+}
+
+table D_SIGNUP {
+	db_id:uint64;
+	session_id:uint64;
+	ok:SignUpError;
+}
+
+table SC_SIGNUP {
+	ok:SignUpError;
+}
+
+table C_SIGNIN {
+	id:string;
+	password:string;
+}
+
+table SD_SIGNIN {
+	session_id:uint64;
+	id:string;
+	password:string;
+}
+
+enum SignInError : uint8 {
+	SUCCESS,
+	INVALID_ID,
+	INVALID_PASSWORD,
+	UNKNOWN,
+}
+
+table D_SIGNIN {
+	db_id:uint64;
+	session_id:uint64;
+	ok:SignInError;
+}
+
+table SC_SIGNIN {
+	ok:SignInError;
+}
