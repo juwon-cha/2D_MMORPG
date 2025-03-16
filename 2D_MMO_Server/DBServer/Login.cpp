@@ -76,7 +76,7 @@ void PacketHandler::SD_SIGNINHandler(PacketSession* session, ByteRef buffer)
 	try {
 		Manager::DB.RequestAsync(query, [sessionId](shared_ptr<DbManager::QueryArgs> result) {
 			SignInError error;
-			SQLINTEGER dbId = 0;
+			SQLBIGINT dbId = 0;
 
 			SQLHSTMT stmt = result->GetStmt();
 			if (SQL_SUCCEEDED(result->_ret))
