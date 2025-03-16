@@ -30,7 +30,7 @@ void PacketHandler::C_SIGNUPHandler(PacketSession* session, ByteRef buffer) {
 	try {
 		FlatBufferBuilder builder;
 		auto id = pkt->id()->c_str();
-		auto password = pkt->id()->c_str();
+		auto password = pkt->password()->c_str();
 		if (::strlen(id) == 0 || ::strlen(password) == 0)
 		{
 			client->Disconnect(L"INVALID CLIENT");
