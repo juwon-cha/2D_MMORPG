@@ -19,6 +19,8 @@ public class MyPlayerController : PlayerController
 
     protected override void UpdateController()
     {
+        GetUIKeyInput();
+
         switch (State)
         {
             case Define.ObjectState.Idle:
@@ -71,6 +73,28 @@ public class MyPlayerController : PlayerController
         _coSkillCooltime = null;
     }
 
+    void GetUIKeyInput()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            InventoryController inven = Manager.UI.Inven;
+
+            if (inven.gameObject.activeSelf)
+            {
+                inven.gameObject.SetActive(false);
+            }
+            else
+            {
+                inven.gameObject.SetActive(true);
+                inven.RefreshUI();
+            }
+        }
+        else if (Input.GetKey(KeyCode.Escape))
+        {
+            ExitPlayMode();
+        }
+    }
+
     // 키보드 입력 방향 설정
     void GetDirection()
     {
@@ -91,10 +115,6 @@ public class MyPlayerController : PlayerController
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             MoveDir = Define.MoveDir.Right;
-        }
-        else if (Input.GetKey(KeyCode.Escape))
-        {
-            ExitPlayMode();
         }
         else
         {

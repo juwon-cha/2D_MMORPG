@@ -19,7 +19,7 @@ public class MapEditor
         if (result)
         {
             GenerateByPath("Assets/Resources/MapData");
-            GenerateByPath("../Common/MapData");
+            GenerateByPath("../Common/Data/MapData");
 
             EditorUtility.DisplayDialog("MapTool", "Map data generated successfully!", "Ok");
         }

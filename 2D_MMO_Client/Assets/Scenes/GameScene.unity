@@ -163,7 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd4bd45d4cc91a4891a17eff590eb1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIControllers: []
+  UIControllers:
+  - {fileID: 1564044348475905885, guid: 772fcad5ff4c0ff4cae5f21f045b90cb, type: 3}
 --- !u!1 &1631641343
 GameObject:
   m_ObjectHideFlags: 0
