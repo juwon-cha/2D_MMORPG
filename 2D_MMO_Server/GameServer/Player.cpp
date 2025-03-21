@@ -2,11 +2,13 @@
 #include "Player.h"
 #include "ContentsData.h"
 #include "GameRoom.h"
+#include "ItemManager.h"
 
 Player::Player()
 	: _session(nullptr)
 {
 	_type = GameObjectType_PLAYER;
+	_inventory = make_shared<ItemManager>();
 }
 
 void Player::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)

@@ -25,8 +25,11 @@
     <Filter Include="Game\Room">
       <UniqueIdentifier>{964b6b53-cc6e-4c08-8cf9-4ba4337ae717}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Data">
+    <Filter Include="Data">
       <UniqueIdentifier>{c7967488-0e4c-4523-b9be-f7ab77cffa91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Item">
+      <UniqueIdentifier>{b4144ef2-2c76-4134-9646-3da07200b688}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,22 +76,28 @@
       <Filter>Game\Room</Filter>
     </ClCompile>
     <ClCompile Include="ConfigManager.cpp">
-      <Filter>Game\Data</Filter>
+      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="StringConverter.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="ContentsData.cpp">
-      <Filter>Game\Data</Filter>
+      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="DataManager.cpp">
-      <Filter>Game\Data</Filter>
+      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
     <ClCompile Include="Login.cpp">
       <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>Game\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,19 +141,25 @@
       <Filter>Game\Room</Filter>
     </ClInclude>
     <ClInclude Include="ConfigManager.h">
-      <Filter>Game\Data</Filter>
+      <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="StringConverter.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="ContentsData.h">
-      <Filter>Game\Data</Filter>
+      <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="DataManager.h">
-      <Filter>Game\Data</Filter>
+      <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

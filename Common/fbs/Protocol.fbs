@@ -16,6 +16,7 @@ union PacketType {
 	SC_SKILL,
 	SC_CHANGE_HP,
 	SC_DIE,
+	SC_ITEM_LIST,
 // ------------------------- Login ------------------------
 	C_SIGNUP,
 	SD_SIGNUP,

@@ -6,6 +6,7 @@
 
 class Stat;
 class Skill;
+class ItemData;
 
 template<typename Key, typename Value>
 class ILoader
@@ -34,6 +35,7 @@ private:
 	}
 
 public:
-	static map<uint32, Stat> Stats;
-	static map<uint32, Skill> Skills;
+	static map<int32, Stat> Stats;
+	static map<int32, Skill> Skills;
+	static map<int32, shared_ptr<ItemData>> Items;
 };

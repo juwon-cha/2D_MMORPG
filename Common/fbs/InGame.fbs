@@ -16,13 +16,26 @@ enum GameObjectType : byte {
     NONE,
     PLAYER,
     MONSTER,
-    PROJECTILE
+    PROJECTILE,
+    ITEM
 }
 
 enum SkillType : byte {
     SKILL_NONE,
     SKILL_AUTO,
     SKILL_PROJECTILE
+}
+
+enum ItemType : byte {
+    ITEM_NONE,
+    ITEM_WEAPON,
+    ITEM_ARMOR
+}
+
+enum WeaponType : byte {
+    WEAPON_NONE,
+    WEAPON_SWORD,
+    WEAPON_BOW
 }
 
 table ObjectInfo {
@@ -47,6 +60,13 @@ table StatInfo {
 
 table SkillInfo {
 	skillId:int32;
+}
+
+table ItemInfo {
+	itemId:int32;
+	templateId:int32;
+	count:int32;
+	slot:int32;
 }
 
 table C_ENTER_GAME {
@@ -93,4 +113,8 @@ table SC_CHANGE_HP {
 table SC_DIE {
 	objectId:int32;
 	attackerId:int32;
+}
+
+table SC_ITEM_LIST {
+	items:[ItemInfo];
 }
