@@ -1,0 +1,26 @@
+{
+    "weapons": [
+        {
+            "ID": 1,
+            "Name": "BeginnerSword",
+            "WeaponType": "WEAPON_SWORD",
+            "Damage": 5,
+            "IconPath":  "UI_Images/UI_Sword"
+        },
+        {
+            "ID": 2,
+            "Name": "BeginnerBow",
+            "WeaponType": "WEAPON_BOW",
+            "Damage": 2,
+            "IconPath":  "UI_Images/UI_Bow"
+        }
+    ],
+    "armors": [
+        {
+            "ID": 100,
+            "Name": "BeginnerHelmet",
+            "Defence": 3,
+            "IconPath":  "UI_Images/UI_Helmet"
+        }
+    ]
+}

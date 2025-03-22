@@ -28,9 +28,11 @@ public class Manager : MonoBehaviour
     #region Contents
     MapManager _map = new MapManager();
     ObjectManager _object = new ObjectManager();
+    InventoryManager _inven = new InventoryManager();
 
     public static MapManager Map { get { return Instance._map; } }
     public static ObjectManager Object { get { return Instance._object; } }
+    public static InventoryManager Inven { get { return Instance._inven; } }
     #endregion
 
     void Start()
