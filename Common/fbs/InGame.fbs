@@ -67,7 +67,6 @@ table ItemInfo {
 	templateId:int32;
 	count:int32;
 	slot:int32;
-	equipped:bool;
 }
 
 table C_ENTER_GAME {
@@ -118,14 +117,4 @@ table SC_DIE {
 
 table SC_ITEM_LIST {
 	items:[ItemInfo];
-}
-
-table C_EQUIP_ITEM {
-	itemId:int32;
-	equipped:bool;
-}
-
-table SC_EQUIP_ITEM {
-	itemId:int32;
-	equipped:bool;
 }

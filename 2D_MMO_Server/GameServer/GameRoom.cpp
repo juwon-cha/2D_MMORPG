@@ -9,8 +9,6 @@
 #include "Player.h"
 #include "Projectile.h"
 #include "Monster.h"
-#include "Item.h"
-#include "ItemManager.h"
 #include "DataManager.h"
 #include "ContentsData.h"
 
@@ -299,6 +297,8 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
             return;
         }
 
+        // TODO: Using skills verification
+
         // 플레이어 상태를 스킬 상태로 변경
         player->SetObjectInfo(player->GetObjectId(), player->GetObjectName());
         player->SetPosInfo(player->GetObjectPosX(), player->GetObjectPosY(), player->GetObjectState(), player->GetObjectMoveDir());
@@ -369,32 +369,6 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
             return;
         }
     }
-}
-
-void GameRoom::HandleEquipItem(shared_ptr<Player> player, const C_EQUIP_ITEM* equipItemPkt)
-{
-    if (player == nullptr)
-    {
-        return;
-    }
-
-    shared_ptr<Item> item = player->GetInventory()->GetItem(equipItemPkt->itemId());
-    if (item == nullptr)
-    {
-        return;
-    }
-
-    WRITE_LOCK;
-
-    item->SetEquipped(equipItemPkt->equipped());
-
-    // 클라이언트로 전송
-    flatbuffers::FlatBufferBuilder builder;
-
-    auto equipItem = CreateSC_EQUIP_ITEM(builder, equipItemPkt->itemId(), equipItemPkt->equipped());
-    auto equipOkPkt = PacketManager::Instance().CreatePacket(equipItem, builder, PacketType_SC_EQUIP_ITEM);
-
-    player->GetClientSession()->Send(equipOkPkt);
 }
 
 shared_ptr<Player> GameRoom::FindPlayer(function<bool(shared_ptr<GameObject>)> condition)
