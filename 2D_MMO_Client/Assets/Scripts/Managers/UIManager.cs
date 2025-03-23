@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UIManager
 {
-    public InventoryController Inven { get; private set; }
+    public InventoryController InvenUI { get; private set; }
 
     public GameObject Root
     {
@@ -22,7 +22,7 @@ public class UIManager
         inventory.name = "Inventory";
 
         InventoryController invenController = inventory.GetComponent<InventoryController>();
-        Inven = invenController;
+        InvenUI = invenController;
 
         inventory.transform.SetParent(Root.transform);
 

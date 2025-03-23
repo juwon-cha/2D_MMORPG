@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
@@ -7,18 +8,29 @@ using UnityEngine.UIElements;
 
 public class InventoryController : BaseUIController
 {
-    VisualElement root;
+    public List<InventoryItemUI> ItemList { get; } = new List<InventoryItemUI>();
+
+    protected VisualElement root;
     [SerializeField]
-    Sprite[] ItemBG;
+    protected Sprite[] ItemBG;
     [SerializeField]
-    int itemCount;
+    protected int itemCount;
     protected override void Init()
     {
         base.Init();
-        root = document.rootVisualElement;
 
+        // ItemList(InventoryItemUI 리스트) 채우기
+        ItemList.Clear();
+        for (int i = 0; i < Manager.Inven.Items.Count; ++i)
+        {
+            GameObject go = Resources.Load<GameObject>("Prefabs/UI/Inventory");
+            InventoryItemUI itemUI = go.GetComponent<InventoryItemUI>();
+            ItemList.Add(itemUI);
+        }
+
+        root = document.rootVisualElement;
         var groupBox = root.Q<GroupBox>("GroupBox-Item");
-        //var bow = Resources.Load<Texture2D>("BattleBow");
+
         for (int i = 0; i < itemCount; i++)
         {
             VisualElement edge = new VisualElement();
@@ -29,12 +41,6 @@ public class InventoryController : BaseUIController
             edge.Add(bg);
             groupBox.Add(edge);
 
-            //bg.style.backgroundImage = bow;
-            //bg.style.flexGrow = 0;
-            //bg.style.position = Position.Absolute;
-            //bg.style.width = new Length(100, LengthUnit.Percent);
-            //bg.style.height = new Length(100, LengthUnit.Percent);
-            //edge.Add(bg);
             int n;
             if (i <= 5)
                 n = 0;
@@ -42,6 +48,7 @@ public class InventoryController : BaseUIController
                 n = 6;
             else
                 n = 3;
+
             switch (i % 5)
             {
                 case 0:
@@ -59,8 +66,8 @@ public class InventoryController : BaseUIController
             float left = (i % 5) * 20f;
             edge.style.left = new Length(left, LengthUnit.Percent);
             edge.style.top = new Length(top, LengthUnit.Percent);
-
         }
+
         var edges = root.Query<VisualElement>(className: "Item-Edge");
         foreach (var edge in edges.ToList())
         {
@@ -71,51 +78,18 @@ public class InventoryController : BaseUIController
 
     public void RefreshUI()
     {
-        document = GetComponent<UIDocument>();
-        root = document.rootVisualElement;
+        Init();
 
-        var groupBox = root.Q<GroupBox>("GroupBox-Item");
-        for (int i = 0; i < itemCount; i++)
+        List<Item> items = Manager.Inven.Items.Values.ToList();
+
+        foreach (Item item in items)
         {
-            VisualElement edge = new VisualElement();
-            edge.AddToClassList("Item-Edge");
-            edge.name = $"Item{i.ToString()}";
-            VisualElement bg = new VisualElement();
-            bg.name = $"Item-BG";
-            edge.Add(bg);
-            groupBox.Add(edge);
-
-            int n;
-            if (i <= 5)
-                n = 0;
-            else if (i >= itemCount - 5)
-                n = 6;
-            else
-                n = 3;
-            switch (i % 5)
+            if (item.Slot < 0 || item.Slot >= itemCount)
             {
-                case 0:
-                    edge.style.backgroundImage = new StyleBackground(ItemBG[0 + n]);
-                    break;
-                case 1:
-                    edge.style.backgroundImage = new StyleBackground(ItemBG[1 + n]);
-                    break;
-                default:
-                    edge.style.backgroundImage = new StyleBackground(ItemBG[2 + n]);
-                    break;
+                continue;
             }
 
-            float top = (i / 5) * 14f;
-            float left = (i % 5) * 20f;
-            edge.style.left = new Length(left, LengthUnit.Percent);
-            edge.style.top = new Length(top, LengthUnit.Percent);
-
-        }
-        var edges = root.Query<VisualElement>(className: "Item-Edge");
-        foreach (var edge in edges.ToList())
-        {
-            VisualElement bg = edge.Q<VisualElement>("Item-BG");
-            DragAndDropManipulator mainpulato = new(bg, root);
+            ItemList[item.Slot].SetItem(root, item.TemplateId, item.Count, item.Slot);
         }
     }
 }

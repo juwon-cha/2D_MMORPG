@@ -2,6 +2,8 @@ using Google.FlatBuffers;
 using UnityEngine;
 using System.Collections;
 using Data;
+using UnityEngine.UIElements;
+
 
 
 #if UNITY_EDITOR
@@ -50,7 +52,7 @@ public class MyPlayerController : PlayerController
             int skillId = 2; // TEMP
 
             Data.Skill skillData = null;
-            if (DataManager.SkillData.TryGetValue(skillId, out skillData) == false)
+            if (DataManager.SkillDict.TryGetValue(skillId, out skillData) == false)
             {
                 return;
             }
@@ -77,11 +79,24 @@ public class MyPlayerController : PlayerController
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            InventoryController inven = Manager.UI.Inven;
+            InventoryController inven = Manager.UI.InvenUI;
 
             if (inven.gameObject.activeSelf)
             {
-                inven.gameObject.SetActive(false);
+                var uiDoc = inven.gameObject.GetComponent<UIDocument>();
+                // 게임씬 시작 후 처음 인벤토리를 열었을 때 가려져 있는 UI 활성화를 위함
+                if (uiDoc.rootVisualElement.style.visibility == Visibility.Hidden)
+                {
+                    uiDoc.rootVisualElement.style.visibility = Visibility.Visible;
+                    inven.gameObject.SetActive(true);
+                    inven.RefreshUI();
+                }
+                else
+                {
+                    // 게임 시작 후 처음 인벤토리 창을 열었을 때를 제외하고
+                    // 인벤토리 게임오브젝트 활성화/비활성화 함
+                    inven.gameObject.SetActive(false);
+                }
             }
             else
             {

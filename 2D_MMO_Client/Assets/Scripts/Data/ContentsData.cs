@@ -43,4 +43,53 @@ namespace Data
         }
     }
     #endregion
+
+    #region Item
+    [Serializable]
+    public class ItemData
+    {
+        public int ID;
+        public string Name;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ItemType ItemType;
+        public string IconPath;
+    }
+
+    [Serializable]
+    public class WeaponData : ItemData
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public WeaponType WeaponType;
+        public int Damage;
+    }
+
+    [Serializable]
+    public class ArmorData : ItemData
+    {
+        public int Defence;
+    }
+
+    [Serializable]
+    public class ItemLoader : ILoader<int, ItemData>
+    {
+        public List<WeaponData> weapons = new List<WeaponData>();
+        public List<ArmorData> armors = new List<ArmorData>();
+
+        public Dictionary<int, ItemData> MakeData()
+        {
+            Dictionary<int, ItemData> dict = new Dictionary<int, ItemData>();
+            foreach (ItemData item in weapons)
+            {
+                item.ItemType = ItemType.ITEM_WEAPON;
+                dict.Add(item.ID, item);
+            }
+            foreach (ItemData item in armors)
+            {
+                item.ItemType = ItemType.ITEM_ARMOR;
+                dict.Add(item.ID, item);
+            }
+            return dict;
+        }
+    }
+    #endregion
 }

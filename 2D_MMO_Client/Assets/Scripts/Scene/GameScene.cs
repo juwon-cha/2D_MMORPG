@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class GameScene : BaseScene
 {
-    InventoryController invenController;
+    InventoryController _inventory;
 
     protected override void Init()
     {
@@ -18,8 +19,9 @@ public class GameScene : BaseScene
 
         Screen.SetResolution(640, 480, false);
 
-        invenController = Manager.UI.ShowInventoryUI();
-        GameObject inven = invenController.gameObject;
-        inven.SetActive(false); // 처음에 인벤토리 창 비활성화
+        _inventory = Manager.UI.ShowInventoryUI();
+        var uiDoc = _inventory.gameObject.GetComponent<UIDocument>();
+        // 게임 시작 시 인벤토리 숨기기
+        uiDoc.rootVisualElement.style.visibility = Visibility.Hidden;
     }
 }

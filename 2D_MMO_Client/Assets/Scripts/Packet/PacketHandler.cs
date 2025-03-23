@@ -142,4 +142,26 @@ public partial class PacketHandler
         objController.HP = 0;
         objController.OnDead();
     }
+
+    public static void SC_ITEM_LISTHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var itemListPkt = SC_ITEM_LIST.GetRootAsSC_ITEM_LIST(buffer);
+
+        for (int i = 0; i < itemListPkt.ItemsLength; ++i)
+        {
+            Debug.Log($"Item template ID {itemListPkt.Items(i).Value.TemplateId} : Count {itemListPkt.Items(i).Value.Count}");
+        }
+
+        InventoryController inven = Manager.UI.InvenUI;
+
+        // 메모리에 아이템 정보 적용
+        for (int i = 0; i < itemListPkt.ItemsLength; ++i)
+        {
+            Item item = Item.MakeItem(itemListPkt.Items(i).Value);
+            Manager.Inven.Add(item);
+        }
+
+        // UI 갱신
+        inven.RefreshUI();
+    }
 }

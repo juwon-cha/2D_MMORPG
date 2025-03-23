@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 858107943254606047}
   - component: {fileID: 4701919851155161214}
   - component: {fileID: 1564044348475905885}
+  - component: {fileID: 7412964920552723329}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -62,6 +63,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e036a009523c0a4c8a9ea7851c69d2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  document: {fileID: 0}
+  ItemBG:
+  - {fileID: -1491337687, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1820575614, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: 1377039159, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: 274328185, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1935926974, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -779059895, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: 1908644643, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1417235806, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  - {fileID: -1184383330, guid: 7629d25ff67d9a9468216800f9a4cfd5, type: 3}
+  itemCount: 35
+--- !u!114 &7412964920552723329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8394326876777823953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 588dc2ffc99d88b40864bd21f3e413ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   document: {fileID: 0}
