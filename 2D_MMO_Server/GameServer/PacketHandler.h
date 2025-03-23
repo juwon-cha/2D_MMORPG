@@ -12,4 +12,5 @@ public:
 	static void C_SIGNINHandler(PacketSession* session, ByteRef buffer);
 	static void D_SIGNINHandler(PacketSession* session, ByteRef buffer);
 	static void C_ENTER_GAMEHandler(PacketSession* session, ByteRef buffer);
+	static void C_EQUIP_ITEMHandler(PacketSession* session, ByteRef buffer);
 };
