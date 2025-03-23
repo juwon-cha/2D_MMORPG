@@ -78,3 +78,23 @@ void PacketHandler::C_SKILLHandler(PacketSession* session, ByteRef buffer)
 
 	room->HandleSkill(player, skillPkt);
 }
+
+void PacketHandler::C_EQUIP_ITEMHandler(PacketSession* session, ByteRef buffer)
+{
+	ClientSession* clientSession = static_cast<ClientSession*>(session);
+	auto equipItemPkt = GetRoot<C_EQUIP_ITEM>(buffer->operator BYTE * ());
+
+	shared_ptr<Player> player = clientSession->GetPlayer();
+	if (player == nullptr)
+	{
+		return;
+	}
+
+	shared_ptr<GameRoom> room = player->GetGameRoom();
+	if (room == nullptr)
+	{
+		return;
+	}
+
+	room->HandleEquipItem(player, equipItemPkt);
+}
