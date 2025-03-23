@@ -2,8 +2,9 @@
 #include "GameObject.h"
 #include "Map.h"
 
-class GameRoom;
 class ClientSession;
+class GameRoom;
+class ItemManager;
 
 class Player : public GameObject
 {
@@ -18,7 +19,9 @@ public:
 public:
 	shared_ptr<ClientSession> GetClientSession() const { return _session; };
 	void SetClientSession(shared_ptr<ClientSession> session) { _session = session; }
+	shared_ptr<ItemManager> GetInventory() const { return _inventory; }
 
 private:
 	shared_ptr<ClientSession> _session;
+	shared_ptr<ItemManager> _inventory;
 };
