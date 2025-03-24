@@ -1,5 +1,7 @@
+using Google.FlatBuffers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
@@ -185,6 +187,22 @@ public class DragAndDropManipulator : PointerManipulator
                 target.style.backgroundImage = temp;
 
                 // 나중에 실제 데이터 또한 스왚해야함
+
+                // 착용하려는 아이템이 무기이고 아이템이 무기 슬롯에 있으면 패킷 전송
+                string iconName = item.style.backgroundImage.value.ToString();
+                if (item.parent.name == "Weapon" && (iconName.Contains("Sword") || iconName.Contains("Bow")))
+                {
+                    string[] splitStr = { "_", " " };
+                    string[] splitIconName = iconName.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                    string splitTest = splitIconName[1];
+                    Item foundItem = Manager.Inven.Find(s => s == splitIconName[1]);
+
+                    FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+
+                    var equip = C_EQUIP_ITEM.CreateC_EQUIP_ITEM(builder, foundItem.ItemObjectId, true);
+                    var equipPkt = Manager.Packet.CreatePacket(equip, builder, PacketType.C_EQUIP_ITEM);
+                    Manager.Network.Send(equipPkt);
+                }
             }
         }
         target.transform.position = targetStartPosition;
