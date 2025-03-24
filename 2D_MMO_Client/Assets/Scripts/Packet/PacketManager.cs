@@ -3,6 +3,7 @@ using Google.FlatBuffers;
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 
 public class PacketManager
 {
@@ -23,6 +24,7 @@ public class PacketManager
         _handler.Add((ushort)PacketType.SC_CHANGE_HP, PacketHandler.SC_CHANGE_HPHandler);
         _handler.Add((ushort)PacketType.SC_DIE, PacketHandler.SC_DIEHandler);
         _handler.Add((ushort)PacketType.SC_ITEM_LIST, PacketHandler.SC_ITEM_LISTHandler);
+        _handler.Add((ushort)PacketType.SC_EQUIP_ITEM, PacketHandler.SC_EQUIP_ITEMHandler);
         _handler.Add((ushort)PacketType.SC_SIGNUP, PacketHandler.SC_SIGNUPHandler);
         _handler.Add((ushort)PacketType.SC_SIGNIN, PacketHandler.SC_SIGNINHandler);
 

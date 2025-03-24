@@ -49,17 +49,15 @@ public class MyPlayerController : PlayerController
         // 스킬 상태
         if (_coSkillCooltime == null && Input.GetKey(KeyCode.Space))
         {
-            int skillId = 2; // TEMP
-
             Data.Skill skillData = null;
-            if (DataManager.SkillDict.TryGetValue(skillId, out skillData) == false)
+            if (DataManager.SkillDict.TryGetValue(SkillId, out skillData) == false)
             {
                 return;
             }
 
             FlatBufferBuilder builder = new FlatBufferBuilder(1024);
 
-            var skillInfo = SkillInfo.CreateSkillInfo(builder, skillId);
+            var skillInfo = SkillInfo.CreateSkillInfo(builder, SkillId);
             var skill = C_SKILL.CreateC_SKILL(builder, skillInfo);
             var skillPkt = Manager.Packet.CreatePacket(skill, builder, PacketType.C_SKILL);
             Manager.Network.Send(skillPkt);

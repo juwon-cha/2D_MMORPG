@@ -8,6 +8,7 @@ public class Item
     public int TemplateId { get; set; }
     public int Count { get; set; }
     public int Slot { get; set; }
+    public bool Equipped { get; set; }
 
     public ItemType ItemType { get; private set; }
 

@@ -164,4 +164,25 @@ public partial class PacketHandler
         // UI 갱신
         inven.RefreshUI();
     }
+
+    public static void SC_EQUIP_ITEMHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var equipItemPkt = SC_EQUIP_ITEM.GetRootAsSC_EQUIP_ITEM(buffer);
+
+        // 메모리에 아이템 정보 적용
+        Item item = Manager.Inven.Get(equipItemPkt.ItemId);
+        if (item == null)
+        {
+            return;
+        }
+
+        item.Equipped = equipItemPkt.Equipped;
+        Debug.Log($"아이템 착용 변경!");
+
+        // 아이템 착용에 따라 플레이어 스킬 변경
+        if (Manager.Object.MyPlayer != null)
+        {
+            Manager.Object.MyPlayer.SkillId = item.TemplateId;
+        }
+    }
 }
