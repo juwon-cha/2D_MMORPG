@@ -3,8 +3,7 @@ using UnityEngine;
 using System.Collections;
 using Data;
 using UnityEngine.UIElements;
-
-
+using System.Net.Sockets;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,6 +12,7 @@ using UnityEditor;
 public class MyPlayerController : PlayerController
 {
     bool _moveKeyPressed = false;
+    bool _changeMap = false;
 
     protected override void Init()
     {
@@ -201,6 +201,113 @@ public class MyPlayerController : PlayerController
             var movePkt = Manager.Packet.CreatePacket(move, builder, PacketType.C_MOVE);
             Manager.Network.Send(movePkt);
             _updated = false;
+
+            ChangeMap();
+        }
+    }
+
+    void ChangeMap()
+    {
+        GameScene curScene = Manager.Scene.CurScene as GameScene;
+        if (curScene.MapId == 1)
+        {
+            // 현재 플에이어의 좌표가 맵을 전환해야하는 좌표라면
+            // 1 -> 5
+            if ((CellPos.x == -18 || CellPos.x == -17 || CellPos.x == -16) && CellPos.y == 15)
+            {
+                _changeMap = true;
+            }
+            // 1 -> 4
+            else if (CellPos.x == 18 && (CellPos.y == 4 || CellPos.y == 5 || CellPos.y == 6))
+            {
+                _changeMap = true;
+            }
+            // 1 -> 2
+            else if ((CellPos.x == -3 || CellPos.x == -2 || CellPos.x == -1) && CellPos.y == -17)
+            {
+                _changeMap = true;
+            }
+            else
+            {
+                _changeMap = false;
+                return;
+            }
+        }
+        else if (curScene.MapId == 2)
+        {
+            // 2 -> 1
+            if ((CellPos.x == -3 || CellPos.x == -2 || CellPos.x == -1) && CellPos.y == 24)
+            {
+                _changeMap = true;
+            }
+            // 2 -> 3
+            else if (CellPos.x == 29 && (CellPos.y == 18 || CellPos.y == 19 || CellPos.y == 20))
+            {
+                _changeMap = true;
+            }
+            else
+            {
+                _changeMap = false;
+                return;
+            }
+        }
+        else if (curScene.MapId == 3)
+        {
+            // 3 -> 2
+            if (CellPos.x == -32 && (CellPos.y == 18 || CellPos.y == 19 || CellPos.y == 20))
+            {
+                _changeMap = true;
+            }
+            // 3 -> 4
+            else if ((CellPos.x == -9 || CellPos.x == -10 || CellPos.x == -11) && CellPos.y == 24)
+            {
+                _changeMap = true;
+            }
+            else
+            {
+                _changeMap = false;
+                return;
+            }
+        }
+        else if (curScene.MapId == 4)
+        {
+            // 4 -> 1
+            if (CellPos.x == -32 && (CellPos.y == 11 || CellPos.y == 12 || CellPos.y == 13))
+            {
+                _changeMap = true;
+            }
+            // 4 -> 3
+            else if ((CellPos.x == -9 || CellPos.x == -10 || CellPos.x == -11) && CellPos.y == -10)
+            {
+                _changeMap = true;
+            }
+            else
+            {
+                _changeMap = false;
+                return;
+            }
+        }
+        else if (curScene.MapId == 5)
+        {
+            // 5 -> 1
+            if ((CellPos.x == -2 || CellPos.x == -3 || CellPos.x == -4) && CellPos.y == -21)
+            {
+                _changeMap = true;
+            }
+            else
+            {
+                _changeMap = false;
+                return;
+            }
+        }
+
+        if (_changeMap)
+        {
+            // 플레이어 좌표와 현재 게임 씬의 mapId를 서버로 전송
+            FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+            var changeMap = C_CHANGE_MAP.CreateC_CHANGE_MAP(builder, curScene.MapId, CellPos.x, CellPos.y);
+            var changeMapPkt = Manager.Packet.CreatePacket(changeMap, builder, PacketType.C_CHANGE_MAP);
+            Manager.Network.Send(changeMapPkt);
         }
     }
 }

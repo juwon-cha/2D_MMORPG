@@ -129,3 +129,13 @@ table SC_EQUIP_ITEM {
 	itemId:int32;
 	equipped:bool;
 }
+
+table C_CHANGE_MAP {
+	mapId:int32;
+	posX:int32;
+	posY:int32;
+}
+
+table SC_CHANGE_MAP {
+	mapId:int32;
+}

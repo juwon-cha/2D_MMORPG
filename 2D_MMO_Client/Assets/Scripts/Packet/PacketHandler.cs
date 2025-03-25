@@ -185,4 +185,15 @@ public partial class PacketHandler
             Manager.Object.MyPlayer.SkillId = item.TemplateId;
         }
     }
+
+    public static void SC_CHANGE_MAPHandler(PacketSession session, ByteBuffer buffer)
+    {
+        var changeMapPkt = SC_CHANGE_MAP.GetRootAsSC_CHANGE_MAP(buffer);
+
+        GameScene curScene = Manager.Scene.CurScene as GameScene;
+        curScene.MapId = changeMapPkt.MapId;
+
+        // ¸Ê ÀüÈ¯
+        Manager.Map.LoadMap(curScene.MapId);
+    }
 }
