@@ -20,6 +20,7 @@ public:
 	void HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt);
 	void HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt);
 	void HandleEquipItem(shared_ptr<Player> player, const C_EQUIP_ITEM* equipItemPkt);
+	void HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* changeMapPkt);
 	shared_ptr<Player> FindPlayer(function<bool(shared_ptr<GameObject>)> condition);
 	void Broadcast(SendBufferRef buffer);
 	void Update();

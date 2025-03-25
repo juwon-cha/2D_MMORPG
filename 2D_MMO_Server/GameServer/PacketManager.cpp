@@ -24,15 +24,16 @@ PacketManager::~PacketManager()
 
 void PacketManager::Register()
 {
-    _handler[PacketType::PacketType_C_ENTER_GAME] = PacketHandler::C_ENTER_GAMEHandler;
-		_handler[PacketType::PacketType_C_MOVE] = PacketHandler::C_MOVEHandler;
-		_handler[PacketType::PacketType_C_CHAT] = PacketHandler::C_CHATHandler;
-		_handler[PacketType::PacketType_C_SKILL] = PacketHandler::C_SKILLHandler;
-		_handler[PacketType::PacketType_C_EQUIP_ITEM] = PacketHandler::C_EQUIP_ITEMHandler;
-		_handler[PacketType::PacketType_C_SIGNUP] = PacketHandler::C_SIGNUPHandler;
-		_handler[PacketType::PacketType_D_SIGNUP] = PacketHandler::D_SIGNUPHandler;
-		_handler[PacketType::PacketType_C_SIGNIN] = PacketHandler::C_SIGNINHandler;
-		_handler[PacketType::PacketType_D_SIGNIN] = PacketHandler::D_SIGNINHandler;
+	_handler[PacketType::PacketType_C_ENTER_GAME] = PacketHandler::C_ENTER_GAMEHandler;
+	_handler[PacketType::PacketType_C_MOVE] = PacketHandler::C_MOVEHandler;
+	_handler[PacketType::PacketType_C_CHAT] = PacketHandler::C_CHATHandler;
+	_handler[PacketType::PacketType_C_SKILL] = PacketHandler::C_SKILLHandler;
+	_handler[PacketType::PacketType_C_EQUIP_ITEM] = PacketHandler::C_EQUIP_ITEMHandler;
+	_handler[PacketType::PacketType_C_CHANGE_MAP] = PacketHandler::C_CHANGE_MAPHandler;
+	_handler[PacketType::PacketType_C_SIGNUP] = PacketHandler::C_SIGNUPHandler;
+	_handler[PacketType::PacketType_D_SIGNUP] = PacketHandler::D_SIGNUPHandler;
+	_handler[PacketType::PacketType_C_SIGNIN] = PacketHandler::C_SIGNINHandler;
+	_handler[PacketType::PacketType_D_SIGNIN] = PacketHandler::D_SIGNINHandler;
 		
 }
 

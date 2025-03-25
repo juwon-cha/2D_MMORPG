@@ -21,7 +21,11 @@ public:
 	void SetClientSession(shared_ptr<ClientSession> session) { _session = session; }
 	shared_ptr<ItemManager> GetInventory() const { return _inventory; }
 
+	int32 GetMapId() const { return _mapId; }
+	void SetMapId(int32 mapId) { _mapId = mapId; }
+
 private:
 	shared_ptr<ClientSession> _session;
 	shared_ptr<ItemManager> _inventory;
+	int32 _mapId;
 };

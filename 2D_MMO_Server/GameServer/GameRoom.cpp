@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "GameRoom.h"
 #include "ClientSession.h"
+#include "RoomManager.h"
 #include "ClientSessionManager.h"
 #include "PacketManager.h"
 #include "Map.h"
@@ -384,10 +385,20 @@ void GameRoom::HandleEquipItem(shared_ptr<Player> player, const C_EQUIP_ITEM* eq
         return;
     }
 
-    WRITE_LOCK;
-
+    // 장비 착용
     item->SetEquipped(equipItemPkt->equipped());
 
+    // 나머지 장비 착용 해제
+    map <int32, shared_ptr<Item>> playerItemList = player->GetInventory()->GetItemList();
+    for (const auto& i : playerItemList)
+    {
+        if (i.second->GetObjectId() != item->GetObjectId())
+        {
+            i.second->SetEquipped(false);
+        }
+    }
+
+    WRITE_LOCK;
     // 클라이언트로 전송
     flatbuffers::FlatBufferBuilder builder;
 
@@ -408,6 +419,133 @@ shared_ptr<Player> GameRoom::FindPlayer(function<bool(shared_ptr<GameObject>)> c
     }
 
     return nullptr;
+}
+
+void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* changeMapPkt)
+{
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    // 전환될 맵에서 스폰할 좌표
+    int spawnX = 0;
+    int spawnY = 0;
+
+    if (changeMapPkt->mapId() == 1)
+    {
+        if ((changeMapPkt->posX() == -18 || changeMapPkt->posX() == -17 || changeMapPkt->posX() == -16) && changeMapPkt->posY() == 15)
+        {
+            player->SetMapId(5); // 5번 맵 입장을 위한 세팅
+            spawnX = -3;
+            spawnY = -20;
+        }
+        else if (changeMapPkt->posX() == 18 && (changeMapPkt->posY() == 4 || changeMapPkt->posY() == 5 || changeMapPkt->posY() == 6))
+        {
+            player->SetMapId(4);
+            spawnX = -31;
+            spawnY = 12;
+        }
+        else if ((changeMapPkt->posX() == -3 || changeMapPkt->posX() == -2 || changeMapPkt->posX() == -1) && changeMapPkt->posY() == -17)
+        {
+            player->SetMapId(2);
+            spawnX = -2;
+            spawnY = 23;
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if (changeMapPkt->mapId() == 2)
+    {
+        if ((changeMapPkt->posX() == -3 || changeMapPkt->posX() == -2 || changeMapPkt->posX() == -1) && changeMapPkt->posY() == 24)
+        {
+            player->SetMapId(1);
+            spawnX = -2;
+            spawnY = -16;
+        }
+        else if (changeMapPkt->posX() == 29 && (changeMapPkt->posY() == 18 || changeMapPkt->posY() == 19 || changeMapPkt->posY() == 20))
+        {
+            player->SetMapId(3);
+            spawnX = -31;
+            spawnY = 19;
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if (changeMapPkt->mapId() == 3)
+    {
+        if (changeMapPkt->posX() == -32 && (changeMapPkt->posY() == 18 || changeMapPkt->posY() == 19 || changeMapPkt->posY() == 20))
+        {
+            player->SetMapId(2);
+            spawnX = 28;
+            spawnY = 19;
+        }
+        else if ((changeMapPkt->posX() == -9 || changeMapPkt->posX() == -10 || changeMapPkt->posX() == -11) && changeMapPkt->posY() == 24)
+        {
+            player->SetMapId(4);
+            spawnX = -10;
+            spawnY = -9;
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if (changeMapPkt->mapId() == 4)
+    {
+        if (changeMapPkt->posX() == -32 && (changeMapPkt->posY() == 11 || changeMapPkt->posY() == 12 || changeMapPkt->posY() == 13))
+        {
+            player->SetMapId(1);
+            spawnX = 17;
+            spawnY = 5;
+        }
+        else if ((changeMapPkt->posX() == -9 || changeMapPkt->posX() == -10 || changeMapPkt->posX() == -11) && changeMapPkt->posY() == -10)
+        {
+            player->SetMapId(3);
+            spawnX = -10;
+            spawnY = 23;
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if (changeMapPkt->mapId() == 5)
+    {
+        if ((changeMapPkt->posX() == -2 || changeMapPkt->posX() == -3 || changeMapPkt->posX() == -4) && changeMapPkt->posY() == -21)
+        {
+            player->SetMapId(1);
+            spawnX = -17;
+            spawnY = 14;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    WRITE_LOCK;
+    // 현재 맵(게임 룸)에서 나감
+    shared_ptr<Player> changeMapPlayer = player;
+    LeaveGame(player->GetObjectId());
+
+    // 맵에 입장했을 때 다른 플레이어들에게 내 좌표를 동기화시켜주기 위함
+    changeMapPlayer->SetObjectPosX(spawnX);
+    changeMapPlayer->SetObjectPosY(spawnY);
+
+    // 다음 맵으로 입장
+    RoomManager::Instance().Find(changeMapPlayer->GetMapId())->EnterGame(changeMapPlayer);
+
+    flatbuffers::FlatBufferBuilder builder;
+
+    auto map = CreateSC_CHANGE_MAP(builder, changeMapPlayer->GetMapId());
+    auto mapPkt = PacketManager::Instance().CreatePacket(map, builder, PacketType_SC_CHANGE_MAP);
+
+    player->GetClientSession()->Send(mapPkt);
 }
 
 void GameRoom::Broadcast(SendBufferRef buffer)
