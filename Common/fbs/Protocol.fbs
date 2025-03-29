@@ -19,6 +19,8 @@ union PacketType {
 	SC_ITEM_LIST,
 	C_EQUIP_ITEM,
 	SC_EQUIP_ITEM,
+	C_CHANGE_MAP,
+	SC_CHANGE_MAP,
 // ------------------------- Login ------------------------
 	C_SIGNUP,
 	SD_SIGNUP,

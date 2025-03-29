@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class GameScene : BaseScene
 {
+    public int MapId { get; set; }
     InventoryController _inventory;
 
     protected override void Init()
@@ -15,7 +16,8 @@ public class GameScene : BaseScene
 
         SceneType = Define.SceneType.INGAME;
 
-        Manager.Map.LoadMap(1);
+        MapId = 1;
+        Manager.Map.LoadMap(MapId);
 
         Screen.SetResolution(640, 480, false);
 

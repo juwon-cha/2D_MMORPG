@@ -35,6 +35,15 @@ public class ObjectManager
                 MyPlayer.MaxHP = info.StatInfo.Value.MaxHp;
                 MyPlayer.Speed = info.StatInfo.Value.Speed;
 
+                // 착용한 무기가 있으면 스킬 설정
+                foreach (Item item in Manager.Inven.Items.Values)
+                {
+                    if (item.Equipped)
+                    {
+                        MyPlayer.SkillId = item.TemplateId;
+                    }
+                }
+
                 MyPlayer.SyncPos();
             }
             else // 내가 아닌 다른 플레이어

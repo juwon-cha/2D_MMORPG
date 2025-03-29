@@ -197,6 +197,20 @@ public class DragAndDropManipulator : PointerManipulator
                     string splitTest = splitIconName[1];
                     Item foundItem = Manager.Inven.Find(s => s == splitIconName[1]);
 
+                    // 나머지 무기들 착용 해제
+                    foreach (Item i in Manager.Inven.Items.Values)
+                    {
+                        if (i.ItemType != ItemType.ITEM_WEAPON)
+                        {
+                            continue;
+                        }
+
+                        if (i != foundItem)
+                        {
+                            i.Equipped = false;
+                        }
+                    }
+
                     FlatBufferBuilder builder = new FlatBufferBuilder(1024);
 
                     var equip = C_EQUIP_ITEM.CreateC_EQUIP_ITEM(builder, foundItem.ItemObjectId, true);
