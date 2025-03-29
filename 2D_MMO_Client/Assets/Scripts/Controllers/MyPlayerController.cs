@@ -305,7 +305,7 @@ public class MyPlayerController : PlayerController
         {
             // 플레이어 좌표와 현재 게임 씬의 mapId를 서버로 전송
             FlatBufferBuilder builder = new FlatBufferBuilder(1024);
-            var changeMap = C_CHANGE_MAP.CreateC_CHANGE_MAP(builder, curScene.MapId, CellPos.x, CellPos.y);
+            var changeMap = C_CHANGE_MAP.CreateC_CHANGE_MAP(builder, curScene.MapId);
             var changeMapPkt = Manager.Packet.CreatePacket(changeMap, builder, PacketType.C_CHANGE_MAP);
             Manager.Network.Send(changeMapPkt);
         }

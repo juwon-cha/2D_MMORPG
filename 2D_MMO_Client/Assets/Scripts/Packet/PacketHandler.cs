@@ -162,6 +162,11 @@ public partial class PacketHandler
         }
 
         // UI °»½Å
+        if (inven == null)
+        {
+            return;
+        }
+
         inven.RefreshUI();
     }
 
