@@ -37,7 +37,11 @@ int main()
 	ConfigManager config = ConfigManager::LoadConfig();
 	DataManager::LoadData();
 
-	RoomManager::Instance().Add(1); // Temp 1번 맵 로드
+	// 전체 맵 로드
+	for (int32 i = 1; i <= 5; ++i)
+	{
+		RoomManager::Instance().Add(i);
+	}
 
 	wstring ipAddr = StringConverter::ConvertStringToWString(config.GetServerConfig().GetIpAddr().c_str(), config.GetServerConfig().GetIpAddr().size());
 	uint16 portNum = static_cast<uint16>(stoi(config.GetServerConfig().GetPort()));
@@ -64,7 +68,11 @@ int main()
 
 	while (true)
 	{
-		RoomManager::Instance().Find(1)->Update();
+		// 전체 룸 업데이트
+		for (int32 i = 1; i <= 5; ++i)
+		{
+			RoomManager::Instance().Find(i)->Update();
+		}
 
 		this_thread::sleep_for(100ms);
 	}

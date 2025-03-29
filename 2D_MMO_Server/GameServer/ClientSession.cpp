@@ -85,7 +85,7 @@ void ClientSession::OnConnected()
 #pragma endregion
 
 	// DB 없이 테스트
-	//RoomManager::Instance().Find(1)->EnterGame(_player);
+	RoomManager::Instance().Find(1)->EnterGame(_player);
 
 	cout << "Connected: " << _player->GetObjectName() << endl;
 }
@@ -94,7 +94,8 @@ void ClientSession::OnDisconnected()
 {
 	cout << "Disconnected: " << _player->GetObjectName() << endl;
 
-	RoomManager::Instance().Find(1)->LeaveGame(_player->GetObjectId());
+	// 현재 맵 아이디에 해당하는 게임 룸에서 떠남
+	RoomManager::Instance().Find(_player->GetMapId())->LeaveGame(_player->GetObjectId());
 
 	GSessionManager.Remove(static_pointer_cast<ClientSession>(shared_from_this()));
 }

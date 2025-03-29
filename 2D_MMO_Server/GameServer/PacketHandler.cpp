@@ -98,3 +98,23 @@ void PacketHandler::C_EQUIP_ITEMHandler(PacketSession* session, ByteRef buffer)
 
 	room->HandleEquipItem(player, equipItemPkt);
 }
+
+void PacketHandler::C_CHANGE_MAPHandler(PacketSession* session, ByteRef buffer)
+{
+	ClientSession* clientSession = static_cast<ClientSession*>(session);
+	auto changeMapPkt = GetRoot<C_CHANGE_MAP>(buffer->operator BYTE * ());
+
+	shared_ptr<Player> player = clientSession->GetPlayer();
+	if (player == nullptr)
+	{
+		return;
+	}
+
+	shared_ptr<GameRoom> room = player->GetGameRoom();
+	if (room == nullptr)
+	{
+		return;
+	}
+
+	room->HandleChangeMap(player, changeMapPkt);
+}
