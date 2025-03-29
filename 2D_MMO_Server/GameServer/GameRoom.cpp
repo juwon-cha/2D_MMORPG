@@ -428,25 +428,30 @@ void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* ch
         return;
     }
 
+    if (player->GetGameRoom()->GetRoomId() != changeMapPkt->mapId())
+    {
+        return;
+    }
+
     // 전환될 맵에서 스폰할 좌표
     int spawnX = 0;
     int spawnY = 0;
 
     if (changeMapPkt->mapId() == 1)
     {
-        if ((changeMapPkt->posX() == -18 || changeMapPkt->posX() == -17 || changeMapPkt->posX() == -16) && changeMapPkt->posY() == 15)
+        if ((player->GetObjectPosX() == -18 || player->GetObjectPosX() == -17 || player->GetObjectPosX() == -16) && player->GetObjectPosY() == 15)
         {
             player->SetMapId(5); // 5번 맵 입장을 위한 세팅
             spawnX = -3;
             spawnY = -20;
         }
-        else if (changeMapPkt->posX() == 18 && (changeMapPkt->posY() == 4 || changeMapPkt->posY() == 5 || changeMapPkt->posY() == 6))
+        else if (player->GetObjectPosX() == 18 && (player->GetObjectPosY() == 4 || player->GetObjectPosY() == 5 || player->GetObjectPosY() == 6))
         {
             player->SetMapId(4);
             spawnX = -31;
             spawnY = 12;
         }
-        else if ((changeMapPkt->posX() == -3 || changeMapPkt->posX() == -2 || changeMapPkt->posX() == -1) && changeMapPkt->posY() == -17)
+        else if ((player->GetObjectPosX() == -3 || player->GetObjectPosX() == -2 || player->GetObjectPosX() == -1) && player->GetObjectPosY() == -17)
         {
             player->SetMapId(2);
             spawnX = -2;
@@ -459,13 +464,13 @@ void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* ch
     }
     else if (changeMapPkt->mapId() == 2)
     {
-        if ((changeMapPkt->posX() == -3 || changeMapPkt->posX() == -2 || changeMapPkt->posX() == -1) && changeMapPkt->posY() == 24)
+        if ((player->GetObjectPosX() == -3 || player->GetObjectPosX() == -2 || player->GetObjectPosX() == -1) && player->GetObjectPosY() == 24)
         {
             player->SetMapId(1);
             spawnX = -2;
             spawnY = -16;
         }
-        else if (changeMapPkt->posX() == 29 && (changeMapPkt->posY() == 18 || changeMapPkt->posY() == 19 || changeMapPkt->posY() == 20))
+        else if (player->GetObjectPosX() == 29 && (player->GetObjectPosY() == 18 || player->GetObjectPosY() == 19 || player->GetObjectPosY() == 20))
         {
             player->SetMapId(3);
             spawnX = -31;
@@ -478,13 +483,13 @@ void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* ch
     }
     else if (changeMapPkt->mapId() == 3)
     {
-        if (changeMapPkt->posX() == -32 && (changeMapPkt->posY() == 18 || changeMapPkt->posY() == 19 || changeMapPkt->posY() == 20))
+        if (player->GetObjectPosX() == -32 && (player->GetObjectPosY() == 18 || player->GetObjectPosY() == 19 || player->GetObjectPosY() == 20))
         {
             player->SetMapId(2);
             spawnX = 28;
             spawnY = 19;
         }
-        else if ((changeMapPkt->posX() == -9 || changeMapPkt->posX() == -10 || changeMapPkt->posX() == -11) && changeMapPkt->posY() == 24)
+        else if ((player->GetObjectPosX() == -9 || player->GetObjectPosX() == -10 || player->GetObjectPosX() == -11) && player->GetObjectPosY() == 24)
         {
             player->SetMapId(4);
             spawnX = -10;
@@ -497,13 +502,13 @@ void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* ch
     }
     else if (changeMapPkt->mapId() == 4)
     {
-        if (changeMapPkt->posX() == -32 && (changeMapPkt->posY() == 11 || changeMapPkt->posY() == 12 || changeMapPkt->posY() == 13))
+        if (player->GetObjectPosX() == -32 && (player->GetObjectPosY() == 11 || player->GetObjectPosY() == 12 || player->GetObjectPosY() == 13))
         {
             player->SetMapId(1);
             spawnX = 17;
             spawnY = 5;
         }
-        else if ((changeMapPkt->posX() == -9 || changeMapPkt->posX() == -10 || changeMapPkt->posX() == -11) && changeMapPkt->posY() == -10)
+        else if ((player->GetObjectPosX() == -9 || player->GetObjectPosX() == -10 || player->GetObjectPosX() == -11) && player->GetObjectPosY() == -10)
         {
             player->SetMapId(3);
             spawnX = -10;
@@ -516,7 +521,7 @@ void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* ch
     }
     else if (changeMapPkt->mapId() == 5)
     {
-        if ((changeMapPkt->posX() == -2 || changeMapPkt->posX() == -3 || changeMapPkt->posX() == -4) && changeMapPkt->posY() == -21)
+        if ((player->GetObjectPosX() == -2 || player->GetObjectPosX() == -3 || player->GetObjectPosX() == -4) && player->GetObjectPosY() == -21)
         {
             player->SetMapId(1);
             spawnX = -17;

@@ -132,8 +132,6 @@ table SC_EQUIP_ITEM {
 
 table C_CHANGE_MAP {
 	mapId:int32;
-	posX:int32;
-	posY:int32;
 }
 
 table SC_CHANGE_MAP {
