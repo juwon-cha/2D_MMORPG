@@ -1,5 +1,5 @@
 rem 기존 프로토콜 파일들 삭제
-set CLIENT_SCRIPT_PATH=..\Assets\Scripts
+set CLIENT_SCRIPT_PATH=..\2D_MMO_Client\Assets\Scripts
 set SERVER_SCRIPT_PATH=..\2D_MMO_Server\GameServer
 set DBSERVER_SCRIPT_PATH=..\2D_MMO_Server\DBServer
 

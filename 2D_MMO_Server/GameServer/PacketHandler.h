@@ -4,6 +4,14 @@
 class PacketHandler
 {
 public:
-	static void C_TestHandler(PacketSession* session, ByteRef buffer);
-	static void D_TestHandler(PacketSession* session, ByteRef buffer);
+	static void C_MOVEHandler(PacketSession* session, ByteRef buffer);
+	static void C_CHATHandler(PacketSession* session, ByteRef buffer);
+	static void C_SKILLHandler(PacketSession* session, ByteRef buffer);
+	static void C_SIGNUPHandler(PacketSession* session, ByteRef buffer);
+	static void D_SIGNUPHandler(PacketSession* session, ByteRef buffer);
+	static void C_SIGNINHandler(PacketSession* session, ByteRef buffer);
+	static void D_SIGNINHandler(PacketSession* session, ByteRef buffer);
+	static void C_ENTER_GAMEHandler(PacketSession* session, ByteRef buffer);
+	static void C_EQUIP_ITEMHandler(PacketSession* session, ByteRef buffer);
+	static void C_CHANGE_MAPHandler(PacketSession* session, ByteRef buffer);
 };

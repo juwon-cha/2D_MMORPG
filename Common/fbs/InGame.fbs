@@ -1,0 +1,139 @@
+enum ObjectState : byte {
+    IDLE,
+    MOVING,
+    SKILL,
+    DEAD
+}
+
+enum MoveDir : byte {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
+
+enum GameObjectType : byte {
+    NONE,
+    PLAYER,
+    MONSTER,
+    PROJECTILE,
+    ITEM
+}
+
+enum SkillType : byte {
+    SKILL_NONE,
+    SKILL_AUTO,
+    SKILL_PROJECTILE
+}
+
+enum ItemType : byte {
+    ITEM_NONE,
+    ITEM_WEAPON,
+    ITEM_ARMOR
+}
+
+enum WeaponType : byte {
+    WEAPON_NONE,
+    WEAPON_SWORD,
+    WEAPON_BOW
+}
+
+table ObjectInfo {
+	objectId:int32;
+	name:string;
+	posInfo:PositionInfo;
+	statInfo:StatInfo;
+}
+
+table PositionInfo {
+	state:ObjectState;
+	moveDir:MoveDir;
+	posX:int32;
+	posY:int32;
+}
+
+table StatInfo {
+	hp:int32;
+	maxHp:int32;
+	speed:float;
+}
+
+table SkillInfo {
+	skillId:int32;
+}
+
+table ItemInfo {
+	itemId:int32;
+	templateId:int32;
+	count:int32;
+	slot:int32;
+	equipped:bool;
+}
+
+table C_ENTER_GAME {
+}
+
+table SC_ENTER_GAME {
+	player:ObjectInfo;
+}
+
+table SC_LEAVE_GAME {
+}
+
+table SC_SPAWN {
+	objects:[ObjectInfo];
+}
+
+table SC_DESPAWN {
+	objectIds:[int32];
+}
+
+table C_MOVE {
+	posInfo:PositionInfo;
+}
+
+table SC_MOVE {
+	objectId:int32;
+	posInfo:PositionInfo;
+}
+
+table C_SKILL {
+	skillInfo:SkillInfo;
+}
+
+table SC_SKILL {
+	objectId:int32;
+	skillInfo:SkillInfo;
+}
+
+table SC_CHANGE_HP {
+	objectId:int32;
+	hp:int32;
+}
+
+table SC_DIE {
+	objectId:int32;
+	attackerId:int32;
+}
+
+table SC_ITEM_LIST {
+	items:[ItemInfo];
+}
+
+table C_EQUIP_ITEM {
+	itemId:int32;
+	equipped:bool;
+}
+
+table SC_EQUIP_ITEM {
+	itemId:int32;
+	equipped:bool;
+}
+
+table C_CHANGE_MAP {
+	mapId:int32;
+}
+
+table SC_CHANGE_MAP {
+	mapId:int32;
+}

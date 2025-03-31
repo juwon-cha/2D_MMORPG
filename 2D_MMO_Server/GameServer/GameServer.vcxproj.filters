@@ -13,6 +13,24 @@
     <Filter Include="Packet">
       <UniqueIdentifier>{0d7119ac-bc51-4b60-85a7-93e7a94a0b3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{6301bebd-d294-4b5f-877a-3e4bff8a5d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ec8baaa4-0402-4687-8f7a-04324dd6677c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object">
+      <UniqueIdentifier>{408c148c-ea86-453a-ad3c-bd0a8cac61e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Room">
+      <UniqueIdentifier>{964b6b53-cc6e-4c08-8cf9-4ba4337ae717}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{c7967488-0e4c-4523-b9be-f7ab77cffa91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Item">
+      <UniqueIdentifier>{b4144ef2-2c76-4134-9646-3da07200b688}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -33,6 +51,60 @@
     <ClCompile Include="PacketManager.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
+    <ClCompile Include="ClientSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSessionManager.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="DBSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRoom.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigManager.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="StringConverter.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsData.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -52,6 +124,57 @@
     </ClInclude>
     <ClInclude Include="PacketManager.h">
       <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSessionManager.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="DBSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>Game\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRoom.h">
+      <Filter>Game\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Game\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigManager.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="StringConverter.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

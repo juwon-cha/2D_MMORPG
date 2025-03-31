@@ -1,8 +1,34 @@
-include "Test.fbs";
+include "InGame.fbs";
+include "Chat.fbs";
+include "Login.fbs";
 
 union PacketType {
-	C_Test,
-	SD_Test,
-	D_Test,
-	SC_Test,
+	C_ENTER_GAME,
+	SC_ENTER_GAME,
+	SC_LEAVE_GAME,
+	SC_SPAWN,
+	SC_DESPAWN,
+	C_MOVE,
+	SC_MOVE,
+	C_CHAT,
+	SC_CHAT,
+	C_SKILL,
+	SC_SKILL,
+	SC_CHANGE_HP,
+	SC_DIE,
+	SC_ITEM_LIST,
+	C_EQUIP_ITEM,
+	SC_EQUIP_ITEM,
+	C_CHANGE_MAP,
+	SC_CHANGE_MAP,
+// ------------------------- Login ------------------------
+	C_SIGNUP,
+	SD_SIGNUP,
+	D_SIGNUP,
+	SC_SIGNUP,
+	C_SIGNIN,
+	SD_SIGNIN,
+	D_SIGNIN,
+	SC_SIGNIN,
+// ------------------------- Login ------------------------
 }

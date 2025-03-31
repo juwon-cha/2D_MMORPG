@@ -131,7 +131,7 @@ namespace ServerCore
                 Disconnect();
             }
         }
-        void Disconnect()
+        public void Disconnect()
         {
             if (Interlocked.Exchange(ref _disconnect, 1) == 1)
                 return;

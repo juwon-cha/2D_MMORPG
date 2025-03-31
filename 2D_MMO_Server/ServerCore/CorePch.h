@@ -15,6 +15,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "CoreRef.h"
+
 #include <cassert>
 #include <stdexcept>
 #include <windows.h>
