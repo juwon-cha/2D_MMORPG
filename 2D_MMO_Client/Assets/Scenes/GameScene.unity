@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 263297943}
   - component: {fileID: 263297944}
-  - component: {fileID: 263297945}
   m_Layer: 0
   m_Name: GameScene
   m_TagString: Untagged
@@ -164,64 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd4bd45d4cc91a4891a17eff590eb1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIControllers: []
---- !u!114 &263297945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 263297941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54505031394cd05409aea79722dd51de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraMoveSpeed: 5
---- !u!1 &436008120
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 436008121}
-  - component: {fileID: 436008122}
-  m_Layer: 0
-  m_Name: Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &436008121
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 436008120}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &436008122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 436008120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a88946f3be0d7394d915e15f76b53d84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  UIControllers:
+  - {fileID: 1564044348475905885, guid: 772fcad5ff4c0ff4cae5f21f045b90cb, type: 3}
 --- !u!1 &1631641343
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,5 +307,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1631641346}
-  - {fileID: 436008121}
   - {fileID: 263297943}

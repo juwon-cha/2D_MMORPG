@@ -61,43 +61,47 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Managers\DataManager.cs" />
     <Compile Include="Assets\Scripts\Utils\Extension.cs" />
     <Compile Include="Assets\Scripts\Scene\BaseScene.cs" />
+    <Compile Include="Assets\Scripts\Contents\HpBar.cs" />
+    <Compile Include="Assets\Scripts\UI\ChatUIController.cs" />
+    <Compile Include="Assets\Scripts\Packet\Login.cs" />
     <Compile Include="Assets\Scripts\UI\BaseUIController.cs" />
     <Compile Include="Assets\Scripts\UI\InventoryUIController.cs" />
     <Compile Include="Assets\Scripts\Utils\Utils.cs" />
     <Compile Include="Assets\Scripts\Managers\ObjectManager.cs" />
-    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\chest_open_on_contact\Scripts\ChestAnimationOnContact.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Managers\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Utils\BaseMonobehaviour.cs" />
     <Compile Include="Assets\Scripts\Controllers\MonsterController.cs" />
+    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Scene\LoginScene.cs" />
     <Compile Include="Assets\Scripts\Controllers\ObjectController.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
-    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\tall_grass_react_on_contact\Scripts\TallGrassAnimationOnContact.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\SD_Test.cs" />
-    <Compile Include="Assets\Resources\Prefabs\Prefabs_with_behavior\block_push_on_contact\Scripts\BlockPushOnContact.cs" />
+    <Compile Include="Assets\Scripts\Managers\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIController.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
+    <Compile Include="Assets\Scripts\Contents\Item.cs" />
     <Compile Include="Assets\Scripts\Managers\SceneManager.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\C_Test.cs" />
+    <Compile Include="Assets\Scripts\Controllers\MyPlayerController.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\ProjectileController.cs" />
+    <Compile Include="Assets\Scripts\UI\InventoryItemUI.cs" />
     <Compile Include="Assets\Scripts\Scene\GameScene.cs" />
     <Compile Include="Assets\Scripts\Managers\MapManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\D_Test.cs" />
     <Compile Include="Assets\Scripts\Utils\Define.cs" />
+    <Compile Include="Assets\Scripts\Data\ContentsData.cs" />
     <Compile Include="Assets\Resources\Art\UI\FantasyIconsPackFree\Demo\IconViewer.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
-    <Compile Include="Assets\Scripts\FlatBuffer\SC_Test.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUIController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets\UI Toolkit\Chat\ChatDocument.uxml" />
     <None Include="Assets\UI Toolkit\Inventory\InventoryStyle.uss" />
     <None Include="Assets\UI Toolkit\Default\DefaultDocument.uxml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -112,13 +116,14 @@
     <None Include="Assets\DLL\Google.FlatBuffers.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\Resources\Art\Environment\Crops\README_HOW_TO_USE_CROPS.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\DLL\ServerCore.dll" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\UI Toolkit\Chat\ChatStyle.uss" />
+    <None Include="Assets\Resources\MapData\Map_005.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Resources\MapData\Map_003.txt" />
     <None Include="Assets\UI Toolkit\Inventory\InventoryDocument.uxml" />
@@ -130,7 +135,6 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\Resources\Prefabs\Character\Player\TestMap.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
@@ -617,6 +621,14 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Google.FlatBuffers">
+      <HintPath>Assets\DLL\Google.FlatBuffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil">

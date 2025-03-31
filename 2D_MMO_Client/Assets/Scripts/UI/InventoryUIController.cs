@@ -1,4 +1,7 @@
+using Google.FlatBuffers;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
@@ -7,18 +10,29 @@ using UnityEngine.UIElements;
 
 public class InventoryController : BaseUIController
 {
-    VisualElement root;
+    public List<InventoryItemUI> ItemList { get; } = new List<InventoryItemUI>();
+
+    protected VisualElement root;
     [SerializeField]
-    Sprite[] ItemBG;
+    protected Sprite[] ItemBG;
     [SerializeField]
-    int itemCount;
+    protected int itemCount;
     protected override void Init()
     {
         base.Init();
-        root = document.rootVisualElement;
 
+        // ItemList(InventoryItemUI 리스트) 채우기
+        ItemList.Clear();
+        for (int i = 0; i < Manager.Inven.Items.Count; ++i)
+        {
+            GameObject go = Resources.Load<GameObject>("Prefabs/UI/Inventory");
+            InventoryItemUI itemUI = go.GetComponent<InventoryItemUI>();
+            ItemList.Add(itemUI);
+        }
+
+        root = document.rootVisualElement;
         var groupBox = root.Q<GroupBox>("GroupBox-Item");
-        var bow = Resources.Load<Texture2D>("BattleBow");
+
         for (int i = 0; i < itemCount; i++)
         {
             VisualElement edge = new VisualElement();
@@ -29,12 +43,6 @@ public class InventoryController : BaseUIController
             edge.Add(bg);
             groupBox.Add(edge);
 
-            bg.style.backgroundImage = bow;
-            bg.style.flexGrow = 0;
-            bg.style.position = Position.Absolute;
-            bg.style.width = new Length(100, LengthUnit.Percent);
-            bg.style.height = new Length(100, LengthUnit.Percent);
-            edge.Add(bg);
             int n;
             if (i <= 5)
                 n = 0;
@@ -42,6 +50,7 @@ public class InventoryController : BaseUIController
                 n = 6;
             else
                 n = 3;
+
             switch (i % 5)
             {
                 case 0:
@@ -59,13 +68,30 @@ public class InventoryController : BaseUIController
             float left = (i % 5) * 20f;
             edge.style.left = new Length(left, LengthUnit.Percent);
             edge.style.top = new Length(top, LengthUnit.Percent);
-
         }
+
         var edges = root.Query<VisualElement>(className: "Item-Edge");
         foreach (var edge in edges.ToList())
         {
             VisualElement bg = edge.Q<VisualElement>("Item-BG");
             DragAndDropManipulator mainpulato = new(bg, root);
+        }
+    }
+
+    public void RefreshUI()
+    {
+        Init();
+
+        List<Item> items = Manager.Inven.Items.Values.ToList();
+
+        foreach (Item item in items)
+        {
+            if (item.Slot < 0 || item.Slot >= itemCount)
+            {
+                continue;
+            }
+
+            ItemList[item.Slot].SetItem(root, item.TemplateId, item.Count, item.Slot);
         }
     }
 }
@@ -161,6 +187,36 @@ public class DragAndDropManipulator : PointerManipulator
                 target.style.backgroundImage = temp;
 
                 // 나중에 실제 데이터 또한 스왚해야함
+
+                // 착용하려는 아이템이 무기이고 아이템이 무기 슬롯에 있으면 패킷 전송
+                string iconName = item.style.backgroundImage.value.ToString();
+                if (item.parent.name == "Weapon" && (iconName.Contains("Sword") || iconName.Contains("Bow")))
+                {
+                    string[] splitStr = { "_", " " };
+                    string[] splitIconName = iconName.Split(splitStr, System.StringSplitOptions.RemoveEmptyEntries);
+                    string splitTest = splitIconName[1];
+                    Item foundItem = Manager.Inven.Find(s => s == splitIconName[1]);
+
+                    // 나머지 무기들 착용 해제
+                    foreach (Item i in Manager.Inven.Items.Values)
+                    {
+                        if (i.ItemType != ItemType.ITEM_WEAPON)
+                        {
+                            continue;
+                        }
+
+                        if (i != foundItem)
+                        {
+                            i.Equipped = false;
+                        }
+                    }
+
+                    FlatBufferBuilder builder = new FlatBufferBuilder(1024);
+
+                    var equip = C_EQUIP_ITEM.CreateC_EQUIP_ITEM(builder, foundItem.ItemObjectId, true);
+                    var equipPkt = Manager.Packet.CreatePacket(equip, builder, PacketType.C_EQUIP_ITEM);
+                    Manager.Network.Send(equipPkt);
+                }
             }
         }
         target.transform.position = targetStartPosition;

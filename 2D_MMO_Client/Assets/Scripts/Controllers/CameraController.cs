@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    Transform _playerTransform;
-
+    // MyPlayer 프리팹 컴포넌트로 위치
     float _cameraHeight;
     float _cameraWidth;
     [SerializeField]
@@ -11,8 +10,6 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        _playerTransform = GameObject.Find("Player").GetComponent<Transform>();
-
         _cameraHeight = Camera.main.orthographicSize;
         _cameraWidth = _cameraHeight * Screen.width / Screen.height;
     }
@@ -22,7 +19,7 @@ public class CameraController : MonoBehaviour
         //Camera.main.transform.position = new Vector3(_playerTransform.position.x, _playerTransform.position.y, -10);
 
         // 부드러운 카메라 움직임
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, _playerTransform.position, Time.deltaTime * CameraMoveSpeed);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position, Time.deltaTime * CameraMoveSpeed);
 
         RestrictCameraMovement();
     }
