@@ -80,9 +80,12 @@
     <Compile Include="Assets\Scripts\Controllers\ObjectController.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InventoryManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SD_Test.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIController.cs" />
     <Compile Include="Assets\Scripts\Contents\Item.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\PacketType.cs" />
     <Compile Include="Assets\Scripts\Managers\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\C_Test.cs" />
     <Compile Include="Assets\Scripts\Controllers\MyPlayerController.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\ProjectileController.cs" />
@@ -90,11 +93,12 @@
     <Compile Include="Assets\Scripts\Scene\GameScene.cs" />
     <Compile Include="Assets\Scripts\Managers\MapManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\D_Test.cs" />
     <Compile Include="Assets\Scripts\Utils\Define.cs" />
     <Compile Include="Assets\Scripts\Data\ContentsData.cs" />
-    <Compile Include="Assets\Resources\Art\UI\FantasyIconsPackFree\Demo\IconViewer.cs" />
     <Compile Include="Assets\Scripts\Managers\Manager.cs" />
     <Compile Include="Assets\Scripts\Session\ServerSession.cs" />
+    <Compile Include="Assets\Scripts\FlatBuffer\SC_Test.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUIController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +127,6 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\UI Toolkit\Chat\ChatStyle.uss" />
-    <None Include="Assets\Resources\MapData\Map_005.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Resources\MapData\Map_003.txt" />
     <None Include="Assets\UI Toolkit\Inventory\InventoryDocument.uxml" />
@@ -621,10 +624,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>Library\PackageCache\com.unity.visualscripting\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Google.FlatBuffers">
-      <HintPath>Assets\DLL\Google.FlatBuffers.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">

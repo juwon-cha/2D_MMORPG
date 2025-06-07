@@ -1,0 +1,7 @@
+{
+    "password": "",
+    "uid": "root",
+    "db_name": "2d_mmo_test",
+    "ip": "127.0.0.1",
+    "driver": "MySQL ODBC 9.1 Unicode Driver"
+}
