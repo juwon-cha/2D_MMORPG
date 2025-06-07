@@ -49,6 +49,14 @@
 
 ## 4. 플레이 영상
 
-<iframe width="894" height="503" src="https://www.youtube.com/embed/Rj2cyzisgQY" title="2D Multiplayer RPG" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 50px;">
+  <a href="https://www.youtube.com/watch?v=Rj2cyzisgQY">
+    <img src="https://img.youtube.com/vi/Rj2cyzisgQY/maxresdefault.jpg" width="500" alt="첫 번째 유튜브 영상 썸네일">
+  </a>
+
+  <a href="https://www.youtube.com/watch?v=UeihCh27v1s">
+    <img src="https://img.youtube.com/vi/UeihCh27v1s/maxresdefault.jpg" width="500" alt="두 번째 유튜브 영상 썸네일">
+  </a>
+</div>
 
 [BackToTop](#toc)
