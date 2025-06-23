@@ -75,18 +75,188 @@
 
 * 플레이어 입장/퇴장
 * 이동
-  - 플레이어
   - 몬스터 패트롤
+    1. 1초 마다 몬스터가 현재 좌표에서 일정 범위의 랜덤 좌표로 갈 수 있는지 경로를 탐색
+    2. 갈 수 있는 좌표라면 몬스터의 상태를 이동 상태로 변경
+    3. 이동 상태로 바뀐 몬스터는 이동 후 이동 정보를 같은 룸 안의 다른 플레이어들에게 패킷을 전송한다.
   - 몬스터가 플레이어 추적
+    1. 몬스터가 타겟을 찾을 수 있는 범위 안에서 1초 마다 현재 게임 룸에서 플레이어를 찾는다.
+    2. 타겟을 못 찾았거나 타겟이 다른 룸에 있다면 그 자리에서 패트롤 한다.
+    3. 타겟을 정상적으로 찾았다면 몬스터가 타겟을 쫓아간다.(이동상태로 바뀜)
+    4. 만약 타겟이 일정 거리 이상으로 벌어지면 몬스터는 쫓아가는 것을 포기하고 그 자리에서 패트롤한다.
+  - 플레이어 이동
+      1.	클라이언트에서 방향키 입력해서 좌표 변경
+      2.	C_MOVE 패킷(오브젝트 좌표, 방향, 상태)을 서버로 전송
+      3.	서버에서 오브젝트 정보(좌표, 방향, 상태) 저장 및 좌표 검증
+      4.	SC_MOVE(오브젝트 아이디, 이동정보) 패킷을 현재 게임 룸에 있는 다른 플레이어들에게 브로드캐스트
+      5.	클라이언트에서 SC_MOVE로 부터 받은 오브젝트 아이디로 게임 오브젝트 찾고 클라이언트에서 이동 정보 갱신
+   
+```cpp
+void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
+{
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    WRITE_LOCK;
+    {
+        // 클라이언트에서 받은 플레이어 정보 저장
+        player->SetObjectInfo(player->GetObjectId(), player->GetObjectName());
+        player->SetPosInfo(player->GetObjectPosX(), player->GetObjectPosY(), movePkt->posInfo()->state(), movePkt->posInfo()->moveDir());
+
+        // 이동 검증
+        // 다른 좌표로 이동할 경우, 갈 수 있는지 체크
+        if (movePkt->posInfo()->posX() != player->GetObjectPosX() || movePkt->posInfo()->posY() != player->GetObjectPosY())
+        {
+            if (_map->CanGo(Vector2Int(movePkt->posInfo()->posX(), movePkt->posInfo()->posY())) == false)
+            {
+                return;
+            }
+        }
+
+        // 서버에서 좌표 저장(이동)
+        _map->ApplyMove(player, Vector2Int(movePkt->posInfo()->posX(), movePkt->posInfo()->posY()));
+
+        flatbuffers::FlatBufferBuilder builder;
+        auto name = builder.CreateString(player->GetObjectName());
+        auto posInfo = CreatePositionInfo(builder, movePkt->posInfo()->state(), movePkt->posInfo()->moveDir(), movePkt->posInfo()->posX(), movePkt->posInfo()->posY());
+
+        // 다른 플레이어들에게 알려줌
+        auto move = CreateSC_MOVE(builder, player->GetObjectId(), posInfo);
+        auto respondMovePkt = PacketManager::Instance().CreatePacket(move, builder, PacketType_SC_MOVE);
+
+        Broadcast(respondMovePkt);
+    }
+}
+```
+
+<br>
+
 * 전투
-  - 일반 공격
-  - 화살 공격
+  - 스킬 아이디(번호)를 클라이언트와 서버가 주고 받으면서 클라이언트에서 스킬 아이디에 따라 스킬을 사용한다.
+  - 플레이어어 공격
+    1.	클라이언트에서 공격 버튼 입력
+    2.	C_SKILL 패킷(스킬 아이디)을 서버로 전송
+    3.	서버에서 플레이어 상태 확인 및 변경
+    4.	SC_SKILL 패킷(스킬 아이디, 오브젝트 아이디)을 같은 게임 룸 안의 플레이어들에게 브로드캐스트
+    5.	클라이언트로부터 받은 스킬 아이디로 json 스킬 데이터 로드
+    6.	서버에서 스킬 아이디에 따라 피격 판정, 데미지 판정
+    7.	클라이언트는 서버로부터 스킬 아이디를 받아서 아이디에 맞는 스킬을 사용
+    
+        ```cpp
+        void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
+        {
+            if (player == nullptr)
+            {
+                return;
+            }
+        
+            WRITE_LOCK;
+            {
+                if (player->GetObjectState() != ObjectState_IDLE)
+                {
+                    return;
+                }
+        
+                // 플레이어 상태를 스킬 상태로 변경
+                player->SetObjectInfo(player->GetObjectId(), player->GetObjectName());
+                player->SetPosInfo(player->GetObjectPosX(), player->GetObjectPosY(), player->GetObjectState(), player->GetObjectMoveDir());
+                if (player->GetObjectState() != ObjectState_IDLE)
+                {
+                    return;
+                }
+                player->SetObjectState(ObjectState_SKILL);
+        
+                flatbuffers::FlatBufferBuilder builder;
+                int32 skillId = skillPkt->skillInfo()->skillId();
+                auto skillInfo = CreateSkillInfo(builder, skillId);
+        
+                // 다른 플레이어들에게 알려줌
+                auto skill = CreateSC_SKILL(builder, player->GetObjectId(), skillInfo);
+                auto respondSkillPkt = PacketManager::Instance().CreatePacket(skill, builder, PacketType_SC_SKILL);
+        
+                Broadcast(respondSkillPkt);
+        
+                // json 스킬 데이터 로드
+                Skill skillData;
+                auto iter = DataManager::Skills.find(skillPkt->skillInfo()->skillId());
+                if (iter != DataManager::Skills.end())
+                {
+                    skillData = iter->second;
+                }
+        
+                switch (skillData.SkillType)
+                {
+                    case SkillType_SKILL_AUTO:
+                    {
+                        Vector2Int skillPos = player->GetFrontCellPos(player->GetObjectMoveDir());
+                        shared_ptr<GameObject> target = _map->Find(skillPos);
+                        if (target != nullptr)
+                        {
+                            // NON PVP
+                            if (target->GetObjectType() == GameObjectType_PLAYER)
+                            {
+                                return;
+                            }
+        
+                            cout << target->GetObjectName() << " was hit!" << endl;
+                            target->OnDamaged(player, skillData.Damage + player->GetObjectAttack()/*스킬 공격력 + 플레이어 공격력*/);
+                        }
+                    }
+                    break;
+        
+                    case SkillType_SKILL_PROJECTILE:
+                    {
+                        shared_ptr<Projectile> projectile = ObjectManager::Instance().Add<Projectile>();
+                        if (projectile == nullptr)
+                        {
+                            return;
+                        }
+        
+                        // 플레이어 앞에 화살 생성
+                        Vector2Int FrontCell = player->GetFrontCellPos();
+                        projectile->SetOwner(player);
+                        projectile->SetOwnerPos(player->GetObjectPosX(), player->GetObjectPosY());
+                        projectile->SetSkillData(skillData);
+                        projectile->SetObjectInfo(projectile->GetObjectId(), "Projectile" + to_string(projectile->GetObjectId()));
+                        projectile->SetPosInfo(FrontCell.X, FrontCell.Y, ObjectState_MOVING, player->GetObjectMoveDir());
+                        projectile->SetObjectSpeed(skillData.Projectile.Speed);
+                        EnterGame(projectile);
+                    }
+                    break;
+        
+                case SkillType_SKILL_NONE:
+                    return;
+                }
+            }
+        }   
+        ```
   - 몬스터 공격
   - 피격
   - 체력 변화
   - 리스폰
+
+<br>
+
 * 아이템
+  - 인벤토리에 아이템 추가
+    + Json 데이터를 읽어와서 게임에 입장하기 전에 플레이어가 아이템을 가지고 시작할 수 있도록 플레이어가 아이템 정보가 담겨있는 인벤토리 클래스를 들고 있음.
+  - 아이템 장착
+    + 아이템 아이디에 따라 공격 스킬을 변화시킴. (아이템 아이디와 공격 스킬 아이디를 일대일 대응시킴)
+
+<br>
+
 * 맵 이동
+  
+1. 플레이어가 다른 맵으로 갈 수 있는 특정 좌표에 도달
+2. C_CHANGE_MAP패킷으로 맵 아이디를 서버로 전송
+3. 서버에서 현재 플레이어의 맵 아이디를 전달받으면 전환할 맵 아이디와 플레이어가 스폰되어야 할 좌표 설정(예를 들어, 1번 맵에서 (10, 10)에 도달하면 2번 맵으로 이동)
+4. 현재 맵에서 플레이어를 퇴장시킴
+5. 서버 내부의 플레이어 정보(맵 아이디, 좌표) 갱신
+6. 맵 아이디와 게임 룸 아이디를 일대일 대응시켜 놓았기 때문에 맵 아이디에 해당하는 게임 룸에 플레이어 입장 시킴
+7. C_CHANGE_MAP패킷으로 맵 변경 정보를 클라이언트로 전송
+
 
 [BackToTop](#toc)
 
@@ -207,8 +377,8 @@
   - 소켓 설정을 TCP-Alive로 변경해도 문제 해결 안됨
   - 클라이언트에서 서버로 주기적으로 하트비트 패킷 보내서 서버와 연결 유지하려고 했지만 문제 해결 안됨
   - AI가 의심하는 문제
-    1. 가비지 컬렉션(GC)과 네트워크 버퍼 문제(C#의 GC가 비동기 작업에 사용 중인 버퍼를 잘못 건드려 발생하는 문제)
-    2. 비동기 콜백에서의 처리되지 않은 예외(OnSendCompleted, OnRecvCompleted 등에서 발생한 예외가 조용히 스레드를 종료시키고 소켓 상태를 불안정하게 만드는 경우)
+    1. 클라이언트 서버 코어의 가비지 컬렉션(GC)과 네트워크 버퍼 문제(C#의 GC가 비동기 작업에 사용 중인 버퍼를 잘못 건드려 발생하는 문제)
+    2. 클라이언트 서버 코어의 비동기 콜백에서의 처리되지 않은 예외(OnSendCompleted, OnRecvCompleted 등에서 발생한 예외가 조용히 스레드를 종료시키고 소켓 상태를 불안정하게 만드는 경우)
     3. 게임 서버의 비정상적인 세션 관리(특정 상황에서 세션 정보가 꼬여 서버가 해당 세션을 유효하지 않다고 판단하고 정리)
 
 [BackToTop](#toc)
