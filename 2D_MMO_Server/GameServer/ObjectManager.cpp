@@ -26,7 +26,7 @@ bool ObjectManager::Remove(int32 objectId)
 			return _players.erase(objectId);
 		}
 	}
-
+	
 	return false;
 }
 

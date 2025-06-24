@@ -32,7 +32,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(SkillType, {
 	{SkillType_SKILL_PROJECTILE, "SKILL_PROJECTILE"}
 	})
 
-	class ProjectileInfo
+class ProjectileInfo
 {
 public:
 	string Name;

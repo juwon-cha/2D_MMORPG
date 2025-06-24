@@ -21,6 +21,7 @@ public:
 	static bool SetSendBufferSize(SOCKET socket, int32 size);
 	static bool SetTcpNoDelay(SOCKET socket, bool flag);
 	static bool SetUpdateAcceptSocket(SOCKET socket, SOCKET listenSocket);
+	static bool SetKeepAlive(SOCKET socket, bool on, u_long keepAliveTime = 10000, u_long keepAliveInterval = 3000);
 
 	static bool Bind(SOCKET socket, NetAddress netAddr);
 	static bool BindAnyAddress(SOCKET socket, uint16 port);

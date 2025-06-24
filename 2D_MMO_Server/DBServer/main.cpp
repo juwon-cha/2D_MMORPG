@@ -1,6 +1,7 @@
 #include "pch.h"
 
-int main() {
+int main()
+{
 	Manager::Init();
 
 	while (true)

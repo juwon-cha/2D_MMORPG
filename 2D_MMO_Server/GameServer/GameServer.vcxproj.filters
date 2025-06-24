@@ -19,17 +19,20 @@
     <Filter Include="Game">
       <UniqueIdentifier>{ec8baaa4-0402-4687-8f7a-04324dd6677c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object">
-      <UniqueIdentifier>{408c148c-ea86-453a-ad3c-bd0a8cac61e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Room">
-      <UniqueIdentifier>{964b6b53-cc6e-4c08-8cf9-4ba4337ae717}</UniqueIdentifier>
+      <UniqueIdentifier>{2ae8cc30-ee0a-4a6f-9e8d-d390f0037379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object">
+      <UniqueIdentifier>{9bca5421-e233-4419-ab1f-83ddaf4302d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Data">
-      <UniqueIdentifier>{c7967488-0e4c-4523-b9be-f7ab77cffa91}</UniqueIdentifier>
+      <UniqueIdentifier>{f2e5e3c6-4aeb-4446-90a3-78e41cc42cd5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Item">
-      <UniqueIdentifier>{b4144ef2-2c76-4134-9646-3da07200b688}</UniqueIdentifier>
+      <UniqueIdentifier>{87f9bcdb-ce7e-472e-bf8d-399f40c1753a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Job">
+      <UniqueIdentifier>{531e3350-6d15-4cb7-b777-ea79513f2049}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,12 +41,6 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientSession.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientSessionManager.cpp">
-      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet</Filter>
@@ -60,6 +57,15 @@
     <ClCompile Include="DBSession.cpp">
       <Filter>Session</Filter>
     </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRoom.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Game\Room</Filter>
+    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
@@ -72,14 +78,8 @@
     <ClCompile Include="ObjectManager.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
-    <ClCompile Include="GameRoom.cpp">
-      <Filter>Game\Room</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Game\Room</Filter>
-    </ClCompile>
-    <ClCompile Include="RoomManager.cpp">
-      <Filter>Game\Room</Filter>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="ConfigManager.cpp">
       <Filter>Data</Filter>
@@ -88,9 +88,6 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="ContentsData.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="DataManager.cpp">
       <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="Projectile.cpp">
@@ -105,19 +102,16 @@
     <ClCompile Include="ItemManager.cpp">
       <Filter>Game\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Job.cpp">
+      <Filter>Game\Job</Filter>
+    </ClCompile>
+    <ClCompile Include="Heartbeat.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientSession.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientSessionManager.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DummyClient\PlayerInfo_generated.h">
-      <Filter>Protocol</Filter>
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
       <Filter>Packet</Filter>
@@ -134,6 +128,15 @@
     <ClInclude Include="DBSession.h">
       <Filter>Session</Filter>
     </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>Game\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRoom.h">
+      <Filter>Game\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Game\Room</Filter>
+    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
@@ -146,14 +149,11 @@
     <ClInclude Include="ObjectManager.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
-    <ClInclude Include="RoomManager.h">
-      <Filter>Game\Room</Filter>
+    <ClInclude Include="Chat_generated.h">
+      <Filter>Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="GameRoom.h">
-      <Filter>Game\Room</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Game\Room</Filter>
+    <ClInclude Include="DataManager.h">
+      <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="ConfigManager.h">
       <Filter>Data</Filter>
@@ -164,17 +164,26 @@
     <ClInclude Include="ContentsData.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="DataManager.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Login_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game\Item</Filter>
     </ClInclude>
     <ClInclude Include="ItemManager.h">
       <Filter>Game\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Game\Item</Filter>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Game\Job</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

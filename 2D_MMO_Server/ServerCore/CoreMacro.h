@@ -9,5 +9,5 @@
 #define WRITE_LOCK				WRITE_LOCK_IDX(0)
 
 // CRASH
-#define ASSERT(expression, message) assert(expression && message)
+#define CRASH_ASSERT(expression, message) assert(expression && message)
 #define CRASH() throw exception()

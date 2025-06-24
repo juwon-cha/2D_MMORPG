@@ -35,6 +35,7 @@ private:
 	uint64 _nextPatrolTick;
 	uint64 _nextSearchTick;
 	uint64 _nextMoveTick;
+	uint64 _nextRespawnTick;
 	int32 _searchCellDistance;
 	int32 _chaseCellDistance;
 	int32 _skillRange;

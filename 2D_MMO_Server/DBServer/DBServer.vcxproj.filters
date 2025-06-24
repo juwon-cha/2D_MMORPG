@@ -1,11 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="DbManager.cpp">
-      <Filter>DB</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager.cpp">
+    <Filter Include="DB">
+      <UniqueIdentifier>{434deec5-dc0c-4347-b5d7-eb78c760c627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{6bb56b52-994f-41f2-952a-ddca5bbdea9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{e24dc554-2b2f-460d-8156-401c9d0186f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{d989026f-90a0-4b5d-9328-d09ad8c063fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{502282af-528e-4972-943c-b2a34d42e2bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{37bf1193-b6d7-4038-b040-a60020542851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{53b2ac1b-204b-495c-999f-6e44fc90aae2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketManager.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="DBManager.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="InGame_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Login_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Chat_generated.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="ServerSession.cpp">
       <Filter>Session</Filter>
@@ -13,51 +65,17 @@
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Main</Filter>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>Packet</Filter>
     </ClCompile>
     <ClCompile Include="PacketManager.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
-    <ClCompile Include="Login.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DbManager.h">
+    <ClCompile Include="DBManager.cpp">
       <Filter>DB</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerSession.h">
-      <Filter>Session</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketHandler.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketManager.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Main">
-      <UniqueIdentifier>{c71f964a-dc6d-45eb-8bc3-a54f6d1eabd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DB">
-      <UniqueIdentifier>{0e80fc33-c683-4993-a0eb-a5c023366c17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Session">
-      <UniqueIdentifier>{4e4bf33e-f641-4854-9670-db5b3902b7a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{3feca526-9aad-4419-90ed-cf19a39bd09f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Packet">
-      <UniqueIdentifier>{ef1ffbef-0a3f-4321-ae24-cac1375e81c9}</UniqueIdentifier>
-    </Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

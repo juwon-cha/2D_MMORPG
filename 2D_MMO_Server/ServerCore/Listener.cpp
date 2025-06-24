@@ -66,7 +66,7 @@ HANDLE Listener::GetHandle()
 
 void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
-	ASSERT(iocpEvent->eventType == EventType::Accept, "ACCEPT_ERROR");
+	CRASH_ASSERT(iocpEvent->eventType == EventType::Accept, "ACCEPT_ERROR");
 	AcceptEvent* acceptEvent = static_cast<AcceptEvent*>(iocpEvent);
 	ProcessAccept(acceptEvent);
 }

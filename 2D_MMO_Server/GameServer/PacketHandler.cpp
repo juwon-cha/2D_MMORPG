@@ -30,33 +30,6 @@ void PacketHandler::C_MOVEHandler(PacketSession* session, ByteRef buffer)
 
 void PacketHandler::C_CHATHandler(PacketSession* session, ByteRef buffer)
 {
-	try {
-		auto pkt = GetRoot<C_CHAT>(buffer->operator unsigned char* ());
-
-		ClientSession* clientSession = static_cast<ClientSession*>(session);
-		auto player = clientSession->GetPlayer();
-		if (player == nullptr)
-		{
-			session->Disconnect(L"INVALID CLIENT [C_CHAT]");
-			return;
-		}
-		auto room = player->GetGameRoom();
-		if (room == nullptr)
-		{
-			session->Disconnect(L"INVALID CLIENT [C_CHAT]");
-			return;
-		}
-		FlatBufferBuilder builder;
-		auto name = player->GetObjectName();
-		auto text = pkt->text()->c_str();
-		auto playerInfo = CreateObjectInfoDirect(builder, player->GetObjectId(), name.c_str());
-		auto data = CreateSC_CHATDirect(builder, playerInfo, text);
-		auto packet = PacketManager::Instance().CreatePacket(data, builder, PacketType_SC_CHAT);
-		room->Broadcast(packet);
-	}
-	catch (...) {
-		// 에러 로깅 필요
-	}
 }
 
 void PacketHandler::C_SKILLHandler(PacketSession* session, ByteRef buffer)

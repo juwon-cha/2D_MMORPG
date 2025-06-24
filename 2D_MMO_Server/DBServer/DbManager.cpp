@@ -3,6 +3,7 @@
 #include "PoolManager.h"
 #include "ThreadPool.h"
 #include "format.h"
+#include <Service.h>
 
 DbManager* DbManager::_instance = nullptr;
 
@@ -18,9 +19,9 @@ DbManager::DbManager() {}
 void DbManager::Init(json& j)
 {
 	auto ret = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &_henv);
-	ASSERT(SQL_SUCCEEDED(ret), "");
+	CRASH_ASSERT(SQL_SUCCEEDED(ret), "");
 	ret = SQLSetEnvAttr(_henv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
-	ASSERT(SQL_SUCCEEDED(ret), "");
+	CRASH_ASSERT(SQL_SUCCEEDED(ret), "");
 
 	string ip = j["ip"];
 	string dbName = j["db_name"];
@@ -34,6 +35,7 @@ void DbManager::Init(json& j)
 	connectionStringW.assign(connectionString.begin(), connectionString.end());
 	const wchar_t* str = connectionStringW.c_str();
 
+
 	// 환경 핸들 설정 및 sql 서버 접속
 	{
 		GPoolManager->CreatePool<SQLHDBC>(OPERATION_NUMBER, OPERATION_NUMBER);
@@ -44,9 +46,9 @@ void DbManager::Init(json& j)
 			SQLHDBC* dbc = GPoolManager->Pop<SQLHDBC>();
 
 			ret = SQLAllocHandle(SQL_HANDLE_DBC, _henv, dbc);
-			ASSERT(SQL_SUCCEEDED(ret), "");
+			CRASH_ASSERT(SQL_SUCCEEDED(ret), "");
 			ret = SQLDriverConnect(*dbc, NULL, (SQLTCHAR*)str, SQL_NTS, NULL, 0, NULL, SQL_DRIVER_NOPROMPT);
-			ASSERT(SQL_SUCCEEDED(ret), "");
+			CRASH_ASSERT(SQL_SUCCEEDED(ret), "");
 			dbcVec.push_back(dbc);
 		}
 		for (SQLHDBC* dbc : dbcVec)

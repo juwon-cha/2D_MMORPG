@@ -53,7 +53,7 @@ bool Map::ApplyMove(shared_ptr<GameObject> gameObj, Vector2Int dest)
 		return false;
 	}
 
-	// 이동할 좌표에 플레이어 정보 저장
+	// 이동할 좌표에 게임 오브젝트 정보 저장
 	{
 		int32 x = dest.X - _minX;
 		int32 y = _maxY - dest.Y;
@@ -172,7 +172,7 @@ vector<Vector2Int> Map::FindPathBFS(Vector2Int start, Vector2Int dest, bool chec
 		int nowY = pos.Y;
 		int nowX = pos.X;
 
-		for (int32 i = 0; i < sizeof(deltaY) / sizeof(int32); ++i)
+		for (int32 i = 0; i < sizeof(deltaY)/sizeof(int32); ++i)
 		{
 			Pos next = Pos(nowY + deltaY[i], nowX + deltaX[i]);
 

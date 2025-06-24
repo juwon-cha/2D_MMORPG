@@ -38,3 +38,14 @@ shared_ptr<ClientSession> ClientSessionManager::Find(uint64 id)
 	}
 	return session;
 }
+
+std::vector<shared_ptr<ClientSession>> ClientSessionManager::GetSessions()
+{
+	WRITE_LOCK;
+
+	// _sessions set의 내용을 그대로 복사
+	// std::vector는 std::set의 반복자를 사용하여 생성
+	std::vector<shared_ptr<ClientSession>> sessionsVec(_sessions.begin(), _sessions.end());
+
+	return sessionsVec;
+}

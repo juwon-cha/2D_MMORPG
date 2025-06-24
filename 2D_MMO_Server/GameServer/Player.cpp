@@ -6,6 +6,7 @@
 
 Player::Player()
 	: _session(nullptr)
+	, _mapId(1)
 {
 	_type = GameObjectType_PLAYER;
 	_inventory = make_shared<ItemManager>();
@@ -15,14 +16,12 @@ void Player::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
 {
 	GameObject::OnDamaged(attacker, damage);
 
+	cout << "Damaged " << damage << "! From " << attacker->GetObjectName() << endl;
 }
 
 void Player::OnDead(shared_ptr<GameObject> attacker)
 {
 	GameObject::OnDead(attacker);
-
-	// 클라이언트에서 애니메이션 재생 후 리스폰
-	this_thread::sleep_for(1.5s);
 
 	shared_ptr<GameRoom> room = _room;
 	room->LeaveGame(_id);

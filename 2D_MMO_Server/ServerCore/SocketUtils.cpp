@@ -8,13 +8,13 @@ LPFN_ACCEPTEX		SocketUtils::AcceptEx = nullptr;
 void SocketUtils::Init()
 {
 	WSADATA wsaData;
-	ASSERT(::WSAStartup(MAKEWORD(2, 2), OUT & wsaData) == 0, "WSAStartup_ERROR");
+	CRASH_ASSERT(::WSAStartup(MAKEWORD(2, 2), OUT & wsaData) == 0, "WSAStartup_ERROR");
 
 	// 런타임에 주소 얻어오는 API 호출
 	SOCKET dummySocket = CreateSocket();
-	ASSERT(BindWindowsFunction(dummySocket, WSAID_CONNECTEX, reinterpret_cast<LPVOID*>(&ConnectEx)), "CONNECTEX_ERROR");
-	ASSERT(BindWindowsFunction(dummySocket, WSAID_DISCONNECTEX, reinterpret_cast<LPVOID*>(&DisconnectEx)), "DISCONNECTEX_ERROR");
-	ASSERT(BindWindowsFunction(dummySocket, WSAID_ACCEPTEX, reinterpret_cast<LPVOID*>(&AcceptEx)), "ACCEPTEX_ERROR");
+	CRASH_ASSERT(BindWindowsFunction(dummySocket, WSAID_CONNECTEX, reinterpret_cast<LPVOID*>(&ConnectEx)), "CONNECTEX_ERROR");
+	CRASH_ASSERT(BindWindowsFunction(dummySocket, WSAID_DISCONNECTEX, reinterpret_cast<LPVOID*>(&DisconnectEx)), "DISCONNECTEX_ERROR");
+	CRASH_ASSERT(BindWindowsFunction(dummySocket, WSAID_ACCEPTEX, reinterpret_cast<LPVOID*>(&AcceptEx)), "ACCEPTEX_ERROR");
 	Close(dummySocket);
 }
 
@@ -66,6 +66,23 @@ bool SocketUtils::SetTcpNoDelay(SOCKET socket, bool flag)
 bool SocketUtils::SetUpdateAcceptSocket(SOCKET socket, SOCKET listenSocket)
 {
 	return SetSockOpt(socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, listenSocket);
+}
+
+bool SocketUtils::SetKeepAlive(SOCKET socket, bool on, u_long keepAliveTime, u_long keepAliveInterval)
+{
+	tcp_keepalive alive;
+	alive.onoff = on;
+	alive.keepalivetime = keepAliveTime; // 최초 Keep-Alive 패킷 전송까지의 유휴 시간 (ms)
+	alive.keepaliveinterval = keepAliveInterval; // Keep-Alive 패킷 재전송 간격 (ms)
+
+	DWORD bytesReturned = 0;
+	if (SOCKET_ERROR == ::WSAIoctl(socket, SIO_KEEPALIVE_VALS, &alive, sizeof(alive), nullptr, 0, &bytesReturned, NULL, NULL))
+	{
+		cout << "WSAIoctl SIO_KEEPALIVE_VALS failed: " << ::WSAGetLastError() << endl;
+		return false;
+	}
+
+	return true;
 }
 
 bool SocketUtils::Bind(SOCKET socket, NetAddress netAddr)

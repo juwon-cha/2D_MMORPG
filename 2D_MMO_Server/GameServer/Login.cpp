@@ -17,7 +17,11 @@ void PacketHandler::C_ENTER_GAMEHandler(PacketSession* session, ByteRef buffer) 
 		client->Disconnect(L"INVALID CLIENT");
 		return;
 	}
-	RoomManager::Instance().Find(1)->EnterGame(client->GetPlayer());
+	
+	//RoomManager::Instance().Find(1)->EnterGame(client->GetPlayer());
+	
+	// 잡큐 테스트
+	RoomManager::Instance().Find(1)->PushJob(&GameRoom::EnterGame, static_pointer_cast<GameObject>(client->GetPlayer()));
 }
 
 void PacketHandler::C_SIGNUPHandler(PacketSession* session, ByteRef buffer) {
@@ -30,7 +34,8 @@ void PacketHandler::C_SIGNUPHandler(PacketSession* session, ByteRef buffer) {
 	try {
 		FlatBufferBuilder builder;
 		auto id = pkt->id()->c_str();
-		auto password = pkt->password()->c_str();
+		//auto password = pkt->id()->c_str(); // 수정 전
+		auto password = pkt->password()->c_str(); // 수정 후
 		if (::strlen(id) == 0 || ::strlen(password) == 0)
 		{
 			client->Disconnect(L"INVALID CLIENT");

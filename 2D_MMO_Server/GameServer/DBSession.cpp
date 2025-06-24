@@ -5,12 +5,6 @@
 void DBSession::OnConnected()
 {
 	cout << "DB Connected!" << endl;
-	FlatBufferBuilder builder;
-
-	auto data = CreateSD_Test(builder, 3);
-	PacketManager& a = PacketManager::Instance();
-	auto pkt = a.CreatePacket(data, builder, PacketType_SD_Test);
-	Send(pkt);
 }
 
 void DBSession::OnDisconnected()

@@ -17,6 +17,13 @@
 
 #include "CoreRef.h"
 
+// Winsock 헤더는 windows.h 보다 반드시 먼저 와야 한다
+#include <winsock2.h>
+#include <mswsock.h>
+#include <ws2tcpip.h>
+#include <mstcpip.h>  // tcp_keepalive
+#pragma comment(lib, "ws2_32.lib")
+
 #include <cassert>
 #include <stdexcept>
 #include <windows.h>
@@ -24,11 +31,6 @@
 #include <string>
 #include <future>
 using namespace std;
-
-#include <winsock2.h>
-#include <mswsock.h>
-#include <ws2tcpip.h>
-#pragma comment(lib, "ws2_32.lib")
 
 #include "Lock.h"
 #include "Session.h"

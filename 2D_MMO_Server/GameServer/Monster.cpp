@@ -1,5 +1,7 @@
 #include "pch.h"
 #include <random>
+#include <chrono>
+#include <future>
 #include "Monster.h"
 #include "GameRoom.h"
 #include "Player.h"
@@ -9,6 +11,7 @@ Monster::Monster()
 	: _nextPatrolTick(0)
 	, _nextSearchTick(0)
 	, _nextMoveTick(0)
+	, _nextRespawnTick(0)
 	, _searchCellDistance(0)
 	, _chaseCellDistance(0)
 	, _skillRange(0)
@@ -59,6 +62,7 @@ void Monster::OnDamaged(shared_ptr<GameObject> attacker, int32 damage)
 {
 	GameObject::OnDamaged(attacker, damage);
 
+	cout << "Damaged " << damage << "! From " << attacker->GetObjectName() <<endl;
 }
 
 void Monster::OnDead(shared_ptr<GameObject> attacker)
@@ -68,17 +72,12 @@ void Monster::OnDead(shared_ptr<GameObject> attacker)
 	shared_ptr<GameRoom> room = _room;
 	room->LeaveGame(_id);
 
-	// 일정 시간 후 리스폰
-	// 애니메이션 재생 후 바로 몬스터가 사라져야해서 LeaveGame() 과 EnterGame() 사이에 위치
-	// TODO: 비동기 일시정지
-	//this_thread::sleep_for(1.5s);
-
-	// 몬스터 정보 리셋
+	//몬스터 정보 리셋
 	SetObjectInfo(_id, "Monster " + to_string(_id));
 	_hp = _maxHp;
 	SetPosInfo(9, -9, ObjectState_IDLE, MoveDir_DOWN);
 	SetStatInfo(_level, _speed, _hp, _maxHp, _attack, _totalExp);
-
+	
 	room->EnterGame(shared_from_this());
 }
 
@@ -201,7 +200,7 @@ void Monster::UpdateSkill()
 
 		// 데미지
 		cout << _target->GetObjectName() << " was hit!" << endl;
-		_target->OnDamaged(shared_from_this(), _attack/*temp*/);
+		_target->OnDamaged(shared_from_this(), _attack/*TEMP*/);
 
 		// 스킬 사용 Broadcast
 		SetObjectInfo(_id, _name);
@@ -219,7 +218,7 @@ void Monster::UpdateSkill()
 		_room->Broadcast(respondSkillPkt);
 
 		// 스킬 쿨타임 적용
-		uint64 coolTick = 1000; // TEMP
+		int32 coolTick = 1000; // TEMP
 		_skillCoolTick = GetTickCount64() + coolTick;
 	}
 
@@ -233,6 +232,7 @@ void Monster::UpdateSkill()
 
 void Monster::UpdateDead()
 {
+
 }
 
 void Monster::Patrol()

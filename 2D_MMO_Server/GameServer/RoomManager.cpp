@@ -46,3 +46,19 @@ shared_ptr<GameRoom> RoomManager::Find(uint32 roomId)
 
 	return nullptr;
 }
+
+void RoomManager::UpdateAllRooms()
+{
+	for (auto& pair : _rooms)
+	{
+		pair.second->Update(); // 각 방의 실시간 게임 로직 업데이트
+	}
+}
+
+void RoomManager::FlushAllRoomJobs()
+{
+	for (auto& pair : _rooms)
+	{
+		pair.second->FlushJob(); // 각 방의 Job Queue 처리
+	}
+}

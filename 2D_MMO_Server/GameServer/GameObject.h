@@ -24,14 +24,14 @@ public:
 	void SetObjectId(int32 id) { _id = id; }
 
 	int32 GetObjectPosX() const { return _posX; }
-	void SetObjectPosX(int32 x) { _posX = x; }
 	int32 GetObjectPosY() const { return _posY; }
+	void SetObjectPosX(int32 x) { _posX = x; }
 	void SetObjectPosY(int32 y) { _posY = y; }
 
 	std::string GetObjectName() const { return _name; }
 	ObjectState GetObjectState() const { return _state; }
-	void SetObjectState(ObjectState state) { _state = state; }
 	MoveDir GetObjectMoveDir() const { return _moveDir; }
+	void SetObjectState(ObjectState state) { _state = state; }
 	void SetObjectMoveDir(MoveDir moveDir) { _moveDir = moveDir; }
 
 	int32 GetObjectLevel() const { return _level; }

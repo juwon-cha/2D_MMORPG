@@ -27,14 +27,14 @@ void GameRoom::Init(int32 mapId)
     _map->LoadMap(mapId);
 
     // TEMP
-    int32 monsterCount = 1;
+    int32 monsterCount = 3;
     for (int32 i = 0; i < monsterCount; ++i)
     {
-        shared_ptr<Monster> monster = ObjectManager::Instance().Add<Monster>();
-        monster->SetObjectInfo(monster->GetObjectId(), "MONSTER_" + to_string(monster->GetObjectId()));
-        monster->SetPosInfo(9, -9, ObjectState_IDLE, MoveDir_DOWN);
-        monster->SetStatInfo(monster->GetObjectLevel(), monster->GetObjectSpeed(), monster->GetObjectHP(), monster->GetObjectMaxHP(), monster->GetObjectAttack(), monster->GetObjectTotalExp());
-        EnterGame(monster);
+		shared_ptr<Monster> monster = ObjectManager::Instance().Add<Monster>();
+		monster->SetObjectInfo(monster->GetObjectId(), "MONSTER_" + to_string(monster->GetObjectId()));
+		monster->SetPosInfo(9 + i, -9, ObjectState_IDLE, MoveDir_DOWN);
+		monster->SetStatInfo(monster->GetObjectLevel(), monster->GetObjectSpeed(), monster->GetObjectHP(), monster->GetObjectMaxHP(), monster->GetObjectAttack(), monster->GetObjectTotalExp());
+		EnterGame(monster);
     }
 }
 
@@ -47,14 +47,14 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
 
     GameObjectType type = ObjectManager::GetObjectTypeById(gameObj->GetObjectId());
 
-    WRITE_LOCK;
+    //WRITE_LOCK; // JobQueue로 대체
     {
         if (type == GameObjectType_PLAYER)
         {
             shared_ptr<Player> newPlayer = static_pointer_cast<Player>(gameObj);
             _players.insert(pair<int32, shared_ptr<Player>>(newPlayer->GetObjectId(), newPlayer));
             newPlayer->SetGameRoom(shared_from_this());
-
+            
             GetMap()->ApplyMove(newPlayer, Vector2Int(newPlayer->GetObjectPosX(), newPlayer->GetObjectPosY()));
 
             // 본인에게 정보 전송
@@ -95,11 +95,11 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                 // infoArray에 몬스터 정보 삽입
                 for (const auto& pair : _monsters)
                 {
-                    auto monsterName = builder.CreateString(pair.second->GetObjectName());
-                    auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
+					auto monsterName = builder.CreateString(pair.second->GetObjectName());
+					auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
                     auto statInfo = CreateStatInfo(builder, pair.second->GetObjectHP(), pair.second->GetObjectMaxHP(), pair.second->GetObjectSpeed());
-                    auto monsterInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), monsterName, posInfo, statInfo);
-                    infoArray.push_back(monsterInfo);
+					auto monsterInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), monsterName, posInfo, statInfo);
+					infoArray.push_back(monsterInfo);
                 }
 
                 // infoArray에 투사체 정보 삽입
@@ -110,6 +110,16 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
                     auto statInfo = CreateStatInfo(builder, pair.second->GetObjectHP(), pair.second->GetObjectMaxHP(), pair.second->GetObjectSpeed());
                     auto projectileInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), projectileName, posInfo, statInfo);
                     infoArray.push_back(projectileInfo);
+                }
+
+                // infoArray에 아이템 정보 삽입
+                for (const auto& pair : _items)
+                {
+                    auto itemName = builder.CreateString(pair.second->GetObjectName());
+                    auto posInfo = CreatePositionInfo(builder, pair.second->GetObjectState(), pair.second->GetObjectMoveDir(), pair.second->GetObjectPosX(), pair.second->GetObjectPosY());
+                    auto statInfo = CreateStatInfo(builder, 0, 0, 0);
+                    auto itemInfo = CreateObjectInfo(builder, pair.second->GetObjectId(), itemName, posInfo, statInfo);
+                    infoArray.push_back(itemInfo);
                 }
 
                 auto data = builder.CreateVector(infoArray);
@@ -134,6 +144,13 @@ void GameRoom::EnterGame(shared_ptr<GameObject> gameObj)
             shared_ptr<Projectile> projectile = static_pointer_cast<Projectile>(gameObj);
             _projectiles.insert(pair<int32, shared_ptr<Projectile>>(projectile->GetObjectId(), projectile));
             projectile->SetGameRoom(shared_from_this());
+        }
+        else if (type == GameObjectType_ITEM)
+        {
+            // Item Enter Game
+            shared_ptr<Item> item = static_pointer_cast<Item>(gameObj);
+            _items.insert(pair<int32, shared_ptr<Item>>(item->GetObjectId(), item));
+            item->SetGameRoom(shared_from_this());
         }
 
         // 타인에게 내 정보 전송
@@ -166,7 +183,7 @@ void GameRoom::LeaveGame(int32 objectId)
 {
     GameObjectType type = ObjectManager::GetObjectTypeById(objectId);
 
-    WRITE_LOCK;
+    //WRITE_LOCK; // JobQueue로 대체
     {
         if (type == GameObjectType_PLAYER)
         {
@@ -256,7 +273,8 @@ void GameRoom::HandleMove(shared_ptr<Player> player, const C_MOVE* movePkt)
         return;
     }
 
-    WRITE_LOCK; // 서버에서 좌표 저장(이동)
+    WRITE_LOCK; // JobQueue로 대체
+    // 서버에서 좌표 저장(이동)
     {
         // 클라이언트에서 받은 플레이어 정보 저장
         player->SetObjectInfo(player->GetObjectId(), player->GetObjectName());
@@ -293,7 +311,7 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
         return;
     }
 
-    WRITE_LOCK;
+    WRITE_LOCK;// JobQueue로 대체
     {
         if (player->GetObjectState() != ObjectState_IDLE)
         {
@@ -319,52 +337,53 @@ void GameRoom::HandleSkill(shared_ptr<Player> player, const C_SKILL* skillPkt)
 
         Broadcast(respondSkillPkt);
 
+        // json 스킬 데이터 로드
         Skill skillData;
         auto iter = DataManager::Skills.find(skillPkt->skillInfo()->skillId());
-        if (iter != DataManager::Skills.end())
-        {
-            skillData = iter->second;
-        }
+		if (iter != DataManager::Skills.end())
+		{
+			skillData = iter->second;
+		}
 
         switch (skillData.SkillType)
         {
         case SkillType_SKILL_AUTO:
-        {
-            Vector2Int skillPos = player->GetFrontCellPos(player->GetObjectMoveDir());
-            shared_ptr<GameObject> target = _map->Find(skillPos);
-            if (target != nullptr)
+		    {
+			    Vector2Int skillPos = player->GetFrontCellPos(player->GetObjectMoveDir());
+			    shared_ptr<GameObject> target = _map->Find(skillPos);
+			    if (target != nullptr)
+			    {
+				    // NON PVP
+				    if (target->GetObjectType() == GameObjectType_PLAYER)
+				    {
+					    return;
+				    }
+
+				    cout << target->GetObjectName() << " was hit!" << endl;
+				    target->OnDamaged(player, skillData.Damage + player->GetObjectAttack()/*스킬 공격력 + 플레이어 공격력*/);
+			    }
+		    }
+            break;
+
+        case SkillType_SKILL_PROJECTILE:
             {
-                // NON PVP
-                if (target->GetObjectType() == GameObjectType_PLAYER)
+                shared_ptr<Projectile> projectile = ObjectManager::Instance().Add<Projectile>();
+                if (projectile == nullptr)
                 {
                     return;
                 }
 
-                cout << target->GetObjectName() << " was hit!" << endl;
-                target->OnDamaged(player, skillData.Damage + player->GetObjectAttack()/*스킬 공격력 + 플레이어 공격력*/);
+                // 플레이어 앞에 화살 생성
+                Vector2Int FrontCell = player->GetFrontCellPos();
+                projectile->SetOwner(player);
+                projectile->SetOwnerPos(player->GetObjectPosX(), player->GetObjectPosY());
+                projectile->SetSkillData(skillData);
+                projectile->SetObjectInfo(projectile->GetObjectId(), "Projectile" + to_string(projectile->GetObjectId()));
+                projectile->SetPosInfo(FrontCell.X, FrontCell.Y, ObjectState_MOVING, player->GetObjectMoveDir());
+                projectile->SetObjectSpeed(skillData.Projectile.Speed);
+                EnterGame(projectile);
             }
-        }
-        break;
-
-        case SkillType_SKILL_PROJECTILE:
-        {
-            shared_ptr<Projectile> projectile = ObjectManager::Instance().Add<Projectile>();
-            if (projectile == nullptr)
-            {
-                return;
-            }
-
-            // 플레이어 앞에 화살 생성
-            Vector2Int FrontCell = player->GetFrontCellPos();
-            projectile->SetOwner(player);
-            projectile->SetOwnerPos(player->GetObjectPosX(), player->GetObjectPosY());
-            projectile->SetSkillData(skillData);
-            projectile->SetObjectInfo(projectile->GetObjectId(), "Projectile" + to_string(projectile->GetObjectId()));
-            projectile->SetPosInfo(FrontCell.X, FrontCell.Y, ObjectState_MOVING, player->GetObjectMoveDir());
-            projectile->SetObjectSpeed(skillData.Projectile.Speed);
-            EnterGame(projectile);
-        }
-        break;
+            break;
 
         case SkillType_SKILL_NONE:
             return;
@@ -379,6 +398,7 @@ void GameRoom::HandleEquipItem(shared_ptr<Player> player, const C_EQUIP_ITEM* eq
         return;
     }
 
+    WRITE_LOCK; // JobQueue로 대체
     shared_ptr<Item> item = player->GetInventory()->GetItem(equipItemPkt->itemId());
     if (item == nullptr)
     {
@@ -387,7 +407,7 @@ void GameRoom::HandleEquipItem(shared_ptr<Player> player, const C_EQUIP_ITEM* eq
 
     // 장비 착용
     item->SetEquipped(equipItemPkt->equipped());
-
+    
     // 나머지 장비 착용 해제
     map <int32, shared_ptr<Item>> playerItemList = player->GetInventory()->GetItemList();
     for (const auto& i : playerItemList)
@@ -398,7 +418,6 @@ void GameRoom::HandleEquipItem(shared_ptr<Player> player, const C_EQUIP_ITEM* eq
         }
     }
 
-    WRITE_LOCK;
     // 클라이언트로 전송
     flatbuffers::FlatBufferBuilder builder;
 
@@ -406,6 +425,159 @@ void GameRoom::HandleEquipItem(shared_ptr<Player> player, const C_EQUIP_ITEM* eq
     auto equipOkPkt = PacketManager::Instance().CreatePacket(equipItem, builder, PacketType_SC_EQUIP_ITEM);
 
     player->GetClientSession()->Send(equipOkPkt);
+}
+
+void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* changeMapPkt)
+{
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    if (player->GetGameRoom()->GetRoomId() != changeMapPkt->mapId())
+    {
+        return;
+    }
+
+    // 전환될 맵 정보와 스폰할 좌표
+    int nextMapId = 0;
+    int spawnX = 0;
+    int spawnY = 0;
+
+	if (changeMapPkt->mapId() == 1)
+	{
+		if ((player->GetObjectPosX() == -18 || player->GetObjectPosX() == -17 || player->GetObjectPosX() == -16) && player->GetObjectPosY() == 15)
+		{
+			player->SetMapId(5); // 5번 맵 입장을 위한 세팅
+            nextMapId = 5;
+			spawnX = -3;
+			spawnY = -20;
+		}
+        else if (player->GetObjectPosX() == 18 && (player->GetObjectPosY() == 4 || player->GetObjectPosY() == 5 || player->GetObjectPosY() == 6))
+        {
+            player->SetMapId(4);
+            nextMapId = 4;
+            spawnX = -31;
+            spawnY = 12;
+        }
+        else if ((player->GetObjectPosX() == -3 || player->GetObjectPosX() == -2 || player->GetObjectPosX() == -1) && player->GetObjectPosY() == -17)
+        {
+            player->SetMapId(2);
+            nextMapId = 2;
+            spawnX = -2;
+            spawnY = 23;
+        }
+        else
+        {
+            return;
+        }
+	}
+    else if (changeMapPkt->mapId() == 2)
+    {
+		if ((player->GetObjectPosX() == -3 || player->GetObjectPosX() == -2 || player->GetObjectPosX() == -1) && player->GetObjectPosY() == 24)
+		{
+			player->SetMapId(1);
+            nextMapId = 1;
+			spawnX = -2;
+			spawnY = -16;
+		}
+        else if (player->GetObjectPosX() == 29 && (player->GetObjectPosY() == 18 || player->GetObjectPosY() == 19 || player->GetObjectPosY() == 20))
+        {
+            player->SetMapId(3);
+            nextMapId = 3;
+            spawnX = -31;
+            spawnY = 19;
+        }
+		else
+		{
+			return;
+		}
+    }
+    else if (changeMapPkt->mapId() == 3)
+    {
+		if (player->GetObjectPosX() == -32 && (player->GetObjectPosY() == 18 || player->GetObjectPosY() == 19 || player->GetObjectPosY() == 20))
+		{
+			player->SetMapId(2);
+            nextMapId = 2;
+			spawnX = 28;
+			spawnY = 19;
+		}
+		else if ((player->GetObjectPosX() == -9 || player->GetObjectPosX() == -10 || player->GetObjectPosX() == -11) && player->GetObjectPosY() == 24)
+		{
+			player->SetMapId(4);
+            nextMapId = 4;
+			spawnX = -10;
+			spawnY = -9;
+		}
+        else
+        {
+            return;
+        }
+    }
+    else if (changeMapPkt->mapId() == 4)
+    {
+        if (player->GetObjectPosX() == -32 && (player->GetObjectPosY() == 11 || player->GetObjectPosY() == 12 || player->GetObjectPosY() == 13))
+        {
+            player->SetMapId(1);
+            nextMapId = 1;
+            spawnX = 17;
+            spawnY = 5;
+        }
+        else if ((player->GetObjectPosX() == -9 || player->GetObjectPosX() == -10 || player->GetObjectPosX() == -11) && player->GetObjectPosY() == -10)
+        {
+            player->SetMapId(3);
+            nextMapId = 3;
+            spawnX = -10;
+            spawnY = 23;
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if (changeMapPkt->mapId() == 5)
+    {
+        if ((player->GetObjectPosX() == -2 || player->GetObjectPosX() == -3 || player->GetObjectPosX() == -4) && player->GetObjectPosY() == -21)
+        {
+            player->SetMapId(1);
+            nextMapId = 1;
+            spawnX = -17;
+            spawnY = 14;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    //WRITE_LOCK;
+
+    shared_ptr<GameRoom> oldRoom = player->GetGameRoom();
+
+    shared_ptr<GameRoom> newRoom = RoomManager::Instance().Find(nextMapId);
+    if (newRoom == nullptr)
+    {
+        return; // 다음 맵이 없으면 중단
+    }
+
+    // 이전 방에서 완전히 퇴장
+    oldRoom->LeaveGame(player->GetObjectId());
+
+    // 서버 내부의 플레이어 정보 갱신
+    player->SetGameRoom(newRoom);
+    player->SetMapId(nextMapId);
+    player->SetObjectPosX(spawnX);
+    player->SetObjectPosY(spawnY);
+    GetMap()->ApplyMove(player, Vector2Int(player->GetObjectPosX(), player->GetObjectPosY()));
+
+    // 새로운 방에 플레이어 입장
+    newRoom->EnterGame(player);
+
+    // 클라이언트에게 맵 변경 통보
+    flatbuffers::FlatBufferBuilder builder;
+    auto map = CreateSC_CHANGE_MAP(builder, nextMapId);
+    auto mapPkt = PacketManager::Instance().CreatePacket(map, builder, PacketType_SC_CHANGE_MAP);
+    player->GetClientSession()->Send(mapPkt); // player 객체가 확실히 살아있을 때 Send 호출
 }
 
 shared_ptr<Player> GameRoom::FindPlayer(function<bool(shared_ptr<GameObject>)> condition)
@@ -421,169 +593,49 @@ shared_ptr<Player> GameRoom::FindPlayer(function<bool(shared_ptr<GameObject>)> c
     return nullptr;
 }
 
-void GameRoom::HandleChangeMap(shared_ptr<Player> player, const C_CHANGE_MAP* changeMapPkt)
-{
-    if (player == nullptr)
-    {
-        return;
-    }
-
-    if (player->GetGameRoom()->GetRoomId() != changeMapPkt->mapId())
-    {
-        return;
-    }
-
-    // 전환될 맵에서 스폰할 좌표
-    int spawnX = 0;
-    int spawnY = 0;
-
-    if (changeMapPkt->mapId() == 1)
-    {
-        if ((player->GetObjectPosX() == -18 || player->GetObjectPosX() == -17 || player->GetObjectPosX() == -16) && player->GetObjectPosY() == 15)
-        {
-            player->SetMapId(5); // 5번 맵 입장을 위한 세팅
-            spawnX = -3;
-            spawnY = -20;
-        }
-        else if (player->GetObjectPosX() == 18 && (player->GetObjectPosY() == 4 || player->GetObjectPosY() == 5 || player->GetObjectPosY() == 6))
-        {
-            player->SetMapId(4);
-            spawnX = -31;
-            spawnY = 12;
-        }
-        else if ((player->GetObjectPosX() == -3 || player->GetObjectPosX() == -2 || player->GetObjectPosX() == -1) && player->GetObjectPosY() == -17)
-        {
-            player->SetMapId(2);
-            spawnX = -2;
-            spawnY = 23;
-        }
-        else
-        {
-            return;
-        }
-    }
-    else if (changeMapPkt->mapId() == 2)
-    {
-        if ((player->GetObjectPosX() == -3 || player->GetObjectPosX() == -2 || player->GetObjectPosX() == -1) && player->GetObjectPosY() == 24)
-        {
-            player->SetMapId(1);
-            spawnX = -2;
-            spawnY = -16;
-        }
-        else if (player->GetObjectPosX() == 29 && (player->GetObjectPosY() == 18 || player->GetObjectPosY() == 19 || player->GetObjectPosY() == 20))
-        {
-            player->SetMapId(3);
-            spawnX = -31;
-            spawnY = 19;
-        }
-        else
-        {
-            return;
-        }
-    }
-    else if (changeMapPkt->mapId() == 3)
-    {
-        if (player->GetObjectPosX() == -32 && (player->GetObjectPosY() == 18 || player->GetObjectPosY() == 19 || player->GetObjectPosY() == 20))
-        {
-            player->SetMapId(2);
-            spawnX = 28;
-            spawnY = 19;
-        }
-        else if ((player->GetObjectPosX() == -9 || player->GetObjectPosX() == -10 || player->GetObjectPosX() == -11) && player->GetObjectPosY() == 24)
-        {
-            player->SetMapId(4);
-            spawnX = -10;
-            spawnY = -9;
-        }
-        else
-        {
-            return;
-        }
-    }
-    else if (changeMapPkt->mapId() == 4)
-    {
-        if (player->GetObjectPosX() == -32 && (player->GetObjectPosY() == 11 || player->GetObjectPosY() == 12 || player->GetObjectPosY() == 13))
-        {
-            player->SetMapId(1);
-            spawnX = 17;
-            spawnY = 5;
-        }
-        else if ((player->GetObjectPosX() == -9 || player->GetObjectPosX() == -10 || player->GetObjectPosX() == -11) && player->GetObjectPosY() == -10)
-        {
-            player->SetMapId(3);
-            spawnX = -10;
-            spawnY = 23;
-        }
-        else
-        {
-            return;
-        }
-    }
-    else if (changeMapPkt->mapId() == 5)
-    {
-        if ((player->GetObjectPosX() == -2 || player->GetObjectPosX() == -3 || player->GetObjectPosX() == -4) && player->GetObjectPosY() == -21)
-        {
-            player->SetMapId(1);
-            spawnX = -17;
-            spawnY = 14;
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    WRITE_LOCK;
-    // 현재 맵(게임 룸)에서 나감
-    shared_ptr<Player> changeMapPlayer = player;
-    LeaveGame(player->GetObjectId());
-
-    // 맵에 입장했을 때 다른 플레이어들에게 내 좌표를 동기화시켜주기 위함
-    changeMapPlayer->SetObjectPosX(spawnX);
-    changeMapPlayer->SetObjectPosY(spawnY);
-
-    // 다음 맵으로 입장
-    RoomManager::Instance().Find(changeMapPlayer->GetMapId())->EnterGame(changeMapPlayer);
-
-    flatbuffers::FlatBufferBuilder builder;
-
-    auto map = CreateSC_CHANGE_MAP(builder, changeMapPlayer->GetMapId());
-    auto mapPkt = PacketManager::Instance().CreatePacket(map, builder, PacketType_SC_CHANGE_MAP);
-
-    player->GetClientSession()->Send(mapPkt);
-}
-
 void GameRoom::Broadcast(SendBufferRef buffer)
 {
-    //WRITE_LOCK;
-    {
-        for (const auto& pair : _players)
-        {
-            pair.second->GetClientSession()->Send(buffer);
-        }
-    }
+    WRITE_LOCK;
+    
+	for (const auto& pair : _players)
+	{
+		pair.second->GetClientSession()->Send(buffer);
+	}
 }
 
 void GameRoom::Update()
 {
     //WRITE_LOCK;
+    
+	for (const auto& pair : _monsters)
+	{
+		pair.second->Update();
+	}
+
+	// std::map 순환문에서 원소 삭제 후 begin()부터 접근하면 문제
+	// 지워진 iterator를 가리키고 있어서 런타임 에러
+	// 맵의 앞에서 원소를 지우고 뒤에서부터 순회해서 투사체 업데이트
+	for (auto iter = _projectiles.rbegin(); iter != _projectiles.rend(); ++iter)
+	{
+		iter->second->Update();
+
+		if (_projectiles.size() == 0)
+		{
+			return;
+		}
+	}
+}
+
+void GameRoom::FlushJob()
+{
+    while (true)
     {
-        for (const auto& pair : _monsters)
+        shared_ptr<IJob> job = _jobs.Pop();
+        if (job == nullptr)
         {
-            pair.second->Update();
+            break;
         }
 
-        // std::map 순환문에서 원소 삭제 후 begin()부터 접근하면 문제
-        // 지워진 iterator를 가리키고 있어서 런타임 에러
-        // 맵의 앞에서 원소를 지우고 뒤에서부터 순회해서 투사체 업데이트
-        for (auto iter = _projectiles.rbegin(); iter != _projectiles.rend(); ++iter)
-        {
-            iter->second->Update();
-
-            if (_projectiles.size() == 0)
-            {
-                return;
-            }
-        }
+        job->Execute();
     }
 }

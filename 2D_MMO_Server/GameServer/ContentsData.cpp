@@ -20,16 +20,16 @@ StatData StatData::fromJson(const json& json)
     StatData statData;
     Stat stat;
 
-    for (auto iter = json["stats"].begin(); iter != json["stats"].end(); ++iter)
-    {
-        stat.Level = iter->at("Level").get<int32>();
-        stat.Speed = iter->at("Speed").get<float>();
-        stat.MaxHp = iter->at("MaxHp").get<int32>();
+	for (auto iter = json["stats"].begin(); iter != json["stats"].end(); ++iter)
+	{
+		stat.Level = iter->at("Level").get<int32>();
+		stat.Speed = iter->at("Speed").get<float>();
+		stat.MaxHp = iter->at("MaxHp").get<int32>();
         stat.Hp = stat.MaxHp;
-        stat.Attack = iter->at("Attack").get<int32>();
-        stat.TotalExp = iter->at("TotalExp").get<int32>();
-        statData._stats.push_back(stat);
-    }
+		stat.Attack = iter->at("Attack").get<int32>();
+		stat.TotalExp = iter->at("TotalExp").get<int32>();
+		statData._stats.push_back(stat);
+	}
 
     return statData;
 }
@@ -63,9 +63,9 @@ SkillData SkillData::fromJson(const json& json)
         {
             auto projectile = iter->find("Projectile");
             skill.Projectile.Name = projectile->at("Name").get<string>();
-            skill.Projectile.Speed = projectile->at("Speed").get<float>();
-            skill.Projectile.Range = projectile->at("Range").get<int32>();
-            skill.Projectile.Prefab = projectile->at("Prefab").get<string>();
+			skill.Projectile.Speed = projectile->at("Speed").get<float>();
+			skill.Projectile.Range = projectile->at("Range").get<int32>();
+			skill.Projectile.Prefab = projectile->at("Prefab").get<string>();
         }
 
         skillData._skills.push_back(skill);

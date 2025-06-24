@@ -28,7 +28,7 @@ int32 SendBuffer::GetCapacity()
 
 void SendBuffer::CopyBuffer(void* data, int32 len)
 {
-	ASSERT(GetCapacity() >= len, "SendBuffer Overflow");
+	CRASH_ASSERT(GetCapacity() >= len, "SendBuffer Overflow");
 
 	::memcpy(_buffer.data(), data, len);
 	_writeSize = len;

@@ -7,7 +7,6 @@
 // _Header_ciso646 warning
 #define _SILENCE_CXX20_CISO646_REMOVED_WARNING
 
-
 #include "../Libraries/flatbuffers/flatbuffers.h"
 #include "../Libraries/nlohmann/json.hpp"
 #include "Protocol_generated.h"

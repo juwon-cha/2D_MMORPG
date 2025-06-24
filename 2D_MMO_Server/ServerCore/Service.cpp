@@ -43,7 +43,7 @@ void Service::AddSession(shared_ptr<Session> session)
 void Service::ReleaseSession(shared_ptr<Session> session)
 {
 	WRITE_LOCK;
-	ASSERT(_sessions.erase(session) != 0, "RELEASE_SESSION_ERROR");
+	CRASH_ASSERT(_sessions.erase(session) != 0, "RELEASE_SESSION_ERROR");
 	_sessionCount--;
 }
 

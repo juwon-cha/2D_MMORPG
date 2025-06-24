@@ -196,6 +196,9 @@ void Session::ProcessConnect()
 
 	_connected.store(true);
 
+	// Keep-Alive 可记 汲沥
+	SocketUtils::SetKeepAlive(_socket, true);
+
 	// 技记 殿废
 	GetService()->AddSession(GetSessionRef());
 

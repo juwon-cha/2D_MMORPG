@@ -5,7 +5,7 @@
 IocpCore::IocpCore()
 {
 	_iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
-	ASSERT(_iocpHandle != INVALID_HANDLE_VALUE, "INVALID_HANDLE_VALUE");
+	CRASH_ASSERT(_iocpHandle != INVALID_HANDLE_VALUE, "INVALID_HANDLE_VALUE");
 }
 
 IocpCore::~IocpCore()

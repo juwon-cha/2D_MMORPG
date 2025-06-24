@@ -14,6 +14,8 @@ public:
 	shared_ptr<GameRoom> Add(int32 mapId);
 	bool Remove(uint32 roomId);
 	shared_ptr<GameRoom> Find(uint32 roomId);
+	void UpdateAllRooms();
+	void FlushAllRoomJobs();
 
 private:
 	RoomManager() = default;

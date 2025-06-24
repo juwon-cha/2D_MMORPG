@@ -14,6 +14,8 @@ namespace ServerCore
         public void Init(IPEndPoint endPoint, Func<Session> sessionFactory)
         {
             Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            // Keep-Alive 옵션 설정
+            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
 
             _sessionFactory = sessionFactory;
 

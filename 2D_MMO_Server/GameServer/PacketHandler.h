@@ -14,4 +14,5 @@ public:
 	static void C_ENTER_GAMEHandler(PacketSession* session, ByteRef buffer);
 	static void C_EQUIP_ITEMHandler(PacketSession* session, ByteRef buffer);
 	static void C_CHANGE_MAPHandler(PacketSession* session, ByteRef buffer);
+	static void C_HEARTBEATHandler(PacketSession* session, ByteRef buffer);
 };
